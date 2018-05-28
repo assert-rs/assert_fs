@@ -16,3 +16,12 @@ pub use fs::*;
 
 mod errors;
 pub use errors::FixtureError;
+
+/// Extension traits that are useful to have available.
+pub mod prelude {
+    pub use fs::TempDirChildExt;
+    pub use fs::ChildPathTouchExt;
+    pub use fs::ChildPathWriteBinExt;
+    pub use fs::ChildPathWriteStrExt;
+    pub use fs::TempDirCopyExt;
+}
