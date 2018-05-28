@@ -42,7 +42,7 @@ impl TempDirChildExt for tempfile::TempDir {
     }
 }
 
-/// A path within a TempDir
+/// A path within a `TempDir`
 pub struct ChildPath {
     path: path::PathBuf,
 }
