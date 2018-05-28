@@ -3,7 +3,7 @@
 > **Assert Filesystems** - Filesystem fixtures and assertions for testing.
 
 [![Travis Status](https://travis-ci.org/assert-rs/assert_fs.svg?branch=master)](https://travis-ci.org/assert-rs/assert_fs)
-[![Appveyor Status](https://ci.appveyor.com/api/projects/status/mj0bbemw47jyfwta/branch/master?svg=true)](https://ci.appveyor.com/project/epage/assert_fs/branch/master)
+[![Appveyor Status](https://ci.appveyor.com/api/projects/status/kyjb91uim1xpyi8y/branch/master?svg=true)](https://ci.appveyor.com/project/epage/assert_fs/branch/master)
 [![Documentation](https://img.shields.io/badge/docs-master-blue.svg)][Documentation]
 ![License](https://img.shields.io/crates/l/assert_fs.svg)
 [![Crates Status](https://img.shields.io/crates/v/assert_fs.svg)](https://crates.io/crates/assert_fs)
