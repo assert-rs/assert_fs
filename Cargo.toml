@@ -1,0 +1,17 @@
+[package]
+name = "assert_fs"
+version = "0.1.0"
+authors = ["Ed Page <eopage@gmail.com>"]
+description = "Filesystem fixtures and assertions for testing."
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/assert-rs/assert_fs.git"
+homepage = "https://github.com/assert-rs/assert_fs"
+documentation = "http://docs.rs/assert_fs/"
+readme = "README.md"
+categories = ["development-tools::testing"]
+keywords = ["filesystem", "testing", "assert"]
+
+[dependencies]
+failure = "0.1"
+tempfile = "3.0"
+globwalk = "0.1"
