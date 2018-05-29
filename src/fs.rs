@@ -19,11 +19,10 @@ pub trait TempDirChildExt {
     ///
     /// # Examples
     ///
-    /// ```rust,ignore
-    /// extern crate assert_cli;
-    /// use assert_cli::temp::*;
+    /// ```rust
+    /// use assert_fs::prelude::*;
     ///
-    /// let temp = TempDir::new("TempDirChildExt_demo").unwrap();
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// println!("{:?}", temp.path());
     /// println!("{:?}", temp.child("foo/bar.txt").path());
     /// temp.close().unwrap();
@@ -70,11 +69,10 @@ pub trait ChildPathTouchExt {
     ///
     /// # Examples
     ///
-    /// ```rust,ignore
-    /// extern crate assert_cli;
-    /// use assert_cli::temp::*;
+    /// ```rust
+    /// use assert_fs::prelude::*;
     ///
-    /// let temp = TempDir::new("TempDirChildExt_demo").unwrap();
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// temp.child("foo.txt").touch().unwrap();
     /// temp.close().unwrap();
     /// ```
@@ -93,11 +91,10 @@ pub trait ChildPathWriteBinExt {
     ///
     /// # Examples
     ///
-    /// ```rust,ignore
-    /// extern crate assert_cli;
-    /// use assert_cli::temp::*;
+    /// ```rust
+    /// use assert_fs::prelude::*;
     ///
-    /// let temp = TempDir::new("TempDirChildExt_demo").unwrap();
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// temp.child("foo.txt").write_binary(b"To be or not to be...").unwrap();
     /// temp.close().unwrap();
     /// ```
@@ -116,11 +113,10 @@ pub trait ChildPathWriteStrExt {
     ///
     /// # Examples
     ///
-    /// ```rust,ignore
-    /// extern crate assert_cli;
-    /// use assert_cli::temp::*;
+    /// ```rust
+    /// use assert_fs::prelude::*;
     ///
-    /// let temp = TempDir::new("TempDirChildExt_demo").unwrap();
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// temp.child("foo.txt").write_str("To be or not to be...").unwrap();
     /// temp.close().unwrap();
     /// ```
@@ -140,11 +136,10 @@ pub trait TempDirCopyExt {
     ///
     /// # Examples
     ///
-    /// ```rust,ignore
-    /// extern crate assert_cli;
-    /// use assert_cli::temp::*;
+    /// ```rust
+    /// use assert_fs::prelude::*;
     ///
-    /// let temp = TempDir::new("TempDirChildExt_demo").unwrap();
+    /// let temp = assert_fs::TempDir::new().unwrap();
     /// temp.copy_from(".", &["*.rs"]).unwrap();
     /// temp.close().unwrap();
     /// ```
@@ -210,7 +205,9 @@ where
         if entry.file_type().is_dir() {
             fs::create_dir_all(target_path).chain(errors::FixtureError::default())?;
         } else if entry.file_type().is_file() {
-            fs::copy(entry.path(), target).chain(errors::FixtureError::default())?;
+            fs::create_dir_all(target_path.parent().expect("at least `target` exists"))
+                .chain(errors::FixtureError::default())?;
+            fs::copy(entry.path(), target_path).chain(errors::FixtureError::default())?;
         }
     }
     Ok(())
