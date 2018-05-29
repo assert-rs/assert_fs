@@ -15,3 +15,4 @@ keywords = ["filesystem", "testing", "assert"]
 failure = "0.1"
 tempfile = "3.0"
 globwalk = "0.1"
+predicates = "0.4"
