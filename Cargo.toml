@@ -9,7 +9,7 @@ homepage = "https://github.com/assert-rs/assert_fs"
 documentation = "http://docs.rs/assert_fs/"
 readme = "README.md"
 categories = ["development-tools::testing"]
-keywords = ["filesystem", "testing", "assert"]
+keywords = ["filesystem", "test", "assert", "fixture"]
 
 [dependencies]
 failure = "0.1"
