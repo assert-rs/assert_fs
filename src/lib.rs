@@ -4,6 +4,21 @@
 //! [dependencies]
 //! assert_fs = "0.1"
 //! ```
+//!
+//! ## Example
+//!
+//! Here is a trivial example:
+//!
+//! ```rust,ignore
+//! use assert_fs::prelude::*;
+//! use predicates::prelude::*;
+//!
+//! let temp = assert_fs::TempDir::new().unwrap();
+//! temp.child("foo.txt").touch().unwrap();
+//! temp.child("foo.txt").assert(predicate::path::exists());
+//! temp.child("bar.txt").assert(predicate::path::missing());
+//! temp.close().unwrap();
+//! ```
 
 #![warn(missing_docs)]
 
