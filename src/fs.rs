@@ -192,7 +192,7 @@ fn copy_from<S>(
 where
     S: AsRef<str>,
 {
-    for entry in globwalk::GlobWalker::from_patterns(patterns, source)
+    for entry in globwalk::GlobWalker::from_patterns(source, patterns)
         .chain(errors::FixtureError::default())?
         .follow_links(true)
     {
