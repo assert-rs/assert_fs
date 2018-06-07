@@ -192,14 +192,19 @@ fn copy_files<S>(
 where
     S: AsRef<str>,
 {
-    for entry in globwalk::GlobWalker::from_patterns(source, patterns)
+    // `walkdir`, on Windows, seems to convert "." into "" which then fails.
+    let source = source
+        .canonicalize()
+        .chain(errors::FixtureError::new(errors::FixtureKind::Walk))?;
+    for entry in globwalk::GlobWalker::from_patterns(&source, patterns)
         .chain(errors::FixtureError::new(errors::FixtureKind::Walk))?
         .follow_links(true)
     {
+        println!("{:?}", entry);
         let entry = entry.chain(errors::FixtureError::new(errors::FixtureKind::Walk))?;
         let rel = entry
             .path()
-            .strip_prefix(source)
+            .strip_prefix(&source)
             .expect("entries to be under `source`");
         let target_path = target.join(rel);
         if entry.file_type().is_dir() {
