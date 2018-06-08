@@ -155,7 +155,7 @@ impl TempDirCopyExt for tempfile::TempDir {
         P: AsRef<path::Path>,
         S: AsRef<str>,
     {
-        copy_from(self.path(), source.as_ref(), patterns)
+        copy_files(self.path(), source.as_ref(), patterns)
     }
 }
 
@@ -165,7 +165,7 @@ impl TempDirCopyExt for ChildPath {
         P: AsRef<path::Path>,
         S: AsRef<str>,
     {
-        copy_from(self.path(), source.as_ref(), patterns)
+        copy_files(self.path(), source.as_ref(), patterns)
     }
 }
 
@@ -184,7 +184,7 @@ fn write_str(path: &path::Path, data: &str) -> io::Result<()> {
     write_binary(path, data.as_bytes())
 }
 
-fn copy_from<S>(
+fn copy_files<S>(
     target: &path::Path,
     source: &path::Path,
     patterns: &[S],
@@ -192,22 +192,29 @@ fn copy_from<S>(
 where
     S: AsRef<str>,
 {
-    for entry in globwalk::GlobWalker::from_patterns(source, patterns)
-        .chain(errors::FixtureError::default())?
+    // `walkdir`, on Windows, seems to convert "." into "" which then fails.
+    let source = source
+        .canonicalize()
+        .chain(errors::FixtureError::new(errors::FixtureKind::Walk))?;
+    for entry in globwalk::GlobWalker::from_patterns(&source, patterns)
+        .chain(errors::FixtureError::new(errors::FixtureKind::Walk))?
         .follow_links(true)
     {
-        let entry = entry.chain(errors::FixtureError::default())?;
+        println!("{:?}", entry);
+        let entry = entry.chain(errors::FixtureError::new(errors::FixtureKind::Walk))?;
         let rel = entry
             .path()
-            .strip_prefix(source)
+            .strip_prefix(&source)
             .expect("entries to be under `source`");
         let target_path = target.join(rel);
         if entry.file_type().is_dir() {
-            fs::create_dir_all(target_path).chain(errors::FixtureError::default())?;
+            fs::create_dir_all(target_path)
+                .chain(errors::FixtureError::new(errors::FixtureKind::CreateDir))?;
         } else if entry.file_type().is_file() {
             fs::create_dir_all(target_path.parent().expect("at least `target` exists"))
-                .chain(errors::FixtureError::default())?;
-            fs::copy(entry.path(), target_path).chain(errors::FixtureError::default())?;
+                .chain(errors::FixtureError::new(errors::FixtureKind::CreateDir))?;
+            fs::copy(entry.path(), target_path)
+                .chain(errors::FixtureError::new(errors::FixtureKind::CopyFile))?;
         }
     }
     Ok(())
