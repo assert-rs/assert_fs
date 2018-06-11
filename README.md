@@ -26,8 +26,10 @@ use assert_fs::prelude::*;
 use predicates::prelude::*;
 
 let temp = assert_fs::TempDir::new().unwrap();
-temp.child("foo.txt").touch().unwrap();
-temp.child("foo.txt").assert(predicate::path::exists());
+let input_file = temp.child("foo.txt");
+input_file.touch().unwrap();
+// ... do something with input_file ...
+input_file.assert(predicate::path::exists());
 temp.child("bar.txt").assert(predicate::path::missing());
 temp.close().unwrap();
 ```

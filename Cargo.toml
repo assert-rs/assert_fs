@@ -16,3 +16,6 @@ failure = "0.1"
 tempfile = "3.0"
 globwalk = "0.3"
 predicates = "0.5"
+
+[dev-dependencies]
+docmatic = "0.1"
