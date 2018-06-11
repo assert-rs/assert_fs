@@ -4,7 +4,7 @@ use predicates;
 
 use fs;
 
-/// Extend `TempDir` with assertions.
+/// Assert the state of files within `TempDir`.
 ///
 /// # Examples
 ///
@@ -12,8 +12,9 @@ use fs;
 /// use assert_fs::*;
 ///
 /// let temp = assert_fs::TempDir::new().unwrap();
-/// temp.child("foo.txt").touch().unwrap();
-/// temp.child("foo.txt").assert(predicates::path::exists());
+/// let input_file = temp.child("foo.txt");
+/// input_file.touch().unwrap();
+/// // ... do something with input_file ...
 /// temp.child("bar.txt").assert(predicates::path::missing());
 /// temp.close().unwrap();
 /// ```
