@@ -9,11 +9,10 @@ use tempfile;
 use errors;
 use errors::ResultChainExt;
 
-/// A directory in the filesystem that is automatically deleted when it goes out of scope.
+/// A safe scratchpad for tests to manipulate.
 pub use tempfile::TempDir;
 
-/// Extend `TempDir` to perform operations on relative paths within the temp directory via
-/// `ChildPath`.
+/// Access paths within `TempDir` for testing.
 pub trait TempDirChildExt {
     /// Create a path within the temp directory.
     ///
@@ -63,7 +62,7 @@ impl ChildPath {
     }
 }
 
-/// Extend `ChildPath` to create empty files.
+/// Create empty files at `ChildPath`.
 pub trait ChildPathTouchExt {
     /// Create an empty file at `ChildPath`.
     ///
@@ -85,7 +84,7 @@ impl ChildPathTouchExt for ChildPath {
     }
 }
 
-/// Extend `ChildPath` to write binary files.
+/// Write a binary file at `ChildPath`.
 pub trait ChildPathWriteBinExt {
     /// Write a binary file at `ChildPath`.
     ///
@@ -107,7 +106,7 @@ impl ChildPathWriteBinExt for ChildPath {
     }
 }
 
-/// Extend `ChildPath` to write text files.
+/// Write a text file at `ChildPath`.
 pub trait ChildPathWriteStrExt {
     /// Write a text file at `ChildPath`.
     ///
@@ -129,7 +128,7 @@ impl ChildPathWriteStrExt for ChildPath {
     }
 }
 
-/// Extend `TempDir` to copy files into it.
+/// Copy files into `TempDir`.
 pub trait TempDirCopyExt {
     /// Copy files and directories into the current path from the `source` according to the glob
     /// `patterns`.
