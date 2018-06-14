@@ -17,7 +17,7 @@
 //! let input_file = temp.child("foo.txt");
 //! input_file.touch().unwrap();
 //! // ... do something with input_file ...
-//! input_file.assert(predicate::path::exists());
+//! input_file.assert(predicate::str::is_empty().from_utf8());
 //! temp.child("bar.txt").assert(predicate::path::missing());
 //! temp.close().unwrap();
 //! ```
@@ -40,10 +40,10 @@ pub use errors::FixtureError;
 
 /// Extension traits that are useful to have available.
 pub mod prelude {
-    pub use assert::TempDirAssertExt;
-    pub use fs::ChildPathTouchExt;
-    pub use fs::ChildPathWriteBinExt;
-    pub use fs::ChildPathWriteStrExt;
-    pub use fs::TempDirChildExt;
-    pub use fs::TempDirCopyExt;
+    pub use assert::PathAssert;
+    pub use fs::FileTouch;
+    pub use fs::FileWriteBin;
+    pub use fs::FileWriteStr;
+    pub use fs::PathChild;
+    pub use fs::PathCopy;
 }
