@@ -18,25 +18,27 @@ use fs;
 /// temp.child("bar.txt").assert(predicates::path::missing());
 /// temp.close().unwrap();
 /// ```
-pub trait TempDirAssertExt {
+pub trait PathAssert {
     /// Wrap with an interface for that provides assertions on the `TempDir`.
     fn assert(&self, pred: &predicates::Predicate<path::Path>) -> &Self;
 }
 
-impl TempDirAssertExt for fs::TempDir {
+impl PathAssert for fs::TempDir {
     fn assert(&self, pred: &predicates::Predicate<path::Path>) -> &Self {
-        if !pred.eval(self.path()) {
-            panic!("Predicate failed for {:?}", self.path());
-        }
+        assert(self.path(), pred);
         self
     }
 }
 
-impl TempDirAssertExt for fs::ChildPath {
+impl PathAssert for fs::ChildPath {
     fn assert(&self, pred: &predicates::Predicate<path::Path>) -> &Self {
-        if !pred.eval(self.path()) {
-            panic!("Predicate failed for {:?}", self.path());
-        }
+        assert(self.path(), pred);
         self
+    }
+}
+
+fn assert(path: &path::Path, pred: &predicates::Predicate<path::Path>) {
+    if !pred.eval(path) {
+        panic!("Predicate {} failed for {:?}", pred, path);
     }
 }

@@ -40,10 +40,10 @@ pub use errors::FixtureError;
 
 /// Extension traits that are useful to have available.
 pub mod prelude {
-    pub use assert::TempDirAssertExt;
-    pub use fs::ChildPathTouchExt;
-    pub use fs::ChildPathWriteBinExt;
-    pub use fs::ChildPathWriteStrExt;
-    pub use fs::TempDirChildExt;
-    pub use fs::TempDirCopyExt;
+    pub use assert::PathAssert;
+    pub use fs::FileTouch;
+    pub use fs::FileWriteBin;
+    pub use fs::FileWriteStr;
+    pub use fs::PathChild;
+    pub use fs::PathCopy;
 }

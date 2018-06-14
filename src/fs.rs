@@ -13,7 +13,7 @@ use errors::ResultChainExt;
 pub use tempfile::TempDir;
 
 /// Access paths within `TempDir` for testing.
-pub trait TempDirChildExt {
+pub trait PathChild {
     /// Create a path within the temp directory.
     ///
     /// # Examples
@@ -31,7 +31,7 @@ pub trait TempDirChildExt {
         P: AsRef<path::Path>;
 }
 
-impl TempDirChildExt for tempfile::TempDir {
+impl PathChild for tempfile::TempDir {
     fn child<P>(&self, path: P) -> ChildPath
     where
         P: AsRef<path::Path>,
@@ -48,7 +48,7 @@ pub struct ChildPath {
 impl ChildPath {
     /// Wrap a path for use with special built extension traits.
     ///
-    /// See trait implementations or `TempDirChildExt` for more details.
+    /// See trait implementations or `PathChild` for more details.
     pub fn new<P>(path: P) -> Self
     where
         P: Into<path::PathBuf>,
@@ -63,7 +63,7 @@ impl ChildPath {
 }
 
 /// Create empty files at `ChildPath`.
-pub trait ChildPathTouchExt {
+pub trait FileTouch {
     /// Create an empty file at `ChildPath`.
     ///
     /// # Examples
@@ -78,14 +78,14 @@ pub trait ChildPathTouchExt {
     fn touch(&self) -> io::Result<()>;
 }
 
-impl ChildPathTouchExt for ChildPath {
+impl FileTouch for ChildPath {
     fn touch(&self) -> io::Result<()> {
         touch(self.path())
     }
 }
 
 /// Write a binary file at `ChildPath`.
-pub trait ChildPathWriteBinExt {
+pub trait FileWriteBin {
     /// Write a binary file at `ChildPath`.
     ///
     /// # Examples
@@ -100,14 +100,14 @@ pub trait ChildPathWriteBinExt {
     fn write_binary(&self, data: &[u8]) -> io::Result<()>;
 }
 
-impl ChildPathWriteBinExt for ChildPath {
+impl FileWriteBin for ChildPath {
     fn write_binary(&self, data: &[u8]) -> io::Result<()> {
         write_binary(self.path(), data)
     }
 }
 
 /// Write a text file at `ChildPath`.
-pub trait ChildPathWriteStrExt {
+pub trait FileWriteStr {
     /// Write a text file at `ChildPath`.
     ///
     /// # Examples
@@ -122,14 +122,14 @@ pub trait ChildPathWriteStrExt {
     fn write_str(&self, data: &str) -> io::Result<()>;
 }
 
-impl ChildPathWriteStrExt for ChildPath {
+impl FileWriteStr for ChildPath {
     fn write_str(&self, data: &str) -> io::Result<()> {
         write_str(self.path(), data)
     }
 }
 
 /// Copy files into `TempDir`.
-pub trait TempDirCopyExt {
+pub trait PathCopy {
     /// Copy files and directories into the current path from the `source` according to the glob
     /// `patterns`.
     ///
@@ -148,7 +148,7 @@ pub trait TempDirCopyExt {
         S: AsRef<str>;
 }
 
-impl TempDirCopyExt for tempfile::TempDir {
+impl PathCopy for tempfile::TempDir {
     fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), errors::FixtureError>
     where
         P: AsRef<path::Path>,
@@ -158,7 +158,7 @@ impl TempDirCopyExt for tempfile::TempDir {
     }
 }
 
-impl TempDirCopyExt for ChildPath {
+impl PathCopy for ChildPath {
     fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), errors::FixtureError>
     where
         P: AsRef<path::Path>,
