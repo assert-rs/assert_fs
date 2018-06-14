@@ -17,7 +17,7 @@
 //! let input_file = temp.child("foo.txt");
 //! input_file.touch().unwrap();
 //! // ... do something with input_file ...
-//! input_file.assert(predicate::path::exists());
+//! input_file.assert(predicate::str::is_empty().from_utf8());
 //! temp.child("bar.txt").assert(predicate::path::missing());
 //! temp.close().unwrap();
 //! ```
