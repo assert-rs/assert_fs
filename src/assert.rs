@@ -2,6 +2,7 @@ use std::path;
 
 use predicates;
 use predicates::path::PredicateFileContentExt;
+use predicates::str::PredicateStrExt;
 
 use fs;
 
@@ -17,7 +18,7 @@ use fs;
 /// let input_file = temp.child("foo.txt");
 /// input_file.touch().unwrap();
 /// // ... do something with input_file ...
-/// input_file.assert(predicate::str::is_empty().from_utf8());
+/// input_file.assert("");
 /// temp.child("bar.txt").assert(predicate::path::missing());
 /// temp.close().unwrap();
 /// ```
@@ -80,11 +81,17 @@ where
     }
 }
 
-impl<P> IntoPathPredicate<predicates::path::FileContentPredicate<P>> for P
-where
-    P: predicates::Predicate<[u8]>,
+impl IntoPathPredicate<
+    predicates::path::FileContentPredicate<
+        predicates::str::Utf8Predicate<predicates::ord::EqPredicate<&'static str>>,
+    >,
+> for &'static str
 {
-    fn into_path(self) -> predicates::path::FileContentPredicate<P> {
-        self.from_file_path()
+    fn into_path(
+        self,
+    ) -> predicates::path::FileContentPredicate<
+        predicates::str::Utf8Predicate<predicates::ord::EqPredicate<&'static str>>,
+    > {
+        predicates::ord::eq(self).from_utf8().from_file_path()
     }
 }
