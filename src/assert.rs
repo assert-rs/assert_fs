@@ -68,6 +68,9 @@ pub trait IntoPathPredicate<P>
 where
     P: predicates::Predicate<path::Path>,
 {
+    /// The type of the predicate being returned.
+    type Predicate;
+
     /// Convert to a predicate for testing a path.
     fn into_path(self) -> P;
 }
@@ -76,22 +79,25 @@ impl<P> IntoPathPredicate<P> for P
 where
     P: predicates::Predicate<path::Path>,
 {
-    fn into_path(self) -> P {
+    type Predicate = P;
+
+    fn into_path(self) -> Self::Predicate {
         self
     }
 }
 
-impl IntoPathPredicate<
-    predicates::path::FileContentPredicate<
-        predicates::str::Utf8Predicate<predicates::ord::EqPredicate<&'static str>>,
-    >,
-> for &'static str
+impl
+    IntoPathPredicate<
+        predicates::path::FileContentPredicate<
+            predicates::str::Utf8Predicate<predicates::ord::EqPredicate<&'static str>>,
+        >,
+    > for &'static str
 {
-    fn into_path(
-        self,
-    ) -> predicates::path::FileContentPredicate<
+    type Predicate = predicates::path::FileContentPredicate<
         predicates::str::Utf8Predicate<predicates::ord::EqPredicate<&'static str>>,
-    > {
+    >;
+
+    fn into_path(self) -> Self::Predicate {
         predicates::ord::eq(self).from_utf8().from_file_path()
     }
 }
