@@ -101,3 +101,26 @@ impl
         predicates::ord::eq(self).from_utf8().from_file_path()
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    use predicates::prelude::*;
+
+    // Since IntoOutputPredicate exists solely for conversion, test it under that scenario to ensure
+    // it works as expected.
+    fn convert_path<I, P>(pred: I) -> P
+    where
+        I: IntoPathPredicate<P>,
+        P: predicates::Predicate<path::Path>,
+    {
+        pred.into_path()
+    }
+
+    #[test]
+    fn into_path_from_pred() {
+        let pred = convert_path(predicate::eq(path::Path::new("hello.md")));
+        assert!(pred.eval(path::Path::new("hello.md")));
+    }
+}
