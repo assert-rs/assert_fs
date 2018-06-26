@@ -89,16 +89,16 @@ where
 impl
     IntoPathPredicate<
         predicates::path::FileContentPredicate<
-            predicates::str::Utf8Predicate<predicates::ord::EqPredicate<&'static str>>,
+            predicates::str::Utf8Predicate<predicates::str::DifferencePredicate>,
         >,
     > for &'static str
 {
     type Predicate = predicates::path::FileContentPredicate<
-        predicates::str::Utf8Predicate<predicates::ord::EqPredicate<&'static str>>,
+        predicates::str::Utf8Predicate<predicates::str::DifferencePredicate>,
     >;
 
     fn into_path(self) -> Self::Predicate {
-        predicates::ord::eq(self).from_utf8().from_file_path()
+        predicates::str::similar(self).from_utf8().from_file_path()
     }
 }
 
@@ -122,5 +122,11 @@ mod test {
     fn into_path_from_pred() {
         let pred = convert_path(predicate::eq(path::Path::new("hello.md")));
         assert!(pred.eval(path::Path::new("hello.md")));
+    }
+
+    #[test]
+    fn into_path_from_str() {
+        let pred = convert_path("hello\n");
+        assert!(pred.eval(path::Path::new("tests/fixture/hello.txt")));
     }
 }
