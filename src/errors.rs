@@ -1,13 +1,15 @@
+//! Error types for fixtures.
+
 use std::error::Error;
 use std::fmt;
 
-pub trait ChainError {
+pub(crate) trait ChainError {
     fn chain<F>(self, cause: F) -> Self
     where
         F: Error + Send + Sync + 'static;
 }
 
-pub trait ResultChainExt<T> {
+pub(crate) trait ResultChainExt<T> {
     fn chain<C>(self, chainable: C) -> Result<T, C>
     where
         C: ChainError;
