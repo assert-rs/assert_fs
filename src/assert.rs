@@ -90,6 +90,40 @@ where
 }
 
 // Keep `predicates` concrete Predicates out of our public API.
+/// Predicate used by `IntoPathPredicate` for bytes
+#[derive(Debug)]
+pub struct BytesContentPathPredicate(
+    predicates::path::FileContentPredicate<predicates::ord::EqPredicate<&'static [u8]>>,
+);
+
+impl BytesContentPathPredicate {
+    pub(crate) fn new(value: &'static [u8]) -> Self {
+        let pred = predicates::ord::eq(value).from_file_path();
+        BytesContentPathPredicate(pred)
+    }
+}
+
+impl predicates::Predicate<path::Path> for BytesContentPathPredicate {
+    fn eval(&self, item: &path::Path) -> bool {
+        self.0.eval(item)
+    }
+}
+
+impl fmt::Display for BytesContentPathPredicate {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        self.0.fmt(f)
+    }
+}
+
+impl IntoPathPredicate<BytesContentPathPredicate> for &'static [u8] {
+    type Predicate = BytesContentPathPredicate;
+
+    fn into_path(self) -> Self::Predicate {
+        Self::Predicate::new(self)
+    }
+}
+
+// Keep `predicates` concrete Predicates out of our public API.
 /// Predicate used by `IntoPathPredicate` for `str`
 #[derive(Debug, Clone)]
 pub struct StrContentPathPredicate(
@@ -145,6 +179,12 @@ mod test {
     fn into_path_from_pred() {
         let pred = convert_path(predicate::eq(path::Path::new("hello.md")));
         assert!(pred.eval(path::Path::new("hello.md")));
+    }
+
+    #[test]
+    fn into_path_from_bytes() {
+        let pred = convert_path(b"hello\n" as &[u8]);
+        assert!(pred.eval(path::Path::new("tests/fixture/hello.txt")));
     }
 
     #[test]
