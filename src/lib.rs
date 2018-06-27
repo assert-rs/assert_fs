@@ -29,8 +29,8 @@ extern crate globwalk;
 extern crate predicates;
 extern crate tempfile;
 
-mod assert;
-pub use assert::*;
+pub mod assert;
+pub use assert::PathAssert;
 
 mod fs;
 pub use fs::*;

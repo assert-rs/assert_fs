@@ -1,3 +1,5 @@
+//! Filesystem assertions.
+
 use std::fmt;
 use std::path;
 
