@@ -24,7 +24,6 @@
 
 #![warn(missing_docs)]
 
-extern crate failure;
 extern crate globwalk;
 extern crate predicates;
 extern crate tempfile;
@@ -35,8 +34,7 @@ pub use assert::PathAssert;
 mod fs;
 pub use fs::*;
 
-mod errors;
-pub use errors::FixtureError;
+pub mod errors;
 
 /// Extension traits that are useful to have available.
 pub mod prelude {
