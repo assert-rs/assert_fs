@@ -12,7 +12,6 @@ categories = ["development-tools::testing"]
 keywords = ["filesystem", "test", "assert", "fixture"]
 
 [dependencies]
-failure = "0.1"
 tempfile = "3.0"
 globwalk = "0.3"
 predicates = "0.5"

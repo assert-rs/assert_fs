@@ -1,31 +1,30 @@
+use std::error::Error;
 use std::fmt;
 
-use failure;
-
-pub trait ChainFail {
+pub trait ChainError {
     fn chain<F>(self, cause: F) -> Self
     where
-        F: failure::Fail;
+        F: Error + Send + Sync + 'static;
 }
 
 pub trait ResultChainExt<T> {
     fn chain<C>(self, chainable: C) -> Result<T, C>
     where
-        C: ChainFail;
+        C: ChainError;
 
     fn chain_with<F, C>(self, chainable: F) -> Result<T, C>
     where
         F: FnOnce() -> C,
-        C: ChainFail;
+        C: ChainError;
 }
 
 impl<T, E> ResultChainExt<T> for Result<T, E>
 where
-    E: failure::Fail,
+    E: Error + Send + Sync + 'static,
 {
     fn chain<C>(self, chainable: C) -> Result<T, C>
     where
-        C: ChainFail,
+        C: ChainError,
     {
         self.map_err(|e| chainable.chain(e))
     }
@@ -33,7 +32,7 @@ where
     fn chain_with<F, C>(self, chainable: F) -> Result<T, C>
     where
         F: FnOnce() -> C,
-        C: ChainFail,
+        C: ChainError,
     {
         self.map_err(|e| chainable().chain(e))
     }
@@ -64,7 +63,7 @@ impl fmt::Display for FixtureKind {
 #[derive(Debug)]
 pub struct FixtureError {
     kind: FixtureKind,
-    cause: Option<Box<failure::Fail>>,
+    cause: Option<Box<Error + Send + Sync + 'static>>,
 }
 
 impl FixtureError {
@@ -79,13 +78,16 @@ impl FixtureError {
     }
 }
 
-impl failure::Fail for FixtureError {
-    fn cause(&self) -> Option<&failure::Fail> {
-        self.cause.as_ref().map(|c| c.as_ref())
+impl Error for FixtureError {
+    fn description(&self) -> &str {
+        "Failed to initialize fixture"
     }
 
-    fn backtrace(&self) -> Option<&failure::Backtrace> {
-        None
+    fn cause(&self) -> Option<&Error> {
+        self.cause.as_ref().map(|c| {
+            let c: &Error = c.as_ref();
+            c
+        })
     }
 }
 
@@ -102,10 +104,10 @@ impl fmt::Display for FixtureError {
     }
 }
 
-impl ChainFail for FixtureError {
+impl ChainError for FixtureError {
     fn chain<F>(mut self, cause: F) -> Self
     where
-        F: failure::Fail,
+        F: Error + Send + Sync + 'static,
     {
         self.cause = Some(Box::new(cause));
         self

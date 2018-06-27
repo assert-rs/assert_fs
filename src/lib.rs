@@ -24,7 +24,6 @@
 
 #![warn(missing_docs)]
 
-extern crate failure;
 extern crate globwalk;
 extern crate predicates;
 extern crate tempfile;
