@@ -1,3 +1,4 @@
+use std::fmt;
 use std::path;
 
 use predicates;
@@ -86,19 +87,39 @@ where
     }
 }
 
-impl
-    IntoPathPredicate<
-        predicates::path::FileContentPredicate<
-            predicates::str::Utf8Predicate<predicates::str::DifferencePredicate>,
-        >,
-    > for &'static str
-{
-    type Predicate = predicates::path::FileContentPredicate<
+// Keep `predicates` concrete Predicates out of our public API.
+/// Predicate used by `IntoPathPredicate` for `str`
+#[derive(Debug, Clone)]
+pub struct StrContentPathPredicate(
+    predicates::path::FileContentPredicate<
         predicates::str::Utf8Predicate<predicates::str::DifferencePredicate>,
-    >;
+    >,
+);
+
+impl StrContentPathPredicate {
+    pub(crate) fn new(value: &'static str) -> Self {
+        let pred = predicates::str::similar(value).from_utf8().from_file_path();
+        StrContentPathPredicate(pred)
+    }
+}
+
+impl predicates::Predicate<path::Path> for StrContentPathPredicate {
+    fn eval(&self, item: &path::Path) -> bool {
+        self.0.eval(item)
+    }
+}
+
+impl fmt::Display for StrContentPathPredicate {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        self.0.fmt(f)
+    }
+}
+
+impl IntoPathPredicate<StrContentPathPredicate> for &'static str {
+    type Predicate = StrContentPathPredicate;
 
     fn into_path(self) -> Self::Predicate {
-        predicates::str::similar(self).from_utf8().from_file_path()
+        Self::Predicate::new(self)
     }
 }
 
@@ -108,7 +129,7 @@ mod test {
 
     use predicates::prelude::*;
 
-    // Since IntoOutputPredicate exists solely for conversion, test it under that scenario to ensure
+    // Since IntoPathPredicate exists solely for conversion, test it under that scenario to ensure
     // it works as expected.
     fn convert_path<I, P>(pred: I) -> P
     where
