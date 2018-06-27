@@ -1,3 +1,6 @@
+//! Filesystem assertions.
+
+use std::fmt;
 use std::path;
 
 use predicates;
@@ -68,6 +71,9 @@ pub trait IntoPathPredicate<P>
 where
     P: predicates::Predicate<path::Path>,
 {
+    /// The type of the predicate being returned.
+    type Predicate;
+
     /// Convert to a predicate for testing a path.
     fn into_path(self) -> P;
 }
@@ -76,22 +82,114 @@ impl<P> IntoPathPredicate<P> for P
 where
     P: predicates::Predicate<path::Path>,
 {
-    fn into_path(self) -> P {
+    type Predicate = P;
+
+    fn into_path(self) -> Self::Predicate {
         self
     }
 }
 
-impl IntoPathPredicate<
+// Keep `predicates` concrete Predicates out of our public API.
+/// Predicate used by `IntoPathPredicate` for bytes
+#[derive(Debug)]
+pub struct BytesContentPathPredicate(
+    predicates::path::FileContentPredicate<predicates::ord::EqPredicate<&'static [u8]>>,
+);
+
+impl BytesContentPathPredicate {
+    pub(crate) fn new(value: &'static [u8]) -> Self {
+        let pred = predicates::ord::eq(value).from_file_path();
+        BytesContentPathPredicate(pred)
+    }
+}
+
+impl predicates::Predicate<path::Path> for BytesContentPathPredicate {
+    fn eval(&self, item: &path::Path) -> bool {
+        self.0.eval(item)
+    }
+}
+
+impl fmt::Display for BytesContentPathPredicate {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        self.0.fmt(f)
+    }
+}
+
+impl IntoPathPredicate<BytesContentPathPredicate> for &'static [u8] {
+    type Predicate = BytesContentPathPredicate;
+
+    fn into_path(self) -> Self::Predicate {
+        Self::Predicate::new(self)
+    }
+}
+
+// Keep `predicates` concrete Predicates out of our public API.
+/// Predicate used by `IntoPathPredicate` for `str`
+#[derive(Debug, Clone)]
+pub struct StrContentPathPredicate(
     predicates::path::FileContentPredicate<
-        predicates::str::Utf8Predicate<predicates::ord::EqPredicate<&'static str>>,
+        predicates::str::Utf8Predicate<predicates::str::DifferencePredicate>,
     >,
-> for &'static str
-{
-    fn into_path(
-        self,
-    ) -> predicates::path::FileContentPredicate<
-        predicates::str::Utf8Predicate<predicates::ord::EqPredicate<&'static str>>,
-    > {
-        predicates::ord::eq(self).from_utf8().from_file_path()
+);
+
+impl StrContentPathPredicate {
+    pub(crate) fn new(value: &'static str) -> Self {
+        let pred = predicates::str::similar(value).from_utf8().from_file_path();
+        StrContentPathPredicate(pred)
+    }
+}
+
+impl predicates::Predicate<path::Path> for StrContentPathPredicate {
+    fn eval(&self, item: &path::Path) -> bool {
+        self.0.eval(item)
+    }
+}
+
+impl fmt::Display for StrContentPathPredicate {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        self.0.fmt(f)
+    }
+}
+
+impl IntoPathPredicate<StrContentPathPredicate> for &'static str {
+    type Predicate = StrContentPathPredicate;
+
+    fn into_path(self) -> Self::Predicate {
+        Self::Predicate::new(self)
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    use predicates::prelude::*;
+
+    // Since IntoPathPredicate exists solely for conversion, test it under that scenario to ensure
+    // it works as expected.
+    fn convert_path<I, P>(pred: I) -> P
+    where
+        I: IntoPathPredicate<P>,
+        P: predicates::Predicate<path::Path>,
+    {
+        pred.into_path()
+    }
+
+    #[test]
+    fn into_path_from_pred() {
+        let pred = convert_path(predicate::eq(path::Path::new("hello.md")));
+        assert!(pred.eval(path::Path::new("hello.md")));
+    }
+
+    #[test]
+    fn into_path_from_bytes() {
+        let pred = convert_path(b"hello\n" as &[u8]);
+        assert!(pred.eval(path::Path::new("tests/fixture/hello.txt")));
+    }
+
+    #[test]
+    fn into_path_from_str() {
+        let pred = convert_path("hello\n");
+        assert!(pred.eval(path::Path::new("tests/fixture/hello.txt")));
     }
 }
