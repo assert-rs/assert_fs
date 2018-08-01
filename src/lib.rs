@@ -26,6 +26,8 @@
 
 extern crate globwalk;
 extern crate predicates;
+extern crate predicates_core;
+extern crate predicates_tree;
 extern crate tempfile;
 
 pub mod assert;

@@ -6,6 +6,8 @@ use std::path;
 use predicates;
 use predicates::path::PredicateFileContentExt;
 use predicates::str::PredicateStrExt;
+use predicates_core;
+use predicates_tree::CaseTreeExt;
 
 use fs;
 
@@ -15,7 +17,7 @@ use fs;
 ///
 /// ```rust,ignore
 /// use assert_fs::*;
-/// use predicates::*;
+/// use predicates::prelude::*;
 ///
 /// let temp = assert_fs::TempDir::new().unwrap();
 /// let input_file = temp.child("foo.txt");
@@ -30,14 +32,14 @@ pub trait PathAssert {
     fn assert<I, P>(&self, pred: I) -> &Self
     where
         I: IntoPathPredicate<P>,
-        P: predicates::Predicate<path::Path>;
+        P: predicates_core::Predicate<path::Path>;
 }
 
 impl PathAssert for fs::TempDir {
     fn assert<I, P>(&self, pred: I) -> &Self
     where
         I: IntoPathPredicate<P>,
-        P: predicates::Predicate<path::Path>,
+        P: predicates_core::Predicate<path::Path>,
     {
         assert(self.path(), pred);
         self
@@ -48,7 +50,7 @@ impl PathAssert for fs::ChildPath {
     fn assert<I, P>(&self, pred: I) -> &Self
     where
         I: IntoPathPredicate<P>,
-        P: predicates::Predicate<path::Path>,
+        P: predicates_core::Predicate<path::Path>,
     {
         assert(self.path(), pred);
         self
@@ -58,18 +60,18 @@ impl PathAssert for fs::ChildPath {
 fn assert<I, P>(path: &path::Path, pred: I)
 where
     I: IntoPathPredicate<P>,
-    P: predicates::Predicate<path::Path>,
+    P: predicates_core::Predicate<path::Path>,
 {
     let pred = pred.into_path();
-    if !pred.eval(path) {
-        panic!("Predicate {} failed for {:?}", pred, path);
+    if let Some(case) = pred.find_case(false, &path) {
+        panic!("Unexpected file, failed {}\npath={:?}", case.tree(), path);
     }
 }
 
 /// Used by `PathAssert` to convert Self into the needed `Predicate<Path>`.
 pub trait IntoPathPredicate<P>
 where
-    P: predicates::Predicate<path::Path>,
+    P: predicates_core::Predicate<path::Path>,
 {
     /// The type of the predicate being returned.
     type Predicate;
@@ -80,7 +82,7 @@ where
 
 impl<P> IntoPathPredicate<P> for P
 where
-    P: predicates::Predicate<path::Path>,
+    P: predicates_core::Predicate<path::Path>,
 {
     type Predicate = P;
 
@@ -103,7 +105,20 @@ impl BytesContentPathPredicate {
     }
 }
 
-impl predicates::Predicate<path::Path> for BytesContentPathPredicate {
+impl predicates_core::reflection::PredicateReflection for BytesContentPathPredicate {
+    fn parameters<'a>(
+        &'a self,
+    ) -> Box<Iterator<Item = predicates_core::reflection::Parameter<'a>> + 'a> {
+        self.0.parameters()
+    }
+
+    /// Nested `Predicate`s of the current `Predicate`.
+    fn children<'a>(&'a self) -> Box<Iterator<Item = predicates_core::reflection::Child<'a>> + 'a> {
+        self.0.children()
+    }
+}
+
+impl predicates_core::Predicate<path::Path> for BytesContentPathPredicate {
     fn eval(&self, item: &path::Path) -> bool {
         self.0.eval(item)
     }
@@ -139,7 +154,20 @@ impl StrContentPathPredicate {
     }
 }
 
-impl predicates::Predicate<path::Path> for StrContentPathPredicate {
+impl predicates_core::reflection::PredicateReflection for StrContentPathPredicate {
+    fn parameters<'a>(
+        &'a self,
+    ) -> Box<Iterator<Item = predicates_core::reflection::Parameter<'a>> + 'a> {
+        self.0.parameters()
+    }
+
+    /// Nested `Predicate`s of the current `Predicate`.
+    fn children<'a>(&'a self) -> Box<Iterator<Item = predicates_core::reflection::Child<'a>> + 'a> {
+        self.0.children()
+    }
+}
+
+impl predicates_core::Predicate<path::Path> for StrContentPathPredicate {
     fn eval(&self, item: &path::Path) -> bool {
         self.0.eval(item)
     }
@@ -170,7 +198,7 @@ mod test {
     fn convert_path<I, P>(pred: I) -> P
     where
         I: IntoPathPredicate<P>,
-        P: predicates::Predicate<path::Path>,
+        P: predicates_core::Predicate<path::Path>,
     {
         pred.into_path()
     }
