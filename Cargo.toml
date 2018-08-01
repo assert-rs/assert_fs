@@ -14,7 +14,7 @@ keywords = ["filesystem", "test", "assert", "fixture"]
 [dependencies]
 tempfile = "3.0"
 globwalk = "0.3"
-predicates = "0.5"
+predicates = "0.9"
 
 [dev-dependencies]
 docmatic = "0.1"
