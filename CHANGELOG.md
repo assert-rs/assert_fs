@@ -1,3 +1,31 @@
+<a name="0.9.0"></a>
+## 0.9.0 (2018-08-02)
+
+
+#### Breaking Changes
+
+*   Bury errors in the docs ([64f7b49d](https://github.com/assert-rs/assert_fs/commit/64f7b49d2036e132d9aa270db209d9b977e4ad3d))
+*   Remove failure from API ([22146f11](https://github.com/assert-rs/assert_fs/commit/22146f113ff0b5da95c22058b12117ac4b712d73), closes [#14](https://github.com/assert-rs/assert_fs/issues/14))
+*   Rename traits to clarify intent ([f22f8eb1](https://github.com/assert-rs/assert_fs/commit/f22f8eb18a33ce504472bfce8b19b4cc29f5019b))
+
+#### Features
+
+* **assert:**
+  *  Show cause of failure ([befd9682](https://github.com/assert-rs/assert_fs/commit/befd9682776729cb5c05a5eea4f242711b6c3b85), closes [#3](https://github.com/assert-rs/assert_fs/issues/3))
+  *  Support assert(bytes) shorthand ([118004e4](https://github.com/assert-rs/assert_fs/commit/118004e48b5714613c0ddfec9022632be796c13c))
+  *  Use DifferencePredicate for str ([cfb49e57](https://github.com/assert-rs/assert_fs/commit/cfb49e578b54c89165932062378b24c872d1b5d8))
+  *  Predicate<[u8]> acts on file contents ([43ec578f](https://github.com/assert-rs/assert_fs/commit/43ec578f0ebd9fac8229d84a23417566d83bac3e))
+
+#### Bug Fixes
+
+*   Bury errors in the docs ([64f7b49d](https://github.com/assert-rs/assert_fs/commit/64f7b49d2036e132d9aa270db209d9b977e4ad3d))
+*   Remove failure from API ([22146f11](https://github.com/assert-rs/assert_fs/commit/22146f113ff0b5da95c22058b12117ac4b712d73), closes [#14](https://github.com/assert-rs/assert_fs/issues/14))
+*   Rename traits to clarify intent ([f22f8eb1](https://github.com/assert-rs/assert_fs/commit/f22f8eb18a33ce504472bfce8b19b4cc29f5019b))
+* **assert:**
+  *  Isolate API details ([4f222646](https://github.com/assert-rs/assert_fs/commit/4f2226461bcc5b5f96957db0ebb8363cfa5f84d7))
+
+
+
 <a name="0.3.0"></a>
 ## 0.3.0 (2018-06-27)
 
