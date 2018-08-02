@@ -1,4 +1,26 @@
 //! Filesystem assertions.
+//!
+//! See [`PathAssert`].
+//!
+//! # Examples
+//!
+//! ```rust,ignore
+//! use assert_fs::*;
+//! use predicates::prelude::*;
+//!
+//! let temp = assert_fs::TempDir::new().unwrap();
+//! let input_file = temp.child("foo.txt");
+//! input_file.touch().unwrap();
+//!
+//! // ... do something with input_file ...
+//!
+//! input_file.assert("");
+//! temp.child("bar.txt").assert(predicate::path::missing());
+//!
+//! temp.close().unwrap();
+//! ```
+//!
+//! [`PathAssert`]: trait.PathAssert.html
 
 use std::fmt;
 use std::path;
@@ -11,7 +33,7 @@ use predicates_tree::CaseTreeExt;
 
 use fs;
 
-/// Assert the state of files within `TempDir`.
+/// Assert the state of files within [`TempDir`].
 ///
 /// # Examples
 ///
@@ -22,11 +44,21 @@ use fs;
 /// let temp = assert_fs::TempDir::new().unwrap();
 /// let input_file = temp.child("foo.txt");
 /// input_file.touch().unwrap();
+///
 /// // ... do something with input_file ...
+///
 /// input_file.assert("");
 /// temp.child("bar.txt").assert(predicate::path::missing());
+///
 /// temp.close().unwrap();
 /// ```
+///
+/// - See [`predicates::prelude`] for more predicates.
+/// - See [`IntoPathPredicate`] for other built-in conversions.
+///
+/// [`TempDir`]: ../struct.TempDir.html
+/// [`predicates::prelude`]: https://docs.rs/predicates/0.9.0/predicates/prelude
+/// [`IntoPathPredicate`]: trait.IntoPathPredicate.html
 pub trait PathAssert {
     /// Wrap with an interface for that provides assertions on the `TempDir`.
     fn assert<I, P>(&self, pred: I) -> &Self

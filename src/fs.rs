@@ -9,10 +9,34 @@ use tempfile;
 use errors;
 use errors::ResultChainExt;
 
-/// A safe scratchpad for tests to manipulate.
+/// A filesystem scratchpad for tests to manipulate.
+///
+/// # Examples
+///
+/// ```rust
+/// use assert_fs::prelude::*;
+///
+/// let temp = assert_fs::TempDir::new().unwrap();
+/// temp.copy_from(".", &["*.rs"]).unwrap();
+/// temp.close().unwrap();
+/// ```
 pub use tempfile::TempDir;
 
-/// Access paths within `TempDir` for testing.
+/// Access paths within [`TempDir`] for testing.
+///
+/// See [`ChildPath`] Trait Implementations.
+///
+/// ```rust
+/// use assert_fs::prelude::*;
+///
+/// let temp = assert_fs::TempDir::new().unwrap();
+/// let input_file = temp.child("foo.txt");
+/// input_file.touch().unwrap();
+/// temp.close().unwrap();
+/// ```
+///
+/// [`TempDir`]: struct.TempDir.html
+/// [`ChildPath`]: struct.ChildPath.html
 pub trait PathChild {
     /// Create a path within the temp directory.
     ///
@@ -41,6 +65,23 @@ impl PathChild for tempfile::TempDir {
 }
 
 /// A path within a `TempDir`
+///
+/// See Trait Implementations.
+///
+/// # Examples
+///
+/// ```rust
+/// use assert_fs::prelude::*;
+///
+/// let temp = assert_fs::TempDir::new().unwrap();
+///
+/// let input_file = temp.child("foo.txt");
+/// input_file.touch().unwrap();
+///
+/// temp.child("bar.txt").touch().unwrap();
+///
+/// temp.close().unwrap();
+/// ```
 pub struct ChildPath {
     path: path::PathBuf,
 }
@@ -48,7 +89,9 @@ pub struct ChildPath {
 impl ChildPath {
     /// Wrap a path for use with special built extension traits.
     ///
-    /// See trait implementations or `PathChild` for more details.
+    /// See trait implementations or [`PathChild`] for more details.
+    ///
+    /// [`PathChild`]: trait.PathChild.html
     pub fn new<P>(path: P) -> Self
     where
         P: Into<path::PathBuf>,
@@ -62,9 +105,11 @@ impl ChildPath {
     }
 }
 
-/// Create empty files at `ChildPath`.
+/// Create empty files at [`ChildPath`].
+///
+/// [`ChildPath`]: struct.ChildPath.html
 pub trait FileTouch {
-    /// Create an empty file at `ChildPath`.
+    /// Create an empty file at [`ChildPath`].
     ///
     /// # Examples
     ///
@@ -75,6 +120,8 @@ pub trait FileTouch {
     /// temp.child("foo.txt").touch().unwrap();
     /// temp.close().unwrap();
     /// ```
+    ///
+    /// [`ChildPath`]: struct.ChildPath.html
     fn touch(&self) -> io::Result<()>;
 }
 
@@ -84,9 +131,11 @@ impl FileTouch for ChildPath {
     }
 }
 
-/// Write a binary file at `ChildPath`.
+/// Write a binary file at [`ChildPath`].
+///
+/// [`ChildPath`]: struct.ChildPath.html
 pub trait FileWriteBin {
-    /// Write a binary file at `ChildPath`.
+    /// Write a binary file at [`ChildPath`].
     ///
     /// # Examples
     ///
@@ -94,9 +143,14 @@ pub trait FileWriteBin {
     /// use assert_fs::prelude::*;
     ///
     /// let temp = assert_fs::TempDir::new().unwrap();
-    /// temp.child("foo.txt").write_binary(b"To be or not to be...").unwrap();
+    /// temp
+    ///     .child("foo.txt")
+    ///     .write_binary(b"To be or not to be...")
+    ///     .unwrap();
     /// temp.close().unwrap();
     /// ```
+    ///
+    /// [`ChildPath`]: struct.ChildPath.html
     fn write_binary(&self, data: &[u8]) -> io::Result<()>;
 }
 
@@ -106,9 +160,11 @@ impl FileWriteBin for ChildPath {
     }
 }
 
-/// Write a text file at `ChildPath`.
+/// Write a text file at [`ChildPath`].
+///
+/// [`ChildPath`]: struct.ChildPath.html
 pub trait FileWriteStr {
-    /// Write a text file at `ChildPath`.
+    /// Write a text file at [`ChildPath`].
     ///
     /// # Examples
     ///
@@ -116,9 +172,14 @@ pub trait FileWriteStr {
     /// use assert_fs::prelude::*;
     ///
     /// let temp = assert_fs::TempDir::new().unwrap();
-    /// temp.child("foo.txt").write_str("To be or not to be...").unwrap();
+    /// temp
+    ///    .child("foo.txt")
+    ///    .write_str("To be or not to be...")
+    ///    .unwrap();
     /// temp.close().unwrap();
     /// ```
+    ///
+    /// [`ChildPath`]: struct.ChildPath.html
     fn write_str(&self, data: &str) -> io::Result<()>;
 }
 
@@ -128,7 +189,9 @@ impl FileWriteStr for ChildPath {
     }
 }
 
-/// Copy files into `TempDir`.
+/// Copy files into [`TempDir`].
+///
+/// [`TempDir`]: struct.TempDir.html
 pub trait PathCopy {
     /// Copy files and directories into the current path from the `source` according to the glob
     /// `patterns`.
