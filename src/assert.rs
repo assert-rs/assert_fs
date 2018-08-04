@@ -57,7 +57,7 @@ use fs;
 /// - See [`IntoPathPredicate`] for other built-in conversions.
 ///
 /// [`TempDir`]: ../struct.TempDir.html
-/// [`predicates::prelude`]: https://docs.rs/predicates/0.9.0/predicates/prelude
+/// [`predicates::prelude`]: https://docs.rs/predicates/0.9.0/predicates/prelude/
 /// [`IntoPathPredicate`]: trait.IntoPathPredicate.html
 pub trait PathAssert {
     /// Wrap with an interface for that provides assertions on the `TempDir`.
@@ -100,7 +100,10 @@ where
     }
 }
 
-/// Used by `PathAssert` to convert Self into the needed `Predicate<Path>`.
+/// Used by [`PathAssert`] to convert Self into the needed [`Predicate<Path>`].
+///
+/// [`PathAssert`]: trait.PathAssert.html
+/// [`Predicate<Path>`]: https://docs.rs/predicates-core/0.9.0/predicates_core/trait.Predicate.html
 pub trait IntoPathPredicate<P>
 where
     P: predicates_core::Predicate<path::Path>,
