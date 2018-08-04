@@ -9,17 +9,6 @@ use tempfile;
 use errors;
 use errors::ResultChainExt;
 
-/// A filesystem scratchpad for tests to manipulate.
-///
-/// # Examples
-///
-/// ```rust
-/// use assert_fs::prelude::*;
-///
-/// let temp = assert_fs::TempDir::new().unwrap();
-/// temp.copy_from(".", &["*.rs"]).unwrap();
-/// temp.close().unwrap();
-/// ```
 pub use tempfile::TempDir;
 
 /// Access paths within [`TempDir`] for testing.
@@ -64,7 +53,7 @@ impl PathChild for tempfile::TempDir {
     }
 }
 
-/// A path within a `TempDir`
+/// A path within a [`TempDir`]
 ///
 /// See Trait Implementations.
 ///
@@ -82,6 +71,8 @@ impl PathChild for tempfile::TempDir {
 ///
 /// temp.close().unwrap();
 /// ```
+///
+/// [`TempDir`]: struct.TempDir.html
 pub struct ChildPath {
     path: path::PathBuf,
 }
