@@ -249,9 +249,10 @@ where
     let source = source
         .canonicalize()
         .chain(errors::FixtureError::new(errors::FixtureKind::Walk))?;
-    for entry in globwalk::GlobWalker::from_patterns(&source, patterns)
-        .chain(errors::FixtureError::new(errors::FixtureKind::Walk))?
+    for entry in globwalk::GlobWalkerBuilder::from_patterns(&source, patterns)
         .follow_links(true)
+        .build()
+        .chain(errors::FixtureError::new(errors::FixtureKind::Walk))?
     {
         println!("{:?}", entry);
         let entry = entry.chain(errors::FixtureError::new(errors::FixtureKind::Walk))?;
