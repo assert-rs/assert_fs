@@ -1,20 +1,20 @@
 sudo: false
 language: rust
 rust:
-- 1.22.0  # oldest supported version
+- 1.27.0  # oldest supported version
 - stable
 - beta
 - nightly
 matrix:
   include:
   - env: RUSTFMT
-    rust: 1.27.0  # `stable`: Locking down for consistent behavior
+    rust: 1.29.0  # `stable`: Locking down for consistent behavior
     install:
       - rustup component add rustfmt-preview
     script:
-      - cargo fmt -- --write-mode=diff
+      - cargo fmt -- --check
   - env: RUSTFLAGS="-D warnings"
-    rust: 1.27.0  # `stable`: Locking down for consistent behavior
+    rust: 1.29.0  # `stable`: Locking down for consistent behavior
     install:
     script:
     - cargo check --tests --all-features
