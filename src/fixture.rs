@@ -1,3 +1,5 @@
+//! Helpers for initializing a directory of files to run tests against.
+
 use std::fs;
 use std::io;
 use std::io::Write;
