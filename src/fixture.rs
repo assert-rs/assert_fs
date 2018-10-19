@@ -6,9 +6,7 @@ use std::path;
 use globwalk;
 use tempfile;
 
-use errors;
-use errors::ResultChainExt;
-
+pub use errors::*;
 pub use tempfile::TempDir;
 
 /// Access paths within [`TempDir`] for testing.
@@ -196,14 +194,14 @@ pub trait PathCopy {
     /// temp.copy_from(".", &["*.rs"]).unwrap();
     /// temp.close().unwrap();
     /// ```
-    fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), errors::FixtureError>
+    fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), FixtureError>
     where
         P: AsRef<path::Path>,
         S: AsRef<str>;
 }
 
 impl PathCopy for tempfile::TempDir {
-    fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), errors::FixtureError>
+    fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), FixtureError>
     where
         P: AsRef<path::Path>,
         S: AsRef<str>,
@@ -213,7 +211,7 @@ impl PathCopy for tempfile::TempDir {
 }
 
 impl PathCopy for ChildPath {
-    fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), errors::FixtureError>
+    fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), FixtureError>
     where
         P: AsRef<path::Path>,
         S: AsRef<str>,
@@ -241,21 +239,21 @@ fn copy_files<S>(
     target: &path::Path,
     source: &path::Path,
     patterns: &[S],
-) -> Result<(), errors::FixtureError>
+) -> Result<(), FixtureError>
 where
     S: AsRef<str>,
 {
     // `walkdir`, on Windows, seems to convert "." into "" which then fails.
     let source = source
         .canonicalize()
-        .chain(errors::FixtureError::new(errors::FixtureKind::Walk))?;
+        .chain(FixtureError::new(FixtureKind::Walk))?;
     for entry in globwalk::GlobWalkerBuilder::from_patterns(&source, patterns)
         .follow_links(true)
         .build()
-        .chain(errors::FixtureError::new(errors::FixtureKind::Walk))?
+        .chain(FixtureError::new(FixtureKind::Walk))?
     {
         println!("{:?}", entry);
-        let entry = entry.chain(errors::FixtureError::new(errors::FixtureKind::Walk))?;
+        let entry = entry.chain(FixtureError::new(FixtureKind::Walk))?;
         let rel = entry
             .path()
             .strip_prefix(&source)
@@ -263,12 +261,12 @@ where
         let target_path = target.join(rel);
         if entry.file_type().is_dir() {
             fs::create_dir_all(target_path)
-                .chain(errors::FixtureError::new(errors::FixtureKind::CreateDir))?;
+                .chain(FixtureError::new(FixtureKind::CreateDir))?;
         } else if entry.file_type().is_file() {
             fs::create_dir_all(target_path.parent().expect("at least `target` exists"))
-                .chain(errors::FixtureError::new(errors::FixtureKind::CreateDir))?;
+                .chain(FixtureError::new(FixtureKind::CreateDir))?;
             fs::copy(entry.path(), target_path)
-                .chain(errors::FixtureError::new(errors::FixtureKind::CopyFile))?;
+                .chain(FixtureError::new(FixtureKind::CopyFile))?;
         }
     }
     Ok(())

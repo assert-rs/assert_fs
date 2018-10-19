@@ -48,7 +48,7 @@ extern crate tempfile;
 
 pub mod assert;
 pub mod fixture;
-pub mod errors;
+mod errors;
 
 // Pulling this in for convenience-sake
 #[doc(inline)]
