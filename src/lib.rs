@@ -47,19 +47,19 @@ extern crate predicates_tree;
 extern crate tempfile;
 
 pub mod assert;
-pub use assert::PathAssert;
-
-mod fs;
-pub use fs::*;
-
+pub mod fixture;
 pub mod errors;
+
+// Pulling this in for convenience-sake
+#[doc(inline)]
+pub use fixture::TempDir;
 
 /// Extension traits that are useful to have available.
 pub mod prelude {
     pub use assert::PathAssert;
-    pub use fs::FileTouch;
-    pub use fs::FileWriteBin;
-    pub use fs::FileWriteStr;
-    pub use fs::PathChild;
-    pub use fs::PathCopy;
+    pub use fixture::FileTouch;
+    pub use fixture::FileWriteBin;
+    pub use fixture::FileWriteStr;
+    pub use fixture::PathChild;
+    pub use fixture::PathCopy;
 }

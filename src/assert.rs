@@ -31,7 +31,7 @@ use predicates::str::PredicateStrExt;
 use predicates_core;
 use predicates_tree::CaseTreeExt;
 
-use fs;
+use fixture;
 
 /// Assert the state of files within [`TempDir`].
 ///
@@ -67,7 +67,7 @@ pub trait PathAssert {
         P: predicates_core::Predicate<path::Path>;
 }
 
-impl PathAssert for fs::TempDir {
+impl PathAssert for fixture::TempDir {
     fn assert<I, P>(&self, pred: I) -> &Self
     where
         I: IntoPathPredicate<P>,
@@ -78,7 +78,7 @@ impl PathAssert for fs::TempDir {
     }
 }
 
-impl PathAssert for fs::ChildPath {
+impl PathAssert for fixture::ChildPath {
     fn assert<I, P>(&self, pred: I) -> &Self
     where
         I: IntoPathPredicate<P>,
