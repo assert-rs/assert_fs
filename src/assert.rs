@@ -222,6 +222,70 @@ impl IntoPathPredicate<StrContentPathPredicate> for &'static str {
     }
 }
 
+// Keep `predicates` concrete Predicates out of our public API.
+/// Predicate used by `IntoPathPredicate` for `str`
+#[derive(Debug, Clone)]
+pub struct StrPathPredicate<P: predicates_core::Predicate<str>>(
+    predicates::path::FileContentPredicate<
+        predicates::str::Utf8Predicate<P>,
+    >,
+);
+
+impl<P> StrPathPredicate<P>
+where
+    P: predicates_core::Predicate<str>,
+{
+    pub(crate) fn new(value: P) -> Self {
+        let pred = value.from_utf8().from_file_path();
+        StrPathPredicate(pred)
+    }
+}
+
+impl<P> predicates_core::reflection::PredicateReflection for StrPathPredicate<P>
+where
+    P: predicates_core::Predicate<str>,
+{
+    fn parameters<'a>(
+        &'a self,
+    ) -> Box<Iterator<Item = predicates_core::reflection::Parameter<'a>> + 'a> {
+        self.0.parameters()
+    }
+
+    /// Nested `Predicate`s of the current `Predicate`.
+    fn children<'a>(&'a self) -> Box<Iterator<Item = predicates_core::reflection::Child<'a>> + 'a> {
+        self.0.children()
+    }
+}
+
+impl<P> predicates_core::Predicate<path::Path> for StrPathPredicate<P>
+where
+    P: predicates_core::Predicate<str>,
+{
+    fn eval(&self, item: &path::Path) -> bool {
+        self.0.eval(item)
+    }
+}
+
+impl<P> fmt::Display for StrPathPredicate<P>
+where
+    P: predicates_core::Predicate<str>,
+{
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        self.0.fmt(f)
+    }
+}
+
+impl<P> IntoPathPredicate<StrPathPredicate<P>> for P
+where
+    P: predicates_core::Predicate<str>,
+{
+    type Predicate = StrPathPredicate<P>;
+
+    fn into_path(self) -> Self::Predicate {
+        Self::Predicate::new(self)
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
