@@ -4,8 +4,11 @@
 //!
 //! # Examples
 //!
-//! ```rust,ignore
-//! use assert_fs::*;
+//! ```rust
+//! extern crate assert_fs;
+//! extern crate predicates;
+//!
+//! use assert_fs::prelude::*;
 //! use predicates::prelude::*;
 //!
 //! let temp = assert_fs::TempDir::new().unwrap();
@@ -37,8 +40,11 @@ use fixture;
 ///
 /// # Examples
 ///
-/// ```rust,ignore
-/// use assert_fs::*;
+/// ```rust
+/// extern crate assert_fs;
+/// extern crate predicates;
+///
+/// use assert_fs::prelude::*;
 /// use predicates::prelude::*;
 ///
 /// let temp = assert_fs::TempDir::new().unwrap();
