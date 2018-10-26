@@ -1,3 +1,22 @@
+<a name="0.10.0"></a>
+## 0.10.0 (2018-10-26)
+
+
+#### Breaking Changes
+
+*   Re-structure API ([6c9876d7](https://github.com/assert-rs/assert_fs/commit/6c9876d76052d89af3edccbc66b073b085d9ecdb), breaks [#](https://github.com/assert-rs/assert_fs/issues/))
+
+#### Bug Fixes
+
+*   Expose errors where relevant in the API ([d04cd8f9](https://github.com/assert-rs/assert_fs/commit/d04cd8f975f13104e2fd0c7ad6b3cb82c2239701))
+*   Re-structure API ([6c9876d7](https://github.com/assert-rs/assert_fs/commit/6c9876d76052d89af3edccbc66b073b085d9ecdb), breaks [#](https://github.com/assert-rs/assert_fs/issues/))
+
+#### Features
+
+* **assert:**  Accept Predicate<str> ([e7f174aa](https://github.com/assert-rs/assert_fs/commit/e7f174aae24a2e67e5195ffce5f91993e391589f), closes [#25](https://github.com/assert-rs/assert_fs/issues/25))
+
+
+
 <a name="0.9.0"></a>
 ## 0.9.0 (2018-08-02)
 
