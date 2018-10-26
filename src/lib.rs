@@ -68,8 +68,8 @@ extern crate predicates_tree;
 extern crate tempfile;
 
 pub mod assert;
-pub mod fixture;
 mod errors;
+pub mod fixture;
 
 // Pulling this in for convenience-sake
 #[doc(inline)]

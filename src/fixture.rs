@@ -261,13 +261,11 @@ where
             .expect("entries to be under `source`");
         let target_path = target.join(rel);
         if entry.file_type().is_dir() {
-            fs::create_dir_all(target_path)
-                .chain(FixtureError::new(FixtureKind::CreateDir))?;
+            fs::create_dir_all(target_path).chain(FixtureError::new(FixtureKind::CreateDir))?;
         } else if entry.file_type().is_file() {
             fs::create_dir_all(target_path.parent().expect("at least `target` exists"))
                 .chain(FixtureError::new(FixtureKind::CreateDir))?;
-            fs::copy(entry.path(), target_path)
-                .chain(FixtureError::new(FixtureKind::CopyFile))?;
+            fs::copy(entry.path(), target_path).chain(FixtureError::new(FixtureKind::CopyFile))?;
         }
     }
     Ok(())

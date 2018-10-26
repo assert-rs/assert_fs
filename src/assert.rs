@@ -354,9 +354,7 @@ impl IntoPathPredicate<StrContentPathPredicate> for &'static str {
 /// [Predicate]: https://docs.rs/predicates-core/1.0.0/predicates_core/trait.Predicate.html
 #[derive(Debug, Clone)]
 pub struct StrPathPredicate<P: predicates_core::Predicate<str>>(
-    predicates::path::FileContentPredicate<
-        predicates::str::Utf8Predicate<P>,
-    >,
+    predicates::path::FileContentPredicate<predicates::str::Utf8Predicate<P>>,
 );
 
 impl<P> StrPathPredicate<P>
