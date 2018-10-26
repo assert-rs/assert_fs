@@ -38,6 +38,14 @@ use fixture;
 
 /// Assert the state of files within [`TempDir`].
 ///
+/// This uses [`IntoPathPredicate`] to provide short-hands for common cases, accepting:
+/// - `Predicate<Path>` for validating a path.
+/// - `Predicate<str>` for validating the content of the file.
+/// - `&Path` which must have the same file content.
+/// - `&[u8]` or `&str` representing the content of the file.
+///
+/// See [`predicates`] for more predicates.
+///
 /// # Examples
 ///
 /// ```rust
@@ -59,14 +67,47 @@ use fixture;
 /// temp.close().unwrap();
 /// ```
 ///
-/// - See [`predicates::prelude`] for more predicates.
-/// - See [`IntoPathPredicate`] for other built-in conversions.
-///
 /// [`TempDir`]: ../struct.TempDir.html
-/// [`predicates::prelude`]: https://docs.rs/predicates/0.9.0/predicates/prelude/
+/// [`predicates`]: https://docs.rs/predicates
 /// [`IntoPathPredicate`]: trait.IntoPathPredicate.html
 pub trait PathAssert {
-    /// Wrap with an interface for that provides assertions on the `TempDir`.
+    /// Assert the state of files within [`TempDir`].
+    ///
+    /// This uses [`IntoPathPredicate`] to provide short-hands for common cases, accepting:
+    /// - `Predicate<Path>` for validating a path.
+    /// - `Predicate<str>` for validating the content of the file.
+    /// - `&Path` which must have the same file content.
+    /// - `&[u8]` or `&str` representing the content of the file.
+    ///
+    /// See [`predicates`] for more predicates.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// extern crate assert_fs;
+    /// extern crate predicates;
+    ///
+    /// use assert_fs::prelude::*;
+    /// use predicates::prelude::*;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// let input_file = temp.child("foo.txt");
+    /// input_file.touch().unwrap();
+    ///
+    /// // ... do something with input_file ...
+    ///
+    /// input_file.assert("");
+    /// // or
+    /// input_file.assert(predicate::str::is_empty());
+    ///
+    /// temp.child("bar.txt").assert(predicate::path::missing());
+    ///
+    /// temp.close().unwrap();
+    /// ```
+    ///
+    /// [`TempDir`]: ../struct.TempDir.html
+    /// [`predicates`]: https://docs.rs/predicates
+    /// [`IntoPathPredicate`]: trait.IntoPathPredicate.html
     fn assert<I, P>(&self, pred: I) -> &Self
     where
         I: IntoPathPredicate<P>,
@@ -108,6 +149,26 @@ where
 
 /// Used by [`PathAssert`] to convert Self into the needed [`Predicate<Path>`].
 ///
+/// # Examples
+///
+/// ```rust
+/// extern crate assert_fs;
+/// extern crate predicates;
+///
+/// use std::path;
+///
+/// use assert_fs::prelude::*;
+/// use predicates::prelude::*;
+///
+/// let temp = assert_fs::TempDir::new().unwrap();
+///
+/// // ... do something with input_file ...
+///
+/// temp.child("bar.txt").assert(predicate::path::missing()); // Uses IntoPathPredicate
+///
+/// temp.close().unwrap();
+/// ```
+///
 /// [`PathAssert`]: trait.PathAssert.html
 /// [`Predicate<Path>`]: https://docs.rs/predicates-core/0.9.0/predicates_core/trait.Predicate.html
 pub trait IntoPathPredicate<P>
@@ -133,7 +194,26 @@ where
 }
 
 // Keep `predicates` concrete Predicates out of our public API.
-/// Predicate used by `IntoPathPredicate` for bytes
+/// [Predicate] used by [`IntoPathPredicate`] for bytes.
+///
+/// # Example
+///
+/// ```rust
+/// use assert_fs::prelude::*;
+///
+/// let temp = assert_fs::TempDir::new().unwrap();
+/// let input_file = temp.child("foo.txt");
+/// input_file.touch().unwrap();
+///
+/// // ... do something with input_file ...
+///
+/// input_file.assert(b"" as &[u8]); // uses BytesContentPathPredicate
+///
+/// temp.close().unwrap();
+/// ```
+///
+/// [`IntoPathPredicate`]: trait.IntoPathPredicate.html
+/// [Predicate]: https://docs.rs/predicates-core/1.0.0/predicates_core/trait.Predicate.html
 #[derive(Debug)]
 pub struct BytesContentPathPredicate(
     predicates::path::FileContentPredicate<predicates::ord::EqPredicate<&'static [u8]>>,
@@ -180,7 +260,26 @@ impl IntoPathPredicate<BytesContentPathPredicate> for &'static [u8] {
 }
 
 // Keep `predicates` concrete Predicates out of our public API.
-/// Predicate used by `IntoPathPredicate` for `str`
+/// [Predicate] used by `IntoPathPredicate` for `str`.
+///
+/// # Example
+///
+/// ```rust
+/// use assert_fs::prelude::*;
+///
+/// let temp = assert_fs::TempDir::new().unwrap();
+/// let input_file = temp.child("foo.txt");
+/// input_file.touch().unwrap();
+///
+/// // ... do something with input_file ...
+///
+/// input_file.assert(""); // Uses StrContentPathPredicate
+///
+/// temp.close().unwrap();
+/// ```
+///
+/// [`IntoPathPredicate`]: trait.IntoPathPredicate.html
+/// [Predicate]: https://docs.rs/predicates-core/1.0.0/predicates_core/trait.Predicate.html
 #[derive(Debug, Clone)]
 pub struct StrContentPathPredicate(
     predicates::path::FileContentPredicate<
@@ -229,7 +328,30 @@ impl IntoPathPredicate<StrContentPathPredicate> for &'static str {
 }
 
 // Keep `predicates` concrete Predicates out of our public API.
-/// Predicate used by `IntoPathPredicate` for `str`
+/// [Predicate] used by `IntoPathPredicate` for `str` predicates.
+///
+/// # Example
+///
+/// ```rust
+/// extern crate assert_fs;
+/// extern crate predicates;
+///
+/// use assert_fs::prelude::*;
+/// use predicates::prelude::*;
+///
+/// let temp = assert_fs::TempDir::new().unwrap();
+/// let input_file = temp.child("foo.txt");
+/// input_file.touch().unwrap();
+///
+/// // ... do something with input_file ...
+///
+/// input_file.assert(predicate::str::is_empty()); // Uses StrPathPredicate
+///
+/// temp.close().unwrap();
+/// ```
+///
+/// [`IntoPathPredicate`]: trait.IntoPathPredicate.html
+/// [Predicate]: https://docs.rs/predicates-core/1.0.0/predicates_core/trait.Predicate.html
 #[derive(Debug, Clone)]
 pub struct StrPathPredicate<P: predicates_core::Predicate<str>>(
     predicates::path::FileContentPredicate<

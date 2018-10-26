@@ -1,4 +1,4 @@
-//! Helpers for initializing a directory of files to run tests against.
+//! Initialize the filesystem to use as test fixtures.
 
 use std::fs;
 use std::io;
@@ -13,7 +13,7 @@ pub use tempfile::TempDir;
 
 /// Access paths within [`TempDir`] for testing.
 ///
-/// See [`ChildPath`] Trait Implementations.
+/// See [`ChildPath`] trait implementations.
 ///
 /// ```rust
 /// use assert_fs::prelude::*;
@@ -27,7 +27,7 @@ pub use tempfile::TempDir;
 /// [`TempDir`]: struct.TempDir.html
 /// [`ChildPath`]: struct.ChildPath.html
 pub trait PathChild {
-    /// Create a path within the temp directory.
+    /// Access a path within the temp directory.
     ///
     /// # Examples
     ///
@@ -35,8 +35,8 @@ pub trait PathChild {
     /// use assert_fs::prelude::*;
     ///
     /// let temp = assert_fs::TempDir::new().unwrap();
-    /// println!("{:?}", temp.path());
-    /// println!("{:?}", temp.child("foo/bar.txt").path());
+    /// println!("{}", temp.path().display());
+    /// println!("{}", temp.child("foo/bar.txt").path().display());
     /// temp.close().unwrap();
     /// ```
     fn child<P>(&self, path: P) -> ChildPath
@@ -78,7 +78,7 @@ pub struct ChildPath {
 }
 
 impl ChildPath {
-    /// Wrap a path for use with special built extension traits.
+    /// Wrap a path for use with extension traits.
     ///
     /// See trait implementations or [`PathChild`] for more details.
     ///
@@ -254,7 +254,6 @@ where
         .build()
         .chain(FixtureError::new(FixtureKind::Walk))?
     {
-        println!("{:?}", entry);
         let entry = entry.chain(FixtureError::new(FixtureKind::Walk))?;
         let rel = entry
             .path()

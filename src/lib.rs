@@ -11,6 +11,18 @@
 //! assert_fs = "0.9"
 //! ```
 //!
+//! ## Overview
+//!
+//! Setting up a fixture
+//! - [`TempDir`]
+//! - [`touch`][`FileTouch`] a [`ChildPath`]
+//! - [`write_binary`][`FileWriteBin`] a [`ChildPath`]
+//! - [`write_str`][`FileWriteStr`] a [`ChildPath`]
+//! - [`copy_from`][`PathCopy`] a pristine folder to a [`ChildPath`] or [`TempDir`]
+//!
+//! Validating
+//! - [`assert`][`PathAssert`] a [`ChildPath`] or [`TempDir`]
+//!
 //! ## Example
 //!
 //! Here is a trivial example:
@@ -34,12 +46,18 @@
 //! temp.close().unwrap();
 //! ```
 //!
+//! ## Relevant crates
+//!
+//! Other crates that might be useful in testing command line programs.
+//!
 //! [`TempDir`]: struct.TempDir.html
-//! [`FileTouch`]: trait.FileTouch.html
-//! [`FileWriteBin`]: trait.FileWriteBin.html
-//! [`FileWriteStr`]: trait.FileWriteStr.html
-//! [`PathCopy`]: trait.PathCopy.html
+//! [`ChildPath`]: fixture/struct.ChildPath.html
+//! [`FileTouch`]: fixture/trait.FileTouch.html
+//! [`FileWriteBin`]: fixture/trait.FileWriteBin.html
+//! [`FileWriteStr`]: fixture/trait.FileWriteStr.html
+//! [`PathCopy`]: fixture/trait.PathCopy.html
 //! [`PathAssert`]: assert/trait.PathAssert.html
+//! [dir-diff]: https://crates.io/crates/dir-diff
 
 #![warn(missing_docs)]
 
