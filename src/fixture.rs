@@ -1,3 +1,5 @@
+//! Initialize the filesystem to use as test fixtures.
+
 use std::fs;
 use std::io;
 use std::io::Write;
@@ -6,14 +8,12 @@ use std::path;
 use globwalk;
 use tempfile;
 
-use errors;
-use errors::ResultChainExt;
-
+pub use errors::*;
 pub use tempfile::TempDir;
 
 /// Access paths within [`TempDir`] for testing.
 ///
-/// See [`ChildPath`] Trait Implementations.
+/// See [`ChildPath`] trait implementations.
 ///
 /// ```rust
 /// use assert_fs::prelude::*;
@@ -27,7 +27,7 @@ pub use tempfile::TempDir;
 /// [`TempDir`]: struct.TempDir.html
 /// [`ChildPath`]: struct.ChildPath.html
 pub trait PathChild {
-    /// Create a path within the temp directory.
+    /// Access a path within the temp directory.
     ///
     /// # Examples
     ///
@@ -35,8 +35,8 @@ pub trait PathChild {
     /// use assert_fs::prelude::*;
     ///
     /// let temp = assert_fs::TempDir::new().unwrap();
-    /// println!("{:?}", temp.path());
-    /// println!("{:?}", temp.child("foo/bar.txt").path());
+    /// println!("{}", temp.path().display());
+    /// println!("{}", temp.child("foo/bar.txt").path().display());
     /// temp.close().unwrap();
     /// ```
     fn child<P>(&self, path: P) -> ChildPath
@@ -78,7 +78,7 @@ pub struct ChildPath {
 }
 
 impl ChildPath {
-    /// Wrap a path for use with special built extension traits.
+    /// Wrap a path for use with extension traits.
     ///
     /// See trait implementations or [`PathChild`] for more details.
     ///
@@ -196,14 +196,14 @@ pub trait PathCopy {
     /// temp.copy_from(".", &["*.rs"]).unwrap();
     /// temp.close().unwrap();
     /// ```
-    fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), errors::FixtureError>
+    fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), FixtureError>
     where
         P: AsRef<path::Path>,
         S: AsRef<str>;
 }
 
 impl PathCopy for tempfile::TempDir {
-    fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), errors::FixtureError>
+    fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), FixtureError>
     where
         P: AsRef<path::Path>,
         S: AsRef<str>,
@@ -213,7 +213,7 @@ impl PathCopy for tempfile::TempDir {
 }
 
 impl PathCopy for ChildPath {
-    fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), errors::FixtureError>
+    fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), FixtureError>
     where
         P: AsRef<path::Path>,
         S: AsRef<str>,
@@ -241,34 +241,31 @@ fn copy_files<S>(
     target: &path::Path,
     source: &path::Path,
     patterns: &[S],
-) -> Result<(), errors::FixtureError>
+) -> Result<(), FixtureError>
 where
     S: AsRef<str>,
 {
     // `walkdir`, on Windows, seems to convert "." into "" which then fails.
     let source = source
         .canonicalize()
-        .chain(errors::FixtureError::new(errors::FixtureKind::Walk))?;
+        .chain(FixtureError::new(FixtureKind::Walk))?;
     for entry in globwalk::GlobWalkerBuilder::from_patterns(&source, patterns)
         .follow_links(true)
         .build()
-        .chain(errors::FixtureError::new(errors::FixtureKind::Walk))?
+        .chain(FixtureError::new(FixtureKind::Walk))?
     {
-        println!("{:?}", entry);
-        let entry = entry.chain(errors::FixtureError::new(errors::FixtureKind::Walk))?;
+        let entry = entry.chain(FixtureError::new(FixtureKind::Walk))?;
         let rel = entry
             .path()
             .strip_prefix(&source)
             .expect("entries to be under `source`");
         let target_path = target.join(rel);
         if entry.file_type().is_dir() {
-            fs::create_dir_all(target_path)
-                .chain(errors::FixtureError::new(errors::FixtureKind::CreateDir))?;
+            fs::create_dir_all(target_path).chain(FixtureError::new(FixtureKind::CreateDir))?;
         } else if entry.file_type().is_file() {
             fs::create_dir_all(target_path.parent().expect("at least `target` exists"))
-                .chain(errors::FixtureError::new(errors::FixtureKind::CreateDir))?;
-            fs::copy(entry.path(), target_path)
-                .chain(errors::FixtureError::new(errors::FixtureKind::CopyFile))?;
+                .chain(FixtureError::new(FixtureKind::CreateDir))?;
+            fs::copy(entry.path(), target_path).chain(FixtureError::new(FixtureKind::CopyFile))?;
         }
     }
     Ok(())
