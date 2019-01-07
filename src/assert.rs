@@ -226,6 +226,8 @@ impl BytesContentPathPredicate {
     }
 }
 
+
+
 impl predicates_core::reflection::PredicateReflection for BytesContentPathPredicate {
     fn parameters<'a>(
         &'a self,
@@ -242,6 +244,10 @@ impl predicates_core::reflection::PredicateReflection for BytesContentPathPredic
 impl predicates_core::Predicate<path::Path> for BytesContentPathPredicate {
     fn eval(&self, item: &path::Path) -> bool {
         self.0.eval(item)
+    }
+
+    fn find_case<'a>(&'a self, expected: bool, variable: &path::Path) -> Option<predicates_core::reflection::Case<'a>> {
+        self.0.find_case(expected, variable)
     }
 }
 
@@ -310,6 +316,10 @@ impl predicates_core::reflection::PredicateReflection for StrContentPathPredicat
 impl predicates_core::Predicate<path::Path> for StrContentPathPredicate {
     fn eval(&self, item: &path::Path) -> bool {
         self.0.eval(item)
+    }
+
+    fn find_case<'a>(&'a self, expected: bool, variable: &path::Path) -> Option<predicates_core::reflection::Case<'a>> {
+        self.0.find_case(expected, variable)
     }
 }
 
@@ -389,6 +399,10 @@ where
 {
     fn eval(&self, item: &path::Path) -> bool {
         self.0.eval(item)
+    }
+
+    fn find_case<'a>(&'a self, expected: bool, variable: &path::Path) -> Option<predicates_core::reflection::Case<'a>> {
+        self.0.find_case(expected, variable)
     }
 }
 
