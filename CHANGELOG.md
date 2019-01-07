@@ -1,3 +1,13 @@
+<a name="0.10.1"></a>
+## 0.10.1 (2019-01-07)
+
+
+#### Bug Fixes
+
+* **assert:**  Show why assert failed ([8079b749](https://github.com/assert-rs/assert_fs/commit/8079b749cf1b1334e2dea42dc74f9552a0969cd7), closes [#37](https://github.com/assert-rs/assert_fs/issues/37))
+
+
+
 <a name="0.10.0"></a>
 ## 0.10.0 (2018-10-26)
 
