@@ -17,3 +17,10 @@ fn code_example() {
 
     temp.close().unwrap();
 }
+
+#[test]
+#[should_panic]
+fn verify_failure_output() {
+    let f = assert_fs::fixture::ChildPath::new("Cargo.toml");
+    f.assert("Not real content");
+}
