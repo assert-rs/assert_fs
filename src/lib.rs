@@ -68,7 +68,6 @@ extern crate predicates_tree;
 extern crate tempfile;
 
 pub mod assert;
-mod errors;
 pub mod fixture;
 
 // Pulling this in for convenience-sake

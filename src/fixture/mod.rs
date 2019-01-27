@@ -8,7 +8,9 @@ use std::path;
 use globwalk;
 use tempfile;
 
-pub use errors::*;
+mod errors;
+
+pub use self::errors::*;
 pub use tempfile::TempDir;
 
 /// Access paths within [`TempDir`] for testing.
