@@ -78,6 +78,7 @@ pub use fixture::TempDir;
 /// Extension traits that are useful to have available.
 pub mod prelude {
     pub use assert::PathAssert;
+    pub use fixture::PathCreateDir;
     pub use fixture::FileTouch;
     pub use fixture::FileWriteBin;
     pub use fixture::FileWriteStr;

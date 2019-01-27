@@ -96,6 +96,32 @@ impl ChildPath {
     }
 }
 
+/// Create empty directories at [`ChildPath`].
+///
+/// [`ChildPath`]: struct.ChildPath.html
+pub trait PathCreateDir {
+    /// Create an empty file at [`ChildPath`].
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use assert_fs::prelude::*;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// temp.child("subdir").create_dir_all().unwrap();
+    /// temp.close().unwrap();
+    /// ```
+    ///
+    /// [`ChildPath`]: struct.ChildPath.html
+    fn create_dir_all(&self) -> io::Result<()>;
+}
+
+impl PathCreateDir for ChildPath {
+    fn create_dir_all(&self) -> io::Result<()> {
+        create_dir_all(self.path())
+    }
+}
+
 /// Create empty files at [`ChildPath`].
 ///
 /// [`ChildPath`]: struct.ChildPath.html
@@ -220,6 +246,11 @@ impl PathCopy for ChildPath {
     {
         copy_files(self.path(), source.as_ref(), patterns)
     }
+}
+
+fn create_dir_all(path: &path::Path) -> io::Result<()> {
+    fs::create_dir_all(path)?;
+    Ok(())
 }
 
 fn touch(path: &path::Path) -> io::Result<()> {
