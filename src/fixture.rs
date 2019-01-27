@@ -206,6 +206,36 @@ impl FileWriteStr for ChildPath {
     }
 }
 
+/// Write (copy) a file to [`ChildPath`].
+///
+/// [`ChildPath`]: struct.ChildPath.html
+pub trait FileWriteFile {
+    /// Write (copy) a file to [`ChildPath`].
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use std::path::Path;
+    /// use assert_fs::prelude::*;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// temp
+    ///    .child("foo.txt")
+    ///    .write_file(Path::new("Cargo.toml"))
+    ///    .unwrap();
+    /// temp.close().unwrap();
+    /// ```
+    ///
+    /// [`ChildPath`]: struct.ChildPath.html
+    fn write_file(&self, data: &path::Path) -> io::Result<()>;
+}
+
+impl FileWriteFile for ChildPath {
+    fn write_file(&self, data: &path::Path) -> io::Result<()> {
+        write_file(self.path(), data)
+    }
+}
+
 /// Copy files into [`TempDir`].
 ///
 /// [`TempDir`]: struct.TempDir.html
@@ -266,6 +296,11 @@ fn write_binary(path: &path::Path, data: &[u8]) -> io::Result<()> {
 
 fn write_str(path: &path::Path, data: &str) -> io::Result<()> {
     write_binary(path, data.as_bytes())
+}
+
+fn write_file(path: &path::Path, data: &path::Path) -> io::Result<()> {
+    fs::copy(data, path)?;
+    Ok(())
 }
 
 fn copy_files<S>(

@@ -81,6 +81,7 @@ pub mod prelude {
     pub use fixture::PathCreateDir;
     pub use fixture::FileTouch;
     pub use fixture::FileWriteBin;
+    pub use fixture::FileWriteFile;
     pub use fixture::FileWriteStr;
     pub use fixture::PathChild;
     pub use fixture::PathCopy;
