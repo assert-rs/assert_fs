@@ -14,14 +14,15 @@
 //! ## Overview
 //!
 //! Setting up a fixture
-//! - [`TempDir`]
-//! - [`touch`][`FileTouch`] a [`ChildPath`]
-//! - [`write_binary`][`FileWriteBin`] a [`ChildPath`]
-//! - [`write_str`][`FileWriteStr`] a [`ChildPath`]
+//! - [`TempDir`] or [`NamedTempFile`]
+//! - [`touch`][`FileTouch`] a [`ChildPath`] or [`NamedTempFile`]
+//! - [`write_binary`][`FileWriteBin`] a [`ChildPath`] or [`NamedTempFile`]
+//! - [`write_str`][`FileWriteStr`] a [`ChildPath`] or [`NamedTempFile`]
+//! - [`write_file`][`FileWriteFile`] a [`ChildPath`] or [`NamedTempFile`]
 //! - [`copy_from`][`PathCopy`] a pristine folder to a [`ChildPath`] or [`TempDir`]
 //!
 //! Validating
-//! - [`assert`][`PathAssert`] a [`ChildPath`] or [`TempDir`]
+//! - [`assert`][`PathAssert`] a [`ChildPath`], [`TempDir`], or [`NamedTempFile`]
 //!
 //! ## Example
 //!
@@ -51,10 +52,12 @@
 //! Other crates that might be useful in testing command line programs.
 //!
 //! [`TempDir`]: struct.TempDir.html
+//! [`NamedTempFile`]: struct.NamedTempFile.html
 //! [`ChildPath`]: fixture/struct.ChildPath.html
 //! [`FileTouch`]: fixture/trait.FileTouch.html
 //! [`FileWriteBin`]: fixture/trait.FileWriteBin.html
 //! [`FileWriteStr`]: fixture/trait.FileWriteStr.html
+//! [`FileWriteFile`]: fixture/trait.FileWriteFile.html
 //! [`PathCopy`]: fixture/trait.PathCopy.html
 //! [`PathAssert`]: assert/trait.PathAssert.html
 //! [dir-diff]: https://crates.io/crates/dir-diff
