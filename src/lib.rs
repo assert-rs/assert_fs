@@ -74,6 +74,10 @@ pub mod fixture;
 #[doc(inline)]
 pub use fixture::TempDir;
 
+// Pulling this in for convenience-sake
+#[doc(inline)]
+pub use fixture::NamedTempFile;
+
 /// Extension traits that are useful to have available.
 pub mod prelude {
     pub use assert::PathAssert;
