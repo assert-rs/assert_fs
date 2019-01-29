@@ -218,27 +218,38 @@ impl PathCopy for ChildPath {
     }
 }
 
+fn ensure_parent_dir(path: &path::Path) -> io::Result<()> {
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent)?;
+    }
+    Ok(())
+}
+
 fn create_dir_all(path: &path::Path) -> io::Result<()> {
     fs::create_dir_all(path)?;
     Ok(())
 }
 
 fn touch(path: &path::Path) -> io::Result<()> {
+    ensure_parent_dir(path)?;
     fs::File::create(path)?;
     Ok(())
 }
 
 fn write_binary(path: &path::Path, data: &[u8]) -> io::Result<()> {
+    ensure_parent_dir(path)?;
     let mut file = fs::File::create(path)?;
     file.write_all(data)?;
     Ok(())
 }
 
 fn write_str(path: &path::Path, data: &str) -> io::Result<()> {
+    ensure_parent_dir(path)?;
     write_binary(path, data.as_bytes())
 }
 
 fn write_file(path: &path::Path, data: &path::Path) -> io::Result<()> {
+    ensure_parent_dir(path)?;
     fs::copy(data, path)?;
     Ok(())
 }
