@@ -1,3 +1,13 @@
+<a name="0.11.2"></a>
+## 0.11.2 (2019-01-29)
+
+
+#### Features
+
+* **assert:**  Support NamedTempFile ([935b57dd](https://github.com/assert-rs/assert_fs/commit/935b57dd5d67e82db2712fefd7020c427724a77e))
+
+
+
 <a name="0.11.1"></a>
 ## 0.11.1 (2019-01-29)
 
