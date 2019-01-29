@@ -60,8 +60,13 @@ use super::errors::*;
 /// [`std::fs`]: http://doc.rust-lang.org/std/fs/index.html
 /// [`std::process::exit()`]: http://doc.rust-lang.org/std/process/fn.exit.html
 pub struct NamedTempFile {
-    temp: tempfile::TempDir,
+    temp: Inner,
     path: path::PathBuf,
+}
+
+enum Inner {
+    Temp(tempfile::TempDir),
+    Persisted,
 }
 
 impl NamedTempFile {
@@ -91,7 +96,34 @@ impl NamedTempFile {
         let temp = tempfile::TempDir::new()
             .chain(FixtureError::new(FixtureKind::CreateDir))?;
         let path = temp.path().join(name.as_ref());
+        let temp = Inner::Temp(temp);
         Ok(Self { temp, path })
+    }
+
+    /// Conditionally persist the temporary file for debug purposes.
+    ///
+    /// # Examples
+    ///
+    /// ```no_run
+    /// use assert_fs::fixture::NamedTempFile;
+    ///
+    /// let tmp_file = NamedTempFile::new("foo.rs").unwrap().persist_if(true);
+    ///
+    /// // Ensure deletion happens.
+    /// tmp_file.close().unwrap();
+    /// ```
+    pub fn persist_if(mut self, yes: bool) -> Self {
+        if ! yes {
+            return self;
+        }
+
+        let mut temp = Inner::Persisted;
+        ::std::mem::swap(&mut self.temp, &mut temp);
+        if let Inner::Temp(temp) = temp {
+            temp.into_path();
+        }
+
+        self
     }
 
     /// Accesses the [`Path`] to the temporary file.
@@ -138,8 +170,12 @@ impl NamedTempFile {
     /// tmp_file.close().unwrap();
     /// ```
     pub fn close(self) -> Result<(), FixtureError> {
-        self.temp.close()
-            .chain(FixtureError::new(FixtureKind::Cleanup))?;
+        match self.temp {
+            Inner::Temp(temp) =>
+                temp.close()
+                    .chain(FixtureError::new(FixtureKind::Cleanup))?,
+            Inner::Persisted => (),
+        }
         Ok(())
     }
 }

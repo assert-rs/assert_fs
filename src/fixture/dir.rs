@@ -60,7 +60,12 @@ use super::errors::*;
 /// [`std::fs`]: http://doc.rust-lang.org/std/fs/index.html
 /// [`std::process::exit()`]: http://doc.rust-lang.org/std/process/fn.exit.html
 pub struct TempDir {
-    temp: tempfile::TempDir,
+    temp: Inner,
+}
+
+enum Inner {
+    Temp(tempfile::TempDir),
+    Persisted(path::PathBuf),
 }
 
 impl TempDir {
@@ -86,7 +91,33 @@ impl TempDir {
     pub fn new() -> Result<Self, FixtureError> {
         let temp = tempfile::TempDir::new()
             .chain(FixtureError::new(FixtureKind::CreateDir))?;
+        let temp = Inner::Temp(temp);
         Ok(Self { temp })
+    }
+
+    /// Conditionally persist the temporary directory for debug purposes.
+    ///
+    /// # Examples
+    ///
+    /// ```no_run
+    /// use assert_fs::fixture::TempDir;
+    ///
+    /// let tmp_dir = TempDir::new().unwrap().persist_if(true);
+    ///
+    /// // Ensure deletion happens.
+    /// tmp_dir.close().unwrap();
+    /// ```
+    pub fn persist_if(self, yes: bool) -> Self {
+        if ! yes {
+            return self;
+        }
+
+        let path = match self.temp {
+            Inner::Temp(temp) => temp.into_path(),
+            Inner::Persisted(path) => path,
+        };
+        let temp = Inner::Persisted(path);
+        Self { temp }
     }
 
     /// Accesses the [`Path`] to the temporary directory.
@@ -106,7 +137,10 @@ impl TempDir {
     /// tmp_dir.close().unwrap();
     /// ```
     pub fn path(&self) -> &path::Path {
-        self.temp.path()
+        match self.temp {
+            Inner::Temp(ref temp) => temp.path(),
+            Inner::Persisted(ref path) => path.as_path(),
+        }
     }
 
     /// Closes and removes the temporary directory, returing a `Result`.
@@ -135,8 +169,12 @@ impl TempDir {
     /// tmp_dir.close().unwrap();
     /// ```
     pub fn close(self) -> Result<(), FixtureError> {
-        self.temp.close()
-            .chain(FixtureError::new(FixtureKind::Cleanup))?;
+        match self.temp {
+            Inner::Temp(temp) =>
+                temp.close()
+                    .chain(FixtureError::new(FixtureKind::Cleanup))?,
+            Inner::Persisted(_) => (),
+        }
         Ok(())
     }
 }
