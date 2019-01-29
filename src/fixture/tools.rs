@@ -1,7 +1,6 @@
 //! Initialize the filesystem to use as test fixtures.
 
 use std::fs;
-use std::io;
 use std::io::Write;
 use std::path;
 
@@ -29,11 +28,11 @@ pub trait PathCreateDir {
     /// ```
     ///
     /// [`ChildPath`]: struct.ChildPath.html
-    fn create_dir_all(&self) -> io::Result<()>;
+    fn create_dir_all(&self) -> Result<(), FixtureError>;
 }
 
 impl PathCreateDir for ChildPath {
-    fn create_dir_all(&self) -> io::Result<()> {
+    fn create_dir_all(&self) -> Result<(), FixtureError> {
         create_dir_all(self.path())
     }
 }
@@ -55,17 +54,17 @@ pub trait FileTouch {
     /// ```
     ///
     /// [`ChildPath`]: struct.ChildPath.html
-    fn touch(&self) -> io::Result<()>;
+    fn touch(&self) -> Result<(), FixtureError>;
 }
 
 impl FileTouch for ChildPath {
-    fn touch(&self) -> io::Result<()> {
+    fn touch(&self) -> Result<(), FixtureError> {
         touch(self.path())
     }
 }
 
 impl FileTouch for NamedTempFile {
-    fn touch(&self) -> io::Result<()> {
+    fn touch(&self) -> Result<(), FixtureError> {
         touch(self.path())
     }
 }
@@ -90,17 +89,17 @@ pub trait FileWriteBin {
     /// ```
     ///
     /// [`ChildPath`]: struct.ChildPath.html
-    fn write_binary(&self, data: &[u8]) -> io::Result<()>;
+    fn write_binary(&self, data: &[u8]) -> Result<(), FixtureError>;
 }
 
 impl FileWriteBin for ChildPath {
-    fn write_binary(&self, data: &[u8]) -> io::Result<()> {
+    fn write_binary(&self, data: &[u8]) -> Result<(), FixtureError> {
         write_binary(self.path(), data)
     }
 }
 
 impl FileWriteBin for NamedTempFile {
-    fn write_binary(&self, data: &[u8]) -> io::Result<()> {
+    fn write_binary(&self, data: &[u8]) -> Result<(), FixtureError> {
         write_binary(self.path(), data)
     }
 }
@@ -125,17 +124,17 @@ pub trait FileWriteStr {
     /// ```
     ///
     /// [`ChildPath`]: struct.ChildPath.html
-    fn write_str(&self, data: &str) -> io::Result<()>;
+    fn write_str(&self, data: &str) -> Result<(), FixtureError>;
 }
 
 impl FileWriteStr for ChildPath {
-    fn write_str(&self, data: &str) -> io::Result<()> {
+    fn write_str(&self, data: &str) -> Result<(), FixtureError> {
         write_str(self.path(), data)
     }
 }
 
 impl FileWriteStr for NamedTempFile {
-    fn write_str(&self, data: &str) -> io::Result<()> {
+    fn write_str(&self, data: &str) -> Result<(), FixtureError> {
         write_str(self.path(), data)
     }
 }
@@ -161,17 +160,17 @@ pub trait FileWriteFile {
     /// ```
     ///
     /// [`ChildPath`]: struct.ChildPath.html
-    fn write_file(&self, data: &path::Path) -> io::Result<()>;
+    fn write_file(&self, data: &path::Path) -> Result<(), FixtureError>;
 }
 
 impl FileWriteFile for ChildPath {
-    fn write_file(&self, data: &path::Path) -> io::Result<()> {
+    fn write_file(&self, data: &path::Path) -> Result<(), FixtureError> {
         write_file(self.path(), data)
     }
 }
 
 impl FileWriteFile for NamedTempFile {
-    fn write_file(&self, data: &path::Path) -> io::Result<()> {
+    fn write_file(&self, data: &path::Path) -> Result<(), FixtureError> {
         write_file(self.path(), data)
     }
 }
@@ -218,39 +217,40 @@ impl PathCopy for ChildPath {
     }
 }
 
-fn ensure_parent_dir(path: &path::Path) -> io::Result<()> {
+fn ensure_parent_dir(path: &path::Path) -> Result<(), FixtureError> {
     if let Some(parent) = path.parent() {
-        fs::create_dir_all(parent)?;
+        fs::create_dir_all(parent).chain(FixtureError::new(FixtureKind::CreateDir))?;
     }
     Ok(())
 }
 
-fn create_dir_all(path: &path::Path) -> io::Result<()> {
-    fs::create_dir_all(path)?;
+fn create_dir_all(path: &path::Path) -> Result<(), FixtureError> {
+    fs::create_dir_all(path).chain(FixtureError::new(FixtureKind::CreateDir))?;
     Ok(())
 }
 
-fn touch(path: &path::Path) -> io::Result<()> {
+fn touch(path: &path::Path) -> Result<(), FixtureError> {
     ensure_parent_dir(path)?;
-    fs::File::create(path)?;
+    fs::File::create(path).chain(FixtureError::new(FixtureKind::WriteFile))?;
     Ok(())
 }
 
-fn write_binary(path: &path::Path, data: &[u8]) -> io::Result<()> {
+fn write_binary(path: &path::Path, data: &[u8]) -> Result<(), FixtureError> {
     ensure_parent_dir(path)?;
-    let mut file = fs::File::create(path)?;
-    file.write_all(data)?;
+    let mut file = fs::File::create(path).chain(FixtureError::new(FixtureKind::WriteFile))?;
+    file.write_all(data)
+        .chain(FixtureError::new(FixtureKind::WriteFile))?;
     Ok(())
 }
 
-fn write_str(path: &path::Path, data: &str) -> io::Result<()> {
+fn write_str(path: &path::Path, data: &str) -> Result<(), FixtureError> {
     ensure_parent_dir(path)?;
-    write_binary(path, data.as_bytes())
+    write_binary(path, data.as_bytes()).chain(FixtureError::new(FixtureKind::WriteFile))
 }
 
-fn write_file(path: &path::Path, data: &path::Path) -> io::Result<()> {
+fn write_file(path: &path::Path, data: &path::Path) -> Result<(), FixtureError> {
     ensure_parent_dir(path)?;
-    fs::copy(data, path)?;
+    fs::copy(data, path).chain(FixtureError::new(FixtureKind::CopyFile))?;
     Ok(())
 }
 
