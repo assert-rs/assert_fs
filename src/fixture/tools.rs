@@ -6,10 +6,10 @@ use std::io::Write;
 use std::path;
 
 use globwalk;
-use tempfile;
 
 use super::errors::*;
 use super::ChildPath;
+use super::TempDir;
 
 /// Create empty directories at [`ChildPath`].
 ///
@@ -173,7 +173,7 @@ pub trait PathCopy {
         S: AsRef<str>;
 }
 
-impl PathCopy for tempfile::TempDir {
+impl PathCopy for TempDir {
     fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), FixtureError>
     where
         P: AsRef<path::Path>,
