@@ -6,28 +6,17 @@ use std::io::Write;
 use std::path;
 
 use globwalk;
-use tempfile;
 
-pub use errors::*;
-pub use tempfile::TempDir;
+use super::errors::*;
+use super::ChildPath;
+use super::NamedTempFile;
+use super::TempDir;
 
-/// Access paths within [`TempDir`] for testing.
+/// Create empty directories at [`ChildPath`].
 ///
-/// See [`ChildPath`] trait implementations.
-///
-/// ```rust
-/// use assert_fs::prelude::*;
-///
-/// let temp = assert_fs::TempDir::new().unwrap();
-/// let input_file = temp.child("foo.txt");
-/// input_file.touch().unwrap();
-/// temp.close().unwrap();
-/// ```
-///
-/// [`TempDir`]: struct.TempDir.html
 /// [`ChildPath`]: struct.ChildPath.html
-pub trait PathChild {
-    /// Access a path within the temp directory.
+pub trait PathCreateDir {
+    /// Create an empty file at [`ChildPath`].
     ///
     /// # Examples
     ///
@@ -35,64 +24,17 @@ pub trait PathChild {
     /// use assert_fs::prelude::*;
     ///
     /// let temp = assert_fs::TempDir::new().unwrap();
-    /// println!("{}", temp.path().display());
-    /// println!("{}", temp.child("foo/bar.txt").path().display());
+    /// temp.child("subdir").create_dir_all().unwrap();
     /// temp.close().unwrap();
     /// ```
-    fn child<P>(&self, path: P) -> ChildPath
-    where
-        P: AsRef<path::Path>;
-}
-
-impl PathChild for tempfile::TempDir {
-    fn child<P>(&self, path: P) -> ChildPath
-    where
-        P: AsRef<path::Path>,
-    {
-        ChildPath::new(self.path().join(path.as_ref()))
-    }
-}
-
-/// A path within a [`TempDir`]
-///
-/// See Trait Implementations.
-///
-/// # Examples
-///
-/// ```rust
-/// use assert_fs::prelude::*;
-///
-/// let temp = assert_fs::TempDir::new().unwrap();
-///
-/// let input_file = temp.child("foo.txt");
-/// input_file.touch().unwrap();
-///
-/// temp.child("bar.txt").touch().unwrap();
-///
-/// temp.close().unwrap();
-/// ```
-///
-/// [`TempDir`]: struct.TempDir.html
-pub struct ChildPath {
-    path: path::PathBuf,
-}
-
-impl ChildPath {
-    /// Wrap a path for use with extension traits.
     ///
-    /// See trait implementations or [`PathChild`] for more details.
-    ///
-    /// [`PathChild`]: trait.PathChild.html
-    pub fn new<P>(path: P) -> Self
-    where
-        P: Into<path::PathBuf>,
-    {
-        Self { path: path.into() }
-    }
+    /// [`ChildPath`]: struct.ChildPath.html
+    fn create_dir_all(&self) -> io::Result<()>;
+}
 
-    /// Access the path.
-    pub fn path(&self) -> &path::Path {
-        &self.path
+impl PathCreateDir for ChildPath {
+    fn create_dir_all(&self) -> io::Result<()> {
+        create_dir_all(self.path())
     }
 }
 
@@ -117,6 +59,12 @@ pub trait FileTouch {
 }
 
 impl FileTouch for ChildPath {
+    fn touch(&self) -> io::Result<()> {
+        touch(self.path())
+    }
+}
+
+impl FileTouch for NamedTempFile {
     fn touch(&self) -> io::Result<()> {
         touch(self.path())
     }
@@ -151,6 +99,12 @@ impl FileWriteBin for ChildPath {
     }
 }
 
+impl FileWriteBin for NamedTempFile {
+    fn write_binary(&self, data: &[u8]) -> io::Result<()> {
+        write_binary(self.path(), data)
+    }
+}
+
 /// Write a text file at [`ChildPath`].
 ///
 /// [`ChildPath`]: struct.ChildPath.html
@@ -180,6 +134,48 @@ impl FileWriteStr for ChildPath {
     }
 }
 
+impl FileWriteStr for NamedTempFile {
+    fn write_str(&self, data: &str) -> io::Result<()> {
+        write_str(self.path(), data)
+    }
+}
+
+/// Write (copy) a file to [`ChildPath`].
+///
+/// [`ChildPath`]: struct.ChildPath.html
+pub trait FileWriteFile {
+    /// Write (copy) a file to [`ChildPath`].
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use std::path::Path;
+    /// use assert_fs::prelude::*;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// temp
+    ///    .child("foo.txt")
+    ///    .write_file(Path::new("Cargo.toml"))
+    ///    .unwrap();
+    /// temp.close().unwrap();
+    /// ```
+    ///
+    /// [`ChildPath`]: struct.ChildPath.html
+    fn write_file(&self, data: &path::Path) -> io::Result<()>;
+}
+
+impl FileWriteFile for ChildPath {
+    fn write_file(&self, data: &path::Path) -> io::Result<()> {
+        write_file(self.path(), data)
+    }
+}
+
+impl FileWriteFile for NamedTempFile {
+    fn write_file(&self, data: &path::Path) -> io::Result<()> {
+        write_file(self.path(), data)
+    }
+}
+
 /// Copy files into [`TempDir`].
 ///
 /// [`TempDir`]: struct.TempDir.html
@@ -202,7 +198,7 @@ pub trait PathCopy {
         S: AsRef<str>;
 }
 
-impl PathCopy for tempfile::TempDir {
+impl PathCopy for TempDir {
     fn copy_from<P, S>(&self, source: P, patterns: &[S]) -> Result<(), FixtureError>
     where
         P: AsRef<path::Path>,
@@ -222,19 +218,40 @@ impl PathCopy for ChildPath {
     }
 }
 
+fn ensure_parent_dir(path: &path::Path) -> io::Result<()> {
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent)?;
+    }
+    Ok(())
+}
+
+fn create_dir_all(path: &path::Path) -> io::Result<()> {
+    fs::create_dir_all(path)?;
+    Ok(())
+}
+
 fn touch(path: &path::Path) -> io::Result<()> {
+    ensure_parent_dir(path)?;
     fs::File::create(path)?;
     Ok(())
 }
 
 fn write_binary(path: &path::Path, data: &[u8]) -> io::Result<()> {
+    ensure_parent_dir(path)?;
     let mut file = fs::File::create(path)?;
     file.write_all(data)?;
     Ok(())
 }
 
 fn write_str(path: &path::Path, data: &str) -> io::Result<()> {
+    ensure_parent_dir(path)?;
     write_binary(path, data.as_bytes())
+}
+
+fn write_file(path: &path::Path, data: &path::Path) -> io::Result<()> {
+    ensure_parent_dir(path)?;
+    fs::copy(data, path)?;
+    Ok(())
 }
 
 fn copy_files<S>(

@@ -68,7 +68,6 @@ extern crate predicates_tree;
 extern crate tempfile;
 
 pub mod assert;
-mod errors;
 pub mod fixture;
 
 // Pulling this in for convenience-sake
@@ -80,7 +79,9 @@ pub mod prelude {
     pub use assert::PathAssert;
     pub use fixture::FileTouch;
     pub use fixture::FileWriteBin;
+    pub use fixture::FileWriteFile;
     pub use fixture::FileWriteStr;
     pub use fixture::PathChild;
     pub use fixture::PathCopy;
+    pub use fixture::PathCreateDir;
 }
