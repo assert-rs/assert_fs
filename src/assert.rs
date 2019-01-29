@@ -125,6 +125,17 @@ impl PathAssert for fixture::TempDir {
     }
 }
 
+impl PathAssert for fixture::NamedTempFile {
+    fn assert<I, P>(&self, pred: I) -> &Self
+    where
+        I: IntoPathPredicate<P>,
+        P: predicates_core::Predicate<path::Path>,
+    {
+        assert(self.path(), pred);
+        self
+    }
+}
+
 impl PathAssert for fixture::ChildPath {
     fn assert<I, P>(&self, pred: I) -> &Self
     where
