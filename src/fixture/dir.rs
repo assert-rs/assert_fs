@@ -89,8 +89,7 @@ impl TempDir {
     /// tmp_dir.close().unwrap();
     /// ```
     pub fn new() -> Result<Self, FixtureError> {
-        let temp = tempfile::TempDir::new()
-            .chain(FixtureError::new(FixtureKind::CreateDir))?;
+        let temp = tempfile::TempDir::new().chain(FixtureError::new(FixtureKind::CreateDir))?;
         let temp = Inner::Temp(temp);
         Ok(Self { temp })
     }
@@ -108,7 +107,7 @@ impl TempDir {
     /// tmp_dir.close().unwrap();
     /// ```
     pub fn persist_if(self, yes: bool) -> Self {
-        if ! yes {
+        if !yes {
             return self;
         }
 
@@ -170,9 +169,9 @@ impl TempDir {
     /// ```
     pub fn close(self) -> Result<(), FixtureError> {
         match self.temp {
-            Inner::Temp(temp) =>
-                temp.close()
-                    .chain(FixtureError::new(FixtureKind::Cleanup))?,
+            Inner::Temp(temp) => temp
+                .close()
+                .chain(FixtureError::new(FixtureKind::Cleanup))?,
             Inner::Persisted(_) => (),
         }
         Ok(())

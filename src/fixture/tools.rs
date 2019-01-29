@@ -9,8 +9,8 @@ use globwalk;
 
 use super::errors::*;
 use super::ChildPath;
-use super::TempDir;
 use super::NamedTempFile;
+use super::TempDir;
 
 /// Create empty directories at [`ChildPath`].
 ///

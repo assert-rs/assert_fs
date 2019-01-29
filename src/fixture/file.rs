@@ -91,10 +91,9 @@ impl NamedTempFile {
     /// ```
     pub fn new<S>(name: S) -> Result<Self, FixtureError>
     where
-        S: AsRef<ffi::OsStr>
+        S: AsRef<ffi::OsStr>,
     {
-        let temp = tempfile::TempDir::new()
-            .chain(FixtureError::new(FixtureKind::CreateDir))?;
+        let temp = tempfile::TempDir::new().chain(FixtureError::new(FixtureKind::CreateDir))?;
         let path = temp.path().join(name.as_ref());
         let temp = Inner::Temp(temp);
         Ok(Self { temp, path })
@@ -113,7 +112,7 @@ impl NamedTempFile {
     /// tmp_file.close().unwrap();
     /// ```
     pub fn persist_if(mut self, yes: bool) -> Self {
-        if ! yes {
+        if !yes {
             return self;
         }
 
@@ -171,9 +170,9 @@ impl NamedTempFile {
     /// ```
     pub fn close(self) -> Result<(), FixtureError> {
         match self.temp {
-            Inner::Temp(temp) =>
-                temp.close()
-                    .chain(FixtureError::new(FixtureKind::Cleanup))?,
+            Inner::Temp(temp) => temp
+                .close()
+                .chain(FixtureError::new(FixtureKind::Cleanup))?,
             Inner::Persisted => (),
         }
         Ok(())

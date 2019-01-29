@@ -84,4 +84,3 @@ impl ChildPath {
         &self.path
     }
 }
-
