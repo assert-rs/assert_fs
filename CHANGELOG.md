@@ -1,3 +1,24 @@
+<a name="0.11.0"></a>
+## 0.11.0 (2019-01-29)
+
+
+#### Breaking Changes
+
+* **fixture:**
+  *  Unify on error type ([27566755](https://github.com/assert-rs/assert_fs/commit/275667551b78d7e2ad702f81150417a782b64253), closes [#39](https://github.com/assert-rs/assert_fs/issues/39), breaks [#](https://github.com/assert-rs/assert_fs/issues/))
+  *  Newtype for TempDir ([39b2913f](https://github.com/assert-rs/assert_fs/commit/39b2913f9e9e0a7ccc55b788fe04d5cb55264244), breaks [#](https://github.com/assert-rs/assert_fs/issues/))
+
+#### Features
+
+* **fixture:**
+  *  Debug persistence support ([82220c82](https://github.com/assert-rs/assert_fs/commit/82220c8270fed8f021e6fb76f89864be0d8eda88), closes [#31](https://github.com/assert-rs/assert_fs/issues/31))
+  *  Auto-create directories ([c6f8332c](https://github.com/assert-rs/assert_fs/commit/c6f8332c1a106c89f9df166879051f76f9090db5))
+  *  NamedTempFile support ([e5209dfc](https://github.com/assert-rs/assert_fs/commit/e5209dfc6e2f2515cff2f0ea0189537c9fb117b3), closes [#33](https://github.com/assert-rs/assert_fs/issues/33))
+  *  Copy a file ([4209ad29](https://github.com/assert-rs/assert_fs/commit/4209ad29862a02173e181f1041152e9fcb065aba), closes [#34](https://github.com/assert-rs/assert_fs/issues/34))
+  *  Support creating dirs ([f7adecde](https://github.com/assert-rs/assert_fs/commit/f7adecde52d2fbb56a9542b0b693292ca9dd44e6), closes [#36](https://github.com/assert-rs/assert_fs/issues/36))
+
+
+
 <a name="0.10.1"></a>
 ## 0.10.1 (2019-01-07)
 

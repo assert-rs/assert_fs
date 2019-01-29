@@ -14,7 +14,7 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-assert_fs = "0.10"
+assert_fs = "0.11"
 ```
 
 ## Example
