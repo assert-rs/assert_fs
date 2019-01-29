@@ -1,3 +1,13 @@
+<a name="0.11.1"></a>
+## 0.11.1 (2019-01-29)
+
+
+#### Features
+
+* **fixture:**  Shorten route to Temp File ([73de421b](https://github.com/assert-rs/assert_fs/commit/73de421b8f446ade35e29e07fe2207a4a84c7200))
+
+
+
 <a name="0.11.0"></a>
 ## 0.11.0 (2019-01-29)
 
