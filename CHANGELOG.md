@@ -1,3 +1,13 @@
+<a name="0.11.3"></a>
+## 0.11.3 (2019-01-29)
+
+
+#### Features
+
+* **fixture:**  Another subdir route ([0959d5f6](https://github.com/assert-rs/assert_fs/commit/0959d5f6f75b46f4539e52d651824dab9449b339))
+
+
+
 <a name="0.11.2"></a>
 ## 0.11.2 (2019-01-29)
 
