@@ -10,6 +10,7 @@ use globwalk;
 use super::errors::*;
 use super::ChildPath;
 use super::TempDir;
+use super::NamedTempFile;
 
 /// Create empty directories at [`ChildPath`].
 ///
@@ -63,6 +64,12 @@ impl FileTouch for ChildPath {
     }
 }
 
+impl FileTouch for NamedTempFile {
+    fn touch(&self) -> io::Result<()> {
+        touch(self.path())
+    }
+}
+
 /// Write a binary file at [`ChildPath`].
 ///
 /// [`ChildPath`]: struct.ChildPath.html
@@ -87,6 +94,12 @@ pub trait FileWriteBin {
 }
 
 impl FileWriteBin for ChildPath {
+    fn write_binary(&self, data: &[u8]) -> io::Result<()> {
+        write_binary(self.path(), data)
+    }
+}
+
+impl FileWriteBin for NamedTempFile {
     fn write_binary(&self, data: &[u8]) -> io::Result<()> {
         write_binary(self.path(), data)
     }
@@ -121,6 +134,12 @@ impl FileWriteStr for ChildPath {
     }
 }
 
+impl FileWriteStr for NamedTempFile {
+    fn write_str(&self, data: &str) -> io::Result<()> {
+        write_str(self.path(), data)
+    }
+}
+
 /// Write (copy) a file to [`ChildPath`].
 ///
 /// [`ChildPath`]: struct.ChildPath.html
@@ -146,6 +165,12 @@ pub trait FileWriteFile {
 }
 
 impl FileWriteFile for ChildPath {
+    fn write_file(&self, data: &path::Path) -> io::Result<()> {
+        write_file(self.path(), data)
+    }
+}
+
+impl FileWriteFile for NamedTempFile {
     fn write_file(&self, data: &path::Path) -> io::Result<()> {
         write_file(self.path(), data)
     }
