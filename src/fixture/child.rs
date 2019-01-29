@@ -42,6 +42,15 @@ impl PathChild for super::TempDir {
     }
 }
 
+impl PathChild for ChildPath {
+    fn child<P>(&self, path: P) -> ChildPath
+    where
+        P: AsRef<path::Path>,
+    {
+        ChildPath::new(self.path().join(path.as_ref()))
+    }
+}
+
 /// A path within a [`TempDir`]
 ///
 /// See Trait Implementations.
