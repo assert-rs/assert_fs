@@ -13,7 +13,7 @@ keywords = ["filesystem", "test", "assert", "fixture"]
 
 [dependencies]
 tempfile = "3.0"
-globwalk = "0.5"
+globwalk = "0.6"
 predicates = "1.0.0"
 predicates-core = "1.0"
 predicates-tree = "1.0"
