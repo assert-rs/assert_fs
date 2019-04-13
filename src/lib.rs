@@ -92,3 +92,9 @@ pub mod prelude {
     pub use fixture::PathCopy;
     pub use fixture::PathCreateDir;
 }
+
+#[macro_use]
+extern crate doc_comment;
+doc_comment! {
+    include_str!("../README.md")
+}
