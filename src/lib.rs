@@ -95,6 +95,4 @@ pub mod prelude {
 
 #[macro_use]
 extern crate doc_comment;
-doc_comment! {
-    include_str!("../README.md")
-}
+doctest!("../README.md");
