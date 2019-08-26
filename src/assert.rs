@@ -466,18 +466,24 @@ mod test {
     #[test]
     fn into_path_from_pred() {
         let pred = convert_path(predicate::eq(path::Path::new("hello.md")));
-        assert!(pred.eval(path::Path::new("hello.md")));
+        let case = pred.find_case(false, path::Path::new("hello.md"));
+        println!("Failing case: {:?}", case);
+        assert!(case.is_none());
     }
 
     #[test]
     fn into_path_from_bytes() {
         let pred = convert_path(b"hello\n" as &[u8]);
-        assert!(pred.eval(path::Path::new("tests/fixture/hello.txt")));
+        let case = pred.find_case(false, path::Path::new("tests/fixture/hello.txt"));
+        println!("Failing case: {:?}", case);
+        assert!(case.is_none());
     }
 
     #[test]
     fn into_path_from_str() {
         let pred = convert_path("hello\n");
-        assert!(pred.eval(path::Path::new("tests/fixture/hello.txt")));
+        let case = pred.find_case(false, path::Path::new("tests/fixture/hello.txt"));
+        println!("Failing case: {:?}", case);
+        assert!(case.is_none());
     }
 }
