@@ -245,7 +245,9 @@ impl predicates_core::reflection::PredicateReflection for BytesContentPathPredic
     }
 
     /// Nested `Predicate`s of the current `Predicate`.
-    fn children<'a>(&'a self) -> Box<dyn Iterator<Item = predicates_core::reflection::Child<'a>> + 'a> {
+    fn children<'a>(
+        &'a self,
+    ) -> Box<dyn Iterator<Item = predicates_core::reflection::Child<'a>> + 'a> {
         self.0.children()
     }
 }
@@ -321,7 +323,9 @@ impl predicates_core::reflection::PredicateReflection for StrContentPathPredicat
     }
 
     /// Nested `Predicate`s of the current `Predicate`.
-    fn children<'a>(&'a self) -> Box<dyn Iterator<Item = predicates_core::reflection::Child<'a>> + 'a> {
+    fn children<'a>(
+        &'a self,
+    ) -> Box<dyn Iterator<Item = predicates_core::reflection::Child<'a>> + 'a> {
         self.0.children()
     }
 }
@@ -405,7 +409,9 @@ where
     }
 
     /// Nested `Predicate`s of the current `Predicate`.
-    fn children<'a>(&'a self) -> Box<dyn Iterator<Item = predicates_core::reflection::Child<'a>> + 'a> {
+    fn children<'a>(
+        &'a self,
+    ) -> Box<dyn Iterator<Item = predicates_core::reflection::Child<'a>> + 'a> {
         self.0.children()
     }
 }
