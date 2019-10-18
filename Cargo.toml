@@ -10,6 +10,7 @@ documentation = "http://docs.rs/assert_fs/"
 readme = "README.md"
 categories = ["development-tools::testing"]
 keywords = ["filesystem", "test", "assert", "fixture"]
+edition = "2018"
 
 [dependencies]
 tempfile = "3.0"

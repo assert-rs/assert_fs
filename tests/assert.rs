@@ -1,5 +1,4 @@
-extern crate assert_fs;
-extern crate predicates;
+use assert_fs;
 
 use assert_fs::prelude::*;
 use predicates::prelude::*;

@@ -34,7 +34,7 @@ use predicates::str::PredicateStrExt;
 use predicates_core;
 use predicates_tree::CaseTreeExt;
 
-use fixture;
+use crate::fixture;
 
 /// Assert the state of files within [`TempDir`].
 ///
@@ -240,12 +240,12 @@ impl BytesContentPathPredicate {
 impl predicates_core::reflection::PredicateReflection for BytesContentPathPredicate {
     fn parameters<'a>(
         &'a self,
-    ) -> Box<Iterator<Item = predicates_core::reflection::Parameter<'a>> + 'a> {
+    ) -> Box<dyn Iterator<Item = predicates_core::reflection::Parameter<'a>> + 'a> {
         self.0.parameters()
     }
 
     /// Nested `Predicate`s of the current `Predicate`.
-    fn children<'a>(&'a self) -> Box<Iterator<Item = predicates_core::reflection::Child<'a>> + 'a> {
+    fn children<'a>(&'a self) -> Box<dyn Iterator<Item = predicates_core::reflection::Child<'a>> + 'a> {
         self.0.children()
     }
 }
@@ -265,7 +265,7 @@ impl predicates_core::Predicate<path::Path> for BytesContentPathPredicate {
 }
 
 impl fmt::Display for BytesContentPathPredicate {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.0.fmt(f)
     }
 }
@@ -316,12 +316,12 @@ impl StrContentPathPredicate {
 impl predicates_core::reflection::PredicateReflection for StrContentPathPredicate {
     fn parameters<'a>(
         &'a self,
-    ) -> Box<Iterator<Item = predicates_core::reflection::Parameter<'a>> + 'a> {
+    ) -> Box<dyn Iterator<Item = predicates_core::reflection::Parameter<'a>> + 'a> {
         self.0.parameters()
     }
 
     /// Nested `Predicate`s of the current `Predicate`.
-    fn children<'a>(&'a self) -> Box<Iterator<Item = predicates_core::reflection::Child<'a>> + 'a> {
+    fn children<'a>(&'a self) -> Box<dyn Iterator<Item = predicates_core::reflection::Child<'a>> + 'a> {
         self.0.children()
     }
 }
@@ -341,7 +341,7 @@ impl predicates_core::Predicate<path::Path> for StrContentPathPredicate {
 }
 
 impl fmt::Display for StrContentPathPredicate {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.0.fmt(f)
     }
 }
@@ -400,12 +400,12 @@ where
 {
     fn parameters<'a>(
         &'a self,
-    ) -> Box<Iterator<Item = predicates_core::reflection::Parameter<'a>> + 'a> {
+    ) -> Box<dyn Iterator<Item = predicates_core::reflection::Parameter<'a>> + 'a> {
         self.0.parameters()
     }
 
     /// Nested `Predicate`s of the current `Predicate`.
-    fn children<'a>(&'a self) -> Box<Iterator<Item = predicates_core::reflection::Child<'a>> + 'a> {
+    fn children<'a>(&'a self) -> Box<dyn Iterator<Item = predicates_core::reflection::Child<'a>> + 'a> {
         self.0.children()
     }
 }
@@ -431,7 +431,7 @@ impl<P> fmt::Display for StrPathPredicate<P>
 where
     P: predicates_core::Predicate<str>,
 {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.0.fmt(f)
     }
 }

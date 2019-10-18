@@ -58,7 +58,7 @@ pub enum FixtureKind {
 }
 
 impl fmt::Display for FixtureKind {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             FixtureKind::Walk => write!(f, "Failed when walking the source tree,"),
             FixtureKind::CopyFile => write!(f, "Failed when copying a file."),
@@ -74,7 +74,7 @@ impl fmt::Display for FixtureKind {
 #[derive(Debug)]
 pub struct FixtureError {
     kind: FixtureKind,
-    cause: Option<Box<Error + Send + Sync + 'static>>,
+    cause: Option<Box<dyn Error + Send + Sync + 'static>>,
 }
 
 impl FixtureError {
@@ -94,16 +94,16 @@ impl Error for FixtureError {
         "Failed to initialize fixture"
     }
 
-    fn cause(&self) -> Option<&Error> {
+    fn cause(&self) -> Option<&dyn Error> {
         self.cause.as_ref().map(|c| {
-            let c: &Error = c.as_ref();
+            let c: &dyn Error = c.as_ref();
             c
         })
     }
 }
 
 impl fmt::Display for FixtureError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self.cause {
             Some(ref cause) => write!(
                 f,
