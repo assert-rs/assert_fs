@@ -64,33 +64,27 @@
 
 #![warn(missing_docs)]
 
-extern crate globwalk;
-extern crate predicates;
-extern crate predicates_core;
-extern crate predicates_tree;
-extern crate tempfile;
-
 pub mod assert;
 pub mod fixture;
 
 // Pulling this in for convenience-sake
 #[doc(inline)]
-pub use fixture::TempDir;
+pub use crate::fixture::TempDir;
 
 // Pulling this in for convenience-sake
 #[doc(inline)]
-pub use fixture::NamedTempFile;
+pub use crate::fixture::NamedTempFile;
 
 /// Extension traits that are useful to have available.
 pub mod prelude {
-    pub use assert::PathAssert;
-    pub use fixture::FileTouch;
-    pub use fixture::FileWriteBin;
-    pub use fixture::FileWriteFile;
-    pub use fixture::FileWriteStr;
-    pub use fixture::PathChild;
-    pub use fixture::PathCopy;
-    pub use fixture::PathCreateDir;
+    pub use crate::assert::PathAssert;
+    pub use crate::fixture::FileTouch;
+    pub use crate::fixture::FileWriteBin;
+    pub use crate::fixture::FileWriteFile;
+    pub use crate::fixture::FileWriteStr;
+    pub use crate::fixture::PathChild;
+    pub use crate::fixture::PathCopy;
+    pub use crate::fixture::PathCreateDir;
 }
 
 #[macro_use]
