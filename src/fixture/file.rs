@@ -101,21 +101,45 @@ impl NamedTempFile {
 
     /// Conditionally persist the temporary file for debug purposes.
     ///
+    /// Note: this operation is not reversible, i.e. `into_persist_if(false)` is a no-op.
+    ///
     /// # Examples
     ///
     /// ```no_run
     /// use assert_fs::fixture::NamedTempFile;
     ///
-    /// let tmp_file = NamedTempFile::new("foo.rs").unwrap().persist_if(true);
+    /// let tmp_file = NamedTempFile::new("foo.rs")
+    ///     .unwrap()
+    ///     .into_persist_if(std::env::var_os("TEST_PERSIST_FILES").is_some());
     ///
     /// // Ensure deletion happens.
     /// tmp_file.close().unwrap();
     /// ```
-    pub fn persist_if(mut self, yes: bool) -> Self {
+    pub fn into_persist_if(self, yes: bool) -> Self {
         if !yes {
             return self;
         }
 
+        self.into_persist()
+    }
+
+    /// Persist the temporary file for debug purposes.
+    ///
+    /// Note: this operation is not reversible, i.e. `into_persist_if(false)` is a no-op.
+    ///
+    /// # Examples
+    ///
+    /// ```no_run
+    /// use assert_fs::fixture::NamedTempFile;
+    ///
+    /// let tmp_file = NamedTempFile::new("foo.rs")
+    ///     .unwrap()
+    ///     .into_persist();
+    ///
+    /// // Ensure deletion happens.
+    /// tmp_file.close().unwrap();
+    /// ```
+    pub fn into_persist(mut self) -> Self {
         let mut temp = Inner::Persisted;
         ::std::mem::swap(&mut self.temp, &mut temp);
         if let Inner::Temp(temp) = temp {
