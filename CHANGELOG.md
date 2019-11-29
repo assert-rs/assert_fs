@@ -1,3 +1,17 @@
+<a name="0.12.0"></a>
+## 0.12.0 (2019-11-29)
+
+
+#### Breaking Changes
+
+* **persist:**  Clarify API behavior ([5411d07c](https://github.com/assert-rs/assert_fs/commit/5411d07c37fbfb89e3efde2c4562a6dd4d0f1ebb), closes [#51](https://github.com/assert-rs/assert_fs/issues/51), breaks [#](https://github.com/assert-rs/assert_fs/issues/))
+
+#### Bug Fixes
+
+* **persist:**  Clarify API behavior ([5411d07c](https://github.com/assert-rs/assert_fs/commit/5411d07c37fbfb89e3efde2c4562a6dd4d0f1ebb), closes [#51](https://github.com/assert-rs/assert_fs/issues/51), breaks [#](https://github.com/assert-rs/assert_fs/issues/))
+
+
+
 <a name="0.11.3"></a>
 ## 0.11.3 (2019-01-29)
 
