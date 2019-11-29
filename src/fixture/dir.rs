@@ -96,21 +96,45 @@ impl TempDir {
 
     /// Conditionally persist the temporary directory for debug purposes.
     ///
+    /// Note: this operation is not reversible, i.e. `into_persist_if(false)` is a no-op.
+    ///
     /// # Examples
     ///
     /// ```no_run
     /// use assert_fs::fixture::TempDir;
     ///
-    /// let tmp_dir = TempDir::new().unwrap().persist_if(true);
+    /// let tmp_dir = TempDir::new()
+    ///     .unwrap()
+    ///     .into_persist_if(std::env::var_os("TEST_PERSIST_FILES").is_some());
     ///
     /// // Ensure deletion happens.
     /// tmp_dir.close().unwrap();
     /// ```
-    pub fn persist_if(self, yes: bool) -> Self {
+    pub fn into_persist_if(self, yes: bool) -> Self {
         if !yes {
             return self;
         }
 
+        self.into_persist()
+    }
+
+    /// Persist the temporary directory for debug purposes.
+    ///
+    /// Note: this operation is not reversible, i.e. `into_persist_if(false)` is a no-op.
+    ///
+    /// # Examples
+    ///
+    /// ```no_run
+    /// use assert_fs::fixture::TempDir;
+    ///
+    /// let tmp_dir = TempDir::new()
+    ///     .unwrap()
+    ///     .into_persist();
+    ///
+    /// // Ensure deletion happens.
+    /// tmp_dir.close().unwrap();
+    /// ```
+    pub fn into_persist(self) -> Self {
         let path = match self.temp {
             Inner::Temp(temp) => temp.into_path(),
             Inner::Persisted(path) => path,
