@@ -1,5 +1,15 @@
-<a name="0.12.0"></a>
-## 0.12.0 (2019-11-29)
+<a name="0.13.1"></a>
+## 0.13.1 (2019-12-01)
+
+
+#### Features
+
+* **assert:**  Support more string types in shortcut ([3de84ce4](https://github.com/assert-rs/assert_fs/commit/3de84ce453e1e1024331421e0ff1071cab5f204b))
+
+
+
+<a name="0.13.0"></a>
+## 0.13.0 (2019-11-29)
 
 
 #### Breaking Changes
