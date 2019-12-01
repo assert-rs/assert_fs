@@ -309,7 +309,7 @@ pub struct StrContentPathPredicate(
 );
 
 impl StrContentPathPredicate {
-    pub(crate) fn new(value: &'static str) -> Self {
+    pub(crate) fn new(value: String) -> Self {
         let pred = predicates::str::similar(value).from_utf8().from_file_path();
         StrContentPathPredicate(pred)
     }
@@ -350,11 +350,27 @@ impl fmt::Display for StrContentPathPredicate {
     }
 }
 
-impl IntoPathPredicate<StrContentPathPredicate> for &'static str {
+impl IntoPathPredicate<StrContentPathPredicate> for String {
     type Predicate = StrContentPathPredicate;
 
     fn into_path(self) -> Self::Predicate {
         Self::Predicate::new(self)
+    }
+}
+
+impl<'s> IntoPathPredicate<StrContentPathPredicate> for &'s str {
+    type Predicate = StrContentPathPredicate;
+
+    fn into_path(self) -> Self::Predicate {
+        Self::Predicate::new(self.to_owned())
+    }
+}
+
+impl<'s> IntoPathPredicate<StrContentPathPredicate> for &'s String {
+    type Predicate = StrContentPathPredicate;
+
+    fn into_path(self) -> Self::Predicate {
+        Self::Predicate::new(self.to_owned())
     }
 }
 
