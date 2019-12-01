@@ -1,6 +1,6 @@
 [package]
 name = "assert_fs"
-version = "0.13.0"
+version = "0.13.1"
 authors = ["Ed Page <eopage@gmail.com>"]
 description = "Filesystem fixtures and assertions for testing."
 license = "MIT OR Apache-2.0"
