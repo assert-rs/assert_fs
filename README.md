@@ -13,7 +13,7 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-assert_fs = "0.11"
+assert_fs = "0.13"
 ```
 
 ## Example
