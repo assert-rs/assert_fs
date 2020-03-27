@@ -1,10 +1,8 @@
 //! Filesystem fixtures and assertions for testing.
 //!
-//! Fixtures:
-//! - A sandbox to work within (see [`TempDir`]).
-//! - Setup the sandbox (see [`FileTouch`], [`FileWriteBin`], [`FileWriteStr`], [`PathCopy`]).
-//!
-//! For assertions, see [`PathAssert`].
+//! `assert_fs` aims to simplify
+//! - Setting up files for your tests to consume
+//! - Asserting on files produced by your tests
 //!
 //! ```toml
 //! [dependencies]
@@ -14,7 +12,7 @@
 //! ## Overview
 //!
 //! Setting up a fixture
-//! - [`TempDir`] or [`NamedTempFile`]
+//! - [`TempDir`] or [`NamedTempFile`] for a sandbox to test in.
 //! - [`touch`][`FileTouch`] a [`ChildPath`] or [`NamedTempFile`]
 //! - [`write_binary`][`FileWriteBin`] a [`ChildPath`] or [`NamedTempFile`]
 //! - [`write_str`][`FileWriteStr`] a [`ChildPath`] or [`NamedTempFile`]
@@ -43,10 +41,6 @@
 //!
 //! temp.close().unwrap();
 //! ```
-//!
-//! ## Relevant crates
-//!
-//! Other crates that might be useful in testing command line programs.
 //!
 //! [`TempDir`]: struct.TempDir.html
 //! [`NamedTempFile`]: struct.NamedTempFile.html

@@ -7,6 +7,10 @@
 ![License](https://img.shields.io/crates/l/assert_fs.svg)
 [![Crates Status](https://img.shields.io/crates/v/assert_fs.svg)](https://crates.io/crates/assert_fs)
 
+`assert_fs` aims to simplify
+- Setting up files for your tests to consume
+- Asserting on files produced by your tests
+
 ## Install
 
 Add to your `Cargo.toml`:
@@ -32,6 +36,8 @@ input_file.assert("");
 temp.child("bar.txt").assert(predicate::path::missing());
 temp.close().unwrap();
 ```
+
+See the [documentation](https://docs.rs/assert_fs) for more information.
 
 ## License
 
