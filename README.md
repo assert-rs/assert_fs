@@ -21,9 +21,6 @@ assert_fs = "0.13"
 Here is a trivial example:
 
 ```rust
-extern crate assert_fs;
-extern crate predicates;
-
 use assert_fs::prelude::*;
 use predicates::prelude::*;
 

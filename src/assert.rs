@@ -5,9 +5,6 @@
 //! # Examples
 //!
 //! ```rust
-//! extern crate assert_fs;
-//! extern crate predicates;
-//!
 //! use assert_fs::prelude::*;
 //! use predicates::prelude::*;
 //!
@@ -49,9 +46,6 @@ use crate::fixture;
 /// # Examples
 ///
 /// ```rust
-/// extern crate assert_fs;
-/// extern crate predicates;
-///
 /// use assert_fs::prelude::*;
 /// use predicates::prelude::*;
 ///
@@ -84,9 +78,6 @@ pub trait PathAssert {
     /// # Examples
     ///
     /// ```rust
-    /// extern crate assert_fs;
-    /// extern crate predicates;
-    ///
     /// use assert_fs::prelude::*;
     /// use predicates::prelude::*;
     ///
@@ -163,9 +154,6 @@ where
 /// # Examples
 ///
 /// ```rust
-/// extern crate assert_fs;
-/// extern crate predicates;
-///
 /// use std::path;
 ///
 /// use assert_fs::prelude::*;
@@ -380,9 +368,6 @@ impl<'s> IntoPathPredicate<StrContentPathPredicate> for &'s String {
 /// # Example
 ///
 /// ```rust
-/// extern crate assert_fs;
-/// extern crate predicates;
-///
 /// use assert_fs::prelude::*;
 /// use predicates::prelude::*;
 ///
