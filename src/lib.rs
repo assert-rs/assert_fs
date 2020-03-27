@@ -6,7 +6,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! assert_fs = "0.13"
+//! assert_fs = "1.0.0"
 //! ```
 //!
 //! ## Overview
