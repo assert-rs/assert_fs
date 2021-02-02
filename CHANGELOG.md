@@ -1,10 +1,17 @@
-<a name="0.13.1"></a>
-## 1.0.0 (2020-03-26)
+# Change Log
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
+
+<!-- next-header -->
+## [Unreleased] - ReleaseDate
+
+## 1.0.0 - 2020-03-26
 
 Stable release!
 
-<a name="0.13.1"></a>
-## 0.13.1 (2019-12-01)
+## 0.13.1 - 2019-12-01
 
 
 #### Features
@@ -13,8 +20,7 @@ Stable release!
 
 
 
-<a name="0.13.0"></a>
-## 0.13.0 (2019-11-29)
+## 0.13.0 - 2019-11-29
 
 
 #### Breaking Changes
@@ -29,8 +35,7 @@ Stable release!
 
 
 
-<a name="0.11.3"></a>
-## 0.11.3 (2019-01-29)
+## 0.11.3 - 2019-01-29
 
 
 #### Features
@@ -39,8 +44,7 @@ Stable release!
 
 
 
-<a name="0.11.2"></a>
-## 0.11.2 (2019-01-29)
+## 0.11.2 - 2019-01-29
 
 
 #### Features
@@ -49,8 +53,7 @@ Stable release!
 
 
 
-<a name="0.11.1"></a>
-## 0.11.1 (2019-01-29)
+## 0.11.1 - 2019-01-29
 
 
 #### Features
@@ -59,8 +62,7 @@ Stable release!
 
 
 
-<a name="0.11.0"></a>
-## 0.11.0 (2019-01-29)
+## 0.11.0 - 2019-01-29
 
 
 #### Breaking Changes
@@ -80,8 +82,7 @@ Stable release!
 
 
 
-<a name="0.10.1"></a>
-## 0.10.1 (2019-01-07)
+## 0.10.1 - 2019-01-07
 
 
 #### Bug Fixes
@@ -90,8 +91,7 @@ Stable release!
 
 
 
-<a name="0.10.0"></a>
-## 0.10.0 (2018-10-26)
+## 0.10.0 - 2018-10-26
 
 
 #### Breaking Changes
@@ -109,8 +109,7 @@ Stable release!
 
 
 
-<a name="0.9.0"></a>
-## 0.9.0 (2018-08-02)
+## 0.9.0 - 2018-08-02
 
 
 #### Breaking Changes
@@ -137,8 +136,7 @@ Stable release!
 
 
 
-<a name="0.3.0"></a>
-## 0.3.0 (2018-06-27)
+## 0.3.0 - 2018-06-27
 
 
 #### Features
@@ -161,15 +159,13 @@ Stable release!
 
 
 
-<a name="0.2.1"></a>
-## 0.2.1 (2018-06-13)
+## 0.2.1 - 2018-06-13
 
 
 * Documentation updates
 
 
-<a name="0.2.0"></a>
-## 0.2.0 (2018-05-30)
+## 0.2.0 - 2018-05-30
 
 #### Bug Fixes
 
@@ -183,8 +179,7 @@ Stable release!
 
 * Update version of `predicates-rs` to v0.5.0.
 
-<a name="0.1.1"></a>
-## 0.1.1 (2018-05-28)
+## 0.1.1 - 2018-05-28
 
 
 #### Features
@@ -192,4 +187,5 @@ Stable release!
 *   Add a prelude ([43539abf](https://github.com/assert-rs/assert_fs/commit/43539abff3e3ee879b763f5049817ca7d8609fed))
 
 
-
+<!-- next-url -->
+[Unreleased]: https://github.com/assert-rs/predicates-rs/compare/v1.0.0...HEAD
