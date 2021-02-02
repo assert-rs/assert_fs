@@ -4,11 +4,6 @@
 //! - Setting up files for your tests to consume
 //! - Asserting on files produced by your tests
 //!
-//! ```toml
-//! [dependencies]
-//! assert_fs = "1.0.0"
-//! ```
-//!
 //! ## Overview
 //!
 //! Setting up a fixture
