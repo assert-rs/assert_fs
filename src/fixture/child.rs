@@ -13,8 +13,6 @@ use std::path;
 /// temp.close().unwrap();
 /// ```
 ///
-/// [`TempDir`]: struct.TempDir.html
-/// [`ChildPath`]: struct.ChildPath.html
 pub trait PathChild {
     /// Access a path within the temp directory.
     ///
@@ -70,7 +68,6 @@ impl PathChild for ChildPath {
 /// temp.close().unwrap();
 /// ```
 ///
-/// [`TempDir`]: struct.TempDir.html
 pub struct ChildPath {
     path: path::PathBuf,
 }
@@ -80,7 +77,6 @@ impl ChildPath {
     ///
     /// See trait implementations or [`PathChild`] for more details.
     ///
-    /// [`PathChild`]: trait.PathChild.html
     pub fn new<P>(path: P) -> Self
     where
         P: Into<path::PathBuf>,

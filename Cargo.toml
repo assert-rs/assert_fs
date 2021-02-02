@@ -12,6 +12,11 @@ categories = ["development-tools::testing"]
 keywords = ["filesystem", "test", "assert", "fixture"]
 edition = "2018"
 
+[badges]
+azure-devops = { project = "assert-rs", pipeline = "assert_fs" }
+codecov = { repository = "assert-rs/assert_fs" }
+maintenance = { status = "passively-maintained" }
+
 [dependencies]
 tempfile = "3.0"
 globwalk = "0.8"

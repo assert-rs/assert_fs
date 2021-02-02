@@ -20,15 +20,12 @@
 //! temp.close().unwrap();
 //! ```
 //!
-//! [`PathAssert`]: trait.PathAssert.html
 
 use std::fmt;
 use std::path;
 
-use predicates;
 use predicates::path::PredicateFileContentExt;
 use predicates::str::PredicateStrExt;
-use predicates_core;
 use predicates_tree::CaseTreeExt;
 
 use crate::fixture;
@@ -61,9 +58,7 @@ use crate::fixture;
 /// temp.close().unwrap();
 /// ```
 ///
-/// [`TempDir`]: ../struct.TempDir.html
-/// [`predicates`]: https://docs.rs/predicates
-/// [`IntoPathPredicate`]: trait.IntoPathPredicate.html
+/// [`TempDir`]: super::TempDir
 pub trait PathAssert {
     /// Assert the state of files within [`TempDir`].
     ///
@@ -96,9 +91,7 @@ pub trait PathAssert {
     /// temp.close().unwrap();
     /// ```
     ///
-    /// [`TempDir`]: ../struct.TempDir.html
-    /// [`predicates`]: https://docs.rs/predicates
-    /// [`IntoPathPredicate`]: trait.IntoPathPredicate.html
+    /// [`TempDir`]: super::TempDir
     fn assert<I, P>(&self, pred: I) -> &Self
     where
         I: IntoPathPredicate<P>,
@@ -149,7 +142,7 @@ where
     }
 }
 
-/// Used by [`PathAssert`] to convert Self into the needed [`Predicate<Path>`].
+/// Used by [`PathAssert`] to convert Self into the needed [`predicates_core::Predicate<Path>`].
 ///
 /// # Examples
 ///
@@ -167,9 +160,6 @@ where
 ///
 /// temp.close().unwrap();
 /// ```
-///
-/// [`PathAssert`]: trait.PathAssert.html
-/// [`Predicate<Path>`]: https://docs.rs/predicates-core/0.9.0/predicates_core/trait.Predicate.html
 pub trait IntoPathPredicate<P>
 where
     P: predicates_core::Predicate<path::Path>,
@@ -192,8 +182,8 @@ where
     }
 }
 
-// Keep `predicates` concrete Predicates out of our public API.
-/// [Predicate] used by [`IntoPathPredicate`] for bytes.
+/// Keep `predicates` concrete Predicates out of our public API.
+/// [predicates_core::Predicate] used by [`IntoPathPredicate`] for bytes.
 ///
 /// # Example
 ///
@@ -210,9 +200,6 @@ where
 ///
 /// temp.close().unwrap();
 /// ```
-///
-/// [`IntoPathPredicate`]: trait.IntoPathPredicate.html
-/// [Predicate]: https://docs.rs/predicates-core/1.0.0/predicates_core/trait.Predicate.html
 #[derive(Debug)]
 pub struct BytesContentPathPredicate(
     predicates::path::FileContentPredicate<predicates::ord::EqPredicate<&'static [u8]>>,
@@ -268,8 +255,8 @@ impl IntoPathPredicate<BytesContentPathPredicate> for &'static [u8] {
     }
 }
 
-// Keep `predicates` concrete Predicates out of our public API.
-/// [Predicate] used by `IntoPathPredicate` for `str`.
+/// Keep `predicates` concrete Predicates out of our public API.
+/// [predicates_core::Predicate] used by `IntoPathPredicate` for `str`.
 ///
 /// # Example
 ///
@@ -286,9 +273,6 @@ impl IntoPathPredicate<BytesContentPathPredicate> for &'static [u8] {
 ///
 /// temp.close().unwrap();
 /// ```
-///
-/// [`IntoPathPredicate`]: trait.IntoPathPredicate.html
-/// [Predicate]: https://docs.rs/predicates-core/1.0.0/predicates_core/trait.Predicate.html
 #[derive(Debug, Clone)]
 pub struct StrContentPathPredicate(
     predicates::path::FileContentPredicate<
@@ -362,8 +346,8 @@ impl<'s> IntoPathPredicate<StrContentPathPredicate> for &'s String {
     }
 }
 
-// Keep `predicates` concrete Predicates out of our public API.
-/// [Predicate] used by `IntoPathPredicate` for `str` predicates.
+/// Keep `predicates` concrete Predicates out of our public API.
+/// [predicates_core::Predicate] used by `IntoPathPredicate` for `str` predicates.
 ///
 /// # Example
 ///
@@ -381,9 +365,6 @@ impl<'s> IntoPathPredicate<StrContentPathPredicate> for &'s String {
 ///
 /// temp.close().unwrap();
 /// ```
-///
-/// [`IntoPathPredicate`]: trait.IntoPathPredicate.html
-/// [Predicate]: https://docs.rs/predicates-core/1.0.0/predicates_core/trait.Predicate.html
 #[derive(Debug, Clone)]
 pub struct StrPathPredicate<P: predicates_core::Predicate<str>>(
     predicates::path::FileContentPredicate<predicates::str::Utf8Predicate<P>>,

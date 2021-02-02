@@ -1,7 +1,5 @@
 use std::path;
 
-use tempfile;
-
 use super::errors::*;
 
 /// A directory in the filesystem that is automatically deleted when
@@ -49,16 +47,9 @@ use super::errors::*;
 /// tmp_dir.close().unwrap();
 /// ```
 ///
-/// [`File`]: http://doc.rust-lang.org/std/fs/struct.File.html
-/// [`Path`]: http://doc.rust-lang.org/std/path/struct.Path.html
-/// [`ReadDir`]: http://doc.rust-lang.org/std/fs/struct.ReadDir.html
-/// [`TempDir::close()`]: struct.TempDir.html#method.close
-/// [`TempDir::new()`]: struct.TempDir.html#method.new
-/// [`TempDir::path()`]: struct.TempDir.html#method.path
-/// [`TempDir`]: struct.TempDir.html
-/// [`std::env::temp_dir()`]: https://doc.rust-lang.org/std/env/fn.temp_dir.html
-/// [`std::fs`]: http://doc.rust-lang.org/std/fs/index.html
-/// [`std::process::exit()`]: http://doc.rust-lang.org/std/process/fn.exit.html
+/// [`File`]: std::fs::File
+/// [`Path`]: std::path::Path
+/// [`ReadDir`]: std::fs::ReadDir
 pub struct TempDir {
     temp: Inner,
 }
@@ -145,7 +136,7 @@ impl TempDir {
 
     /// Accesses the [`Path`] to the temporary directory.
     ///
-    /// [`Path`]: http://doc.rust-lang.org/std/path/struct.Path.html
+    /// [`Path`]: std::path::Path
     ///
     /// # Examples
     ///
@@ -179,7 +170,6 @@ impl TempDir {
     /// as well as from deleting the temporary directory itself. These errors
     /// may be platform specific.
     ///
-    /// [`std::io::Error`]: http://doc.rust-lang.org/std/io/struct.Error.html
     ///
     /// # Examples
     ///

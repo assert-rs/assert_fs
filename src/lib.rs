@@ -4,11 +4,6 @@
 //! - Setting up files for your tests to consume
 //! - Asserting on files produced by your tests
 //!
-//! ```toml
-//! [dependencies]
-//! assert_fs = "1.0.0"
-//! ```
-//!
 //! ## Overview
 //!
 //! Setting up a fixture
@@ -42,15 +37,13 @@
 //! temp.close().unwrap();
 //! ```
 //!
-//! [`TempDir`]: struct.TempDir.html
-//! [`NamedTempFile`]: struct.NamedTempFile.html
-//! [`ChildPath`]: fixture/struct.ChildPath.html
-//! [`FileTouch`]: fixture/trait.FileTouch.html
-//! [`FileWriteBin`]: fixture/trait.FileWriteBin.html
-//! [`FileWriteStr`]: fixture/trait.FileWriteStr.html
-//! [`FileWriteFile`]: fixture/trait.FileWriteFile.html
-//! [`PathCopy`]: fixture/trait.PathCopy.html
-//! [`PathAssert`]: assert/trait.PathAssert.html
+//! [`ChildPath`]: fixture::ChildPath
+//! [`FileTouch`]: fixture::FileTouch
+//! [`FileWriteBin`]: fixture::FileWriteBin
+//! [`FileWriteStr`]: fixture::FileWriteStr
+//! [`FileWriteFile`]: fixture::FileWriteFile
+//! [`PathCopy`]: fixture::PathCopy
+//! [`PathAssert`]: assert::PathAssert
 //! [dir-diff]: https://crates.io/crates/dir-diff
 
 #![warn(missing_docs)]
