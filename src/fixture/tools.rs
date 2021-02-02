@@ -4,8 +4,6 @@ use std::fs;
 use std::io::Write;
 use std::path;
 
-use globwalk;
-
 use super::errors::*;
 use super::ChildPath;
 use super::NamedTempFile;

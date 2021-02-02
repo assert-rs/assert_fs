@@ -1,7 +1,5 @@
 use std::path;
 
-use tempfile;
-
 use super::errors::*;
 
 /// A directory in the filesystem that is automatically deleted when

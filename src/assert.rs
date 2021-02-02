@@ -24,10 +24,8 @@
 use std::fmt;
 use std::path;
 
-use predicates;
 use predicates::path::PredicateFileContentExt;
 use predicates::str::PredicateStrExt;
-use predicates_core;
 use predicates_tree::CaseTreeExt;
 
 use crate::fixture;
