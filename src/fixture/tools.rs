@@ -13,7 +13,6 @@ use super::TempDir;
 
 /// Create empty directories at [`ChildPath`].
 ///
-/// [`ChildPath`]: struct.ChildPath.html
 pub trait PathCreateDir {
     /// Create an empty file at [`ChildPath`].
     ///
@@ -27,7 +26,6 @@ pub trait PathCreateDir {
     /// temp.close().unwrap();
     /// ```
     ///
-    /// [`ChildPath`]: struct.ChildPath.html
     fn create_dir_all(&self) -> Result<(), FixtureError>;
 }
 
@@ -39,7 +37,6 @@ impl PathCreateDir for ChildPath {
 
 /// Create empty files at [`ChildPath`].
 ///
-/// [`ChildPath`]: struct.ChildPath.html
 pub trait FileTouch {
     /// Create an empty file at [`ChildPath`].
     ///
@@ -53,7 +50,6 @@ pub trait FileTouch {
     /// temp.close().unwrap();
     /// ```
     ///
-    /// [`ChildPath`]: struct.ChildPath.html
     fn touch(&self) -> Result<(), FixtureError>;
 }
 
@@ -71,7 +67,6 @@ impl FileTouch for NamedTempFile {
 
 /// Write a binary file at [`ChildPath`].
 ///
-/// [`ChildPath`]: struct.ChildPath.html
 pub trait FileWriteBin {
     /// Write a binary file at [`ChildPath`].
     ///
@@ -88,7 +83,6 @@ pub trait FileWriteBin {
     /// temp.close().unwrap();
     /// ```
     ///
-    /// [`ChildPath`]: struct.ChildPath.html
     fn write_binary(&self, data: &[u8]) -> Result<(), FixtureError>;
 }
 
@@ -106,7 +100,6 @@ impl FileWriteBin for NamedTempFile {
 
 /// Write a text file at [`ChildPath`].
 ///
-/// [`ChildPath`]: struct.ChildPath.html
 pub trait FileWriteStr {
     /// Write a text file at [`ChildPath`].
     ///
@@ -123,7 +116,6 @@ pub trait FileWriteStr {
     /// temp.close().unwrap();
     /// ```
     ///
-    /// [`ChildPath`]: struct.ChildPath.html
     fn write_str(&self, data: &str) -> Result<(), FixtureError>;
 }
 
@@ -141,7 +133,6 @@ impl FileWriteStr for NamedTempFile {
 
 /// Write (copy) a file to [`ChildPath`].
 ///
-/// [`ChildPath`]: struct.ChildPath.html
 pub trait FileWriteFile {
     /// Write (copy) a file to [`ChildPath`].
     ///
@@ -159,7 +150,6 @@ pub trait FileWriteFile {
     /// temp.close().unwrap();
     /// ```
     ///
-    /// [`ChildPath`]: struct.ChildPath.html
     fn write_file(&self, data: &path::Path) -> Result<(), FixtureError>;
 }
 
@@ -177,7 +167,6 @@ impl FileWriteFile for NamedTempFile {
 
 /// Copy files into [`TempDir`].
 ///
-/// [`TempDir`]: struct.TempDir.html
 pub trait PathCopy {
     /// Copy files and directories into the current path from the `source` according to the glob
     /// `patterns`.

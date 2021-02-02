@@ -49,16 +49,9 @@ use super::errors::*;
 /// tmp_file.close().unwrap();
 /// ```
 ///
-/// [`File`]: http://doc.rust-lang.org/std/fs/struct.File.html
-/// [`Path`]: http://doc.rust-lang.org/std/path/struct.Path.html
-/// [`ReadDir`]: http://doc.rust-lang.org/std/fs/struct.ReadDir.html
-/// [`NamedTempFile::close()`]: struct.NamedTempFile.html#method.close
-/// [`NamedTempFile::new()`]: struct.NamedTempFile.html#method.new
-/// [`NamedTempFile::path()`]: struct.NamedTempFile.html#method.path
-/// [`NamedTempFile`]: struct.NamedTempFile.html
-/// [`std::env::temp_dir()`]: https://doc.rust-lang.org/std/env/fn.temp_dir.html
-/// [`std::fs`]: http://doc.rust-lang.org/std/fs/index.html
-/// [`std::process::exit()`]: http://doc.rust-lang.org/std/process/fn.exit.html
+/// [`File`]: std::fs::File
+/// [`Path`]: std::path::Path
+/// [`ReadDir`]: std::fs::ReadDir
 pub struct NamedTempFile {
     temp: Inner,
     path: path::PathBuf,
@@ -151,7 +144,7 @@ impl NamedTempFile {
 
     /// Accesses the [`Path`] to the temporary file.
     ///
-    /// [`Path`]: http://doc.rust-lang.org/std/path/struct.Path.html
+    /// [`Path`]: std::path::Path
     ///
     /// # Examples
     ///
@@ -180,7 +173,6 @@ impl NamedTempFile {
     /// This function may return a variety of [`std::io::Error`]s that result from deleting the
     /// temporary file and parent directory, These errors may be platform specific.
     ///
-    /// [`std::io::Error`]: http://doc.rust-lang.org/std/io/struct.Error.html
     ///
     /// # Examples
     ///
