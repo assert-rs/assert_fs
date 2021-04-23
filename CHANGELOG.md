@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * Explicitly stated that `assert` may `panic`
 
+#### Features
+
+* Built-in fixtures now interoperate as `&Path`
+
 ## [1.0.1] - 2021-02-01
 
 ## 1.0.0 - 2020-03-26
