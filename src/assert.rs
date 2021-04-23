@@ -70,6 +70,10 @@ pub trait PathAssert {
     ///
     /// See [`predicates`] for more predicates.
     ///
+    /// # Panic
+    ///
+    /// Will panic if the condition is not satisfied
+    ///
     /// # Examples
     ///
     /// ```rust
