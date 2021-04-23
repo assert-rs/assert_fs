@@ -191,3 +191,17 @@ impl TempDir {
         Ok(())
     }
 }
+
+impl AsRef<path::Path> for TempDir {
+    fn as_ref(&self) -> &path::Path {
+        self.path()
+    }
+}
+
+impl std::ops::Deref for TempDir {
+    type Target = path::Path;
+    #[inline]
+    fn deref(&self) -> &path::Path {
+        self.path()
+    }
+}

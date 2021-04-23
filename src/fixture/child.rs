@@ -89,3 +89,17 @@ impl ChildPath {
         &self.path
     }
 }
+
+impl AsRef<path::Path> for ChildPath {
+    fn as_ref(&self) -> &path::Path {
+        &self.path
+    }
+}
+
+impl std::ops::Deref for ChildPath {
+    type Target = path::Path;
+    #[inline]
+    fn deref(&self) -> &path::Path {
+        &self.path
+    }
+}

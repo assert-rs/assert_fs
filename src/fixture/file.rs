@@ -192,3 +192,17 @@ impl NamedTempFile {
         Ok(())
     }
 }
+
+impl AsRef<path::Path> for NamedTempFile {
+    fn as_ref(&self) -> &path::Path {
+        self.path()
+    }
+}
+
+impl std::ops::Deref for NamedTempFile {
+    type Target = path::Path;
+    #[inline]
+    fn deref(&self) -> &path::Path {
+        self.path()
+    }
+}
