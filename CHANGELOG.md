@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+#### Fixes
+
+* Explicitly stated that `assert` may `panic`
+
 ## [1.0.1] - 2021-02-01
 
 ## 1.0.0 - 2020-03-26
