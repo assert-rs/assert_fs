@@ -1,6 +1,6 @@
 use std::path;
 
-/// Access paths within [`TempDir`] for testing.
+/// Access paths within [`TempDir`][crate::TempDir] for testing.
 ///
 /// See [`ChildPath`] trait implementations.
 ///
@@ -49,7 +49,7 @@ impl PathChild for ChildPath {
     }
 }
 
-/// A path within a [`TempDir`]
+/// A path within a [`TempDir`][crate::TempDir]
 ///
 /// See Trait Implementations.
 ///
