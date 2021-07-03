@@ -286,7 +286,7 @@ pub struct StrContentPathPredicate(
 
 impl StrContentPathPredicate {
     pub(crate) fn new(value: String) -> Self {
-        let pred = predicates::str::similar(value).from_utf8().from_file_path();
+        let pred = predicates::str::diff(value).from_utf8().from_file_path();
         StrContentPathPredicate(pred)
     }
 }
