@@ -2,7 +2,6 @@
 
 > **Assert Filesystems** - Filesystem fixtures and assertions for testing.
 
-[![Build Status](https://dev.azure.com/assert-rs/assert-rs/_apis/build/status/assert_fs?branchName=master)](https://dev.azure.com/assert-rs/assert-rs/_build/latest?definitionId=2&branchName=master)
 [![Documentation](https://img.shields.io/badge/docs-master-blue.svg)][Documentation]
 ![License](https://img.shields.io/crates/l/assert_fs.svg)
 [![Crates Status](https://img.shields.io/crates/v/assert_fs.svg)](https://crates.io/crates/assert_fs)
