@@ -54,6 +54,8 @@ pub enum FixtureKind {
     CreateDir,
     /// Failed to cleanup fixture.
     Cleanup,
+    /// Failed to create symlink
+    Symlink,
 }
 
 impl fmt::Display for FixtureKind {
@@ -64,6 +66,7 @@ impl fmt::Display for FixtureKind {
             FixtureKind::WriteFile => write!(f, "Failed when writing to a file."),
             FixtureKind::CreateDir => write!(f, "Failed when creating a directory."),
             FixtureKind::Cleanup => write!(f, "Failed to cleanup fixture."),
+            FixtureKind::Symlink => write!(f, "Failed when symlinking to the target."),
         }
     }
 }

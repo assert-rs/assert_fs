@@ -13,6 +13,8 @@
 //! - [`write_str`][`FileWriteStr`] a [`ChildPath`] or [`NamedTempFile`]
 //! - [`write_file`][`FileWriteFile`] a [`ChildPath`] or [`NamedTempFile`]
 //! - [`copy_from`][`PathCopy`] a pristine folder to a [`ChildPath`] or [`TempDir`]
+//! - [`symlink_to_file`][`SymlinkToFile`] a [`ChildPath`] or [`NamedTempFile`]
+//! - [`symlink_to_dir`][`SymlinkToDir`] a [`ChildPath`] or [`TempDir`]
 //!
 //! Validating
 //! - [`assert`][`PathAssert`] a [`ChildPath`], [`TempDir`], or [`NamedTempFile`]
@@ -42,6 +44,8 @@
 //! [`FileWriteBin`]: fixture::FileWriteBin
 //! [`FileWriteStr`]: fixture::FileWriteStr
 //! [`FileWriteFile`]: fixture::FileWriteFile
+//! [`SymlinkToDir`]: fixture::SymlinkToDir
+//! [`SymlinkToFile`]: fixture::SymlinkToFile
 //! [`PathCopy`]: fixture::PathCopy
 //! [`PathAssert`]: assert::PathAssert
 //! [dir-diff]: https://crates.io/crates/dir-diff
@@ -69,6 +73,8 @@ pub mod prelude {
     pub use crate::fixture::PathChild;
     pub use crate::fixture::PathCopy;
     pub use crate::fixture::PathCreateDir;
+    pub use crate::fixture::SymlinkToDir;
+    pub use crate::fixture::SymlinkToFile;
 }
 
 #[macro_use]
