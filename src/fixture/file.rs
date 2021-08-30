@@ -160,7 +160,7 @@ impl NamedTempFile {
         &self.path
     }
 
-    /// Closes and removes the temporary file and parent directory, returing a `Result`.
+    /// Closes and removes the temporary file and parent directory, returning a `Result`.
     ///
     /// Although `NamedTempFile` removes the directory on drop, in the destructor
     /// any errors are ignored. To detect errors cleaning up the temporary

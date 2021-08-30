@@ -157,7 +157,7 @@ impl TempDir {
         }
     }
 
-    /// Closes and removes the temporary directory, returing a `Result`.
+    /// Closes and removes the temporary directory, returning a `Result`.
     ///
     /// Although `TempDir` removes the directory on drop, in the destructor
     /// any errors are ignored. To detect errors cleaning up the temporary

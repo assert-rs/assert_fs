@@ -204,6 +204,88 @@ impl PathCopy for ChildPath {
     }
 }
 
+/// Create a symlink to the target
+///
+pub trait SymlinkToFile {
+    /// Create a symlink to the target
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use assert_fs::prelude::*;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// let real_file = temp.child("real_file");
+    /// real_file.touch().unwrap();
+    ///
+    /// temp.child("link_file").symlink_to_file(real_file.path()).unwrap();
+    ///
+    /// temp.close().unwrap();
+    /// ```
+    fn symlink_to_file<P>(&self, target: P) -> Result<(), FixtureError>
+    where
+        P: AsRef<path::Path>;
+}
+
+impl SymlinkToFile for ChildPath {
+    fn symlink_to_file<P>(&self, target: P) -> Result<(), FixtureError>
+    where
+        P: AsRef<path::Path>,
+    {
+        symlink_to_file(self.path(), target.as_ref())
+    }
+}
+
+impl SymlinkToFile for NamedTempFile {
+    fn symlink_to_file<P>(&self, target: P) -> Result<(), FixtureError>
+    where
+        P: AsRef<path::Path>,
+    {
+        symlink_to_file(self.path(), target.as_ref())
+    }
+}
+
+/// Create a symlink to the target
+///
+pub trait SymlinkToDir {
+    /// Create a symlink to the target
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use assert_fs::prelude::*;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// let real_dir = temp.child("real_dir");
+    /// real_dir.create_dir_all().unwrap();
+    ///
+    /// temp.child("link_dir").symlink_to_dir(real_dir.path()).unwrap();
+    ///
+    /// temp.close().unwrap();
+    /// ```
+    fn symlink_to_dir<P>(&self, target: P) -> Result<(), FixtureError>
+    where
+        P: AsRef<path::Path>;
+}
+
+impl SymlinkToDir for ChildPath {
+    fn symlink_to_dir<P>(&self, target: P) -> Result<(), FixtureError>
+    where
+        P: AsRef<path::Path>,
+    {
+        symlink_to_dir(self.path(), target.as_ref())
+    }
+}
+
+impl SymlinkToDir for TempDir {
+    fn symlink_to_dir<P>(&self, target: P) -> Result<(), FixtureError>
+    where
+        P: AsRef<path::Path>,
+    {
+        symlink_to_dir(self.path(), target.as_ref())
+    }
+}
+
 fn ensure_parent_dir(path: &path::Path) -> Result<(), FixtureError> {
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent).chain(FixtureError::new(FixtureKind::CreateDir))?;
@@ -272,5 +354,31 @@ where
             fs::copy(entry.path(), target_path).chain(FixtureError::new(FixtureKind::CopyFile))?;
         }
     }
+    Ok(())
+}
+
+#[cfg(windows)]
+fn symlink_to_file(link: &path::Path, target: &path::Path) -> Result<(), FixtureError> {
+    std::os::windows::fs::symlink_file(target, link)
+        .chain(FixtureError::new(FixtureKind::Symlink))?;
+    Ok(())
+}
+
+#[cfg(windows)]
+fn symlink_to_dir(link: &path::Path, target: &path::Path) -> Result<(), FixtureError> {
+    std::os::windows::fs::symlink_dir(target, link)
+        .chain(FixtureError::new(FixtureKind::Symlink))?;
+    Ok(())
+}
+
+#[cfg(not(windows))]
+fn symlink_to_file(link: &path::Path, target: &path::Path) -> Result<(), FixtureError> {
+    std::os::unix::fs::symlink(target, link).chain(FixtureError::new(FixtureKind::Symlink))?;
+    Ok(())
+}
+
+#[cfg(not(windows))]
+fn symlink_to_dir(link: &path::Path, target: &path::Path) -> Result<(), FixtureError> {
+    std::os::unix::fs::symlink(target, link).chain(FixtureError::new(FixtureKind::Symlink))?;
     Ok(())
 }
