@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+#### Fixes
+
+- Shiw caller, rather than `assert_fs`, as cause of panics
+
 ## [1.0.4] - 2021-08-30
 
 #### Features
@@ -141,18 +145,18 @@ Stable release!
 #### Features
 
 * **assert:**
-  *  Show cause of failure 
-  *  Support assert(bytes) shorthand 
-  *  Use DifferencePredicate for str 
-  *  Predicate<[u8]> acts on file contents 
+  *  Show cause of failure
+  *  Support assert(bytes) shorthand
+  *  Use DifferencePredicate for str
+  *  Predicate<[u8]> acts on file contents
 
 #### Bug Fixes
 
-*   Bury errors in the docs 
-*   Remove failure from API 
-*   Rename traits to clarify intent 
+*   Bury errors in the docs
+*   Remove failure from API
+*   Rename traits to clarify intent
 * **assert:**
-  *  Isolate API details 
+  *  Isolate API details
 
 
 
@@ -162,20 +166,20 @@ Stable release!
 #### Features
 
 * **assert:**
-  *  Support `assert(bytes)` shorthand 
-  *  Support `assert(str)` shorthand 
+  *  Support `assert(bytes)` shorthand
+  *  Support `assert(str)` shorthand
 * **fixture:**
-  * copy_from now uses gitignore globs 
-  * Improve fixture error reporting 
+  * copy_from now uses gitignore globs
+  * Improve fixture error reporting
 
 #### Bug Fixes
 
 * **fixture:**
-  * `copy_from(".")` failed 
+  * `copy_from(".")` failed
 
 #### Breaking Changes
 
-*   Rename traits to clarify intent 
+*   Rename traits to clarify intent
 
 
 
@@ -189,11 +193,11 @@ Stable release!
 
 #### Bug Fixes
 
-* **fixtures:**  copy_from now works 
+* **fixtures:**  copy_from now works
 
 #### Features
 
-*   Filesystem assertions 
+*   Filesystem assertions
 
 #### Breaking Changes
 
@@ -204,7 +208,7 @@ Stable release!
 
 #### Features
 
-*   Add a prelude 
+*   Add a prelude
 
 
 <!-- next-url -->
