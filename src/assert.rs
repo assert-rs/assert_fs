@@ -96,6 +96,7 @@ pub trait PathAssert {
     /// ```
     ///
     /// [`TempDir`]: super::TempDir
+    #[track_caller]
     fn assert<I, P>(&self, pred: I) -> &Self
     where
         I: IntoPathPredicate<P>,
@@ -103,6 +104,7 @@ pub trait PathAssert {
 }
 
 impl PathAssert for fixture::TempDir {
+    #[track_caller]
     fn assert<I, P>(&self, pred: I) -> &Self
     where
         I: IntoPathPredicate<P>,
@@ -114,6 +116,7 @@ impl PathAssert for fixture::TempDir {
 }
 
 impl PathAssert for fixture::NamedTempFile {
+    #[track_caller]
     fn assert<I, P>(&self, pred: I) -> &Self
     where
         I: IntoPathPredicate<P>,
@@ -125,6 +128,7 @@ impl PathAssert for fixture::NamedTempFile {
 }
 
 impl PathAssert for fixture::ChildPath {
+    #[track_caller]
     fn assert<I, P>(&self, pred: I) -> &Self
     where
         I: IntoPathPredicate<P>,
@@ -135,6 +139,7 @@ impl PathAssert for fixture::ChildPath {
     }
 }
 
+#[track_caller]
 fn assert<I, P>(path: &path::Path, pred: I)
 where
     I: IntoPathPredicate<P>,
