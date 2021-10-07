@@ -146,8 +146,14 @@ where
     P: predicates_core::Predicate<path::Path>,
 {
     let pred = pred.into_path();
-    if let Some(case) = pred.find_case(false, &path) {
-        panic!("Unexpected file, failed {}\npath={:?}", case.tree(), path);
+    if let Some(case) = pred.find_case(false, path) {
+        let palette = crate::Palette::current();
+        panic!(
+            "Unexpected file, failed {}\n{}={}",
+            case.tree(),
+            palette.key.paint("path"),
+            palette.value.paint(path.display())
+        );
     }
 }
 
