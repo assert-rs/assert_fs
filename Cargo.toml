@@ -12,10 +12,6 @@ categories = ["development-tools::testing"]
 keywords = ["filesystem", "test", "assert", "fixture"]
 edition = "2018"
 
-[badges]
-codecov = { repository = "assert-rs/assert_fs" }
-maintenance = { status = "passively-maintained" }
-
 [package.metadata.release]
 pre-release-replacements = [
   {file="CHANGELOG.md", search="Unreleased", replace="{{version}}", min=1},
@@ -25,10 +21,16 @@ pre-release-replacements = [
   {file="CHANGELOG.md", search="<!-- next-url -->", replace="<!-- next-url -->\n[Unreleased]: https://github.com/assert-rs/assert_fs/compare/{{tag_name}}...HEAD", exactly=1},
 ]
 
+[features]
+color = ["yansi", "concolor-control/std", "predicates/color"]
+color-auto = ["color", "concolor-control/auto"]
+
 [dependencies]
 tempfile = "3.0"
 globwalk = "0.8"
-predicates = { version = "2.0", default-features = false, features = ["diff"] }
+predicates = { version = "2.0.3", default-features = false, features = ["diff"] }
 predicates-core = "1.0"
 predicates-tree = "1.0"
 doc-comment = "0.3"
+yansi = { version = "0.5.0", optional = true }
+concolor-control = { version = "0.0.7", optional = true }

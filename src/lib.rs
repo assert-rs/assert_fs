@@ -77,6 +77,9 @@ pub mod prelude {
     pub use crate::fixture::SymlinkToFile;
 }
 
+mod color;
+use color::Palette;
+
 #[macro_use]
 extern crate doc_comment;
 doctest!("../README.md");
