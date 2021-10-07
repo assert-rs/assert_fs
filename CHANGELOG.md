@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [1.0.6] - 2021-10-07
+
 ## [1.0.5] - 2021-09-06
 
 #### Fixes
@@ -214,7 +216,8 @@ Stable release!
 
 
 <!-- next-url -->
-[Unreleased]: https://github.com/assert-rs/assert_fs/compare/v1.0.5...HEAD
+[Unreleased]: https://github.com/assert-rs/assert_fs/compare/v1.0.6...HEAD
+[1.0.6]: https://github.com/assert-rs/assert_fs/compare/v1.0.5...v1.0.6
 [1.0.5]: https://github.com/assert-rs/assert_fs/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/assert-rs/assert_fs/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/assert-rs/assert_fs/compare/v1.0.2...v1.0.3
