@@ -12,10 +12,12 @@ categories = ["development-tools::testing"]
 keywords = ["filesystem", "test", "assert", "fixture"]
 edition = "2018"
 include = [
+  "build.rs",
   "src/**/*",
   "Cargo.toml",
   "LICENSE*",
   "README.md",
+  "benches/**/*",
   "examples/**/*"
 ]
 
