@@ -12,7 +12,7 @@ use super::TempDir;
 /// Create empty directories at [`ChildPath`].
 ///
 pub trait PathCreateDir {
-    /// Create an empty file at [`ChildPath`].
+    /// Create an empty directory at [`ChildPath`].
     ///
     /// # Examples
     ///
