@@ -52,10 +52,15 @@ As a heads up, we'll be running your PR through the following gauntlet:
 
 ## Releasing
 
+Pre-requisites
+- Running `cargo login`
+- A member of `rust-cli:Maintainers`
+- Push permission to the repo
+
 When we're ready to release, a project owner should do the following
-- Determine what the next version is, according to semver
-- Update CHANGELOG.md
-- Run `cargo release <lvel>`
+1. Update the changelog
+2. Determine what the next version is, according to semver
+3. Run [`cargo release -x <level>`](https://github.com/crate-ci/cargo-release)
 
 [issues]: https://github.com/assert-rs/assert_fs/issues
 [new issue]: https://github.com/assert-rs/assert_fs/issues/new
