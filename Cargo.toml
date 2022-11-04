@@ -32,8 +32,8 @@ pre-release-replacements = [
 ]
 
 [features]
-color = ["yansi", "concolor", "predicates/color"]
-color-auto = ["color", "concolor/auto"]
+color = ["dep:yansi", "dep:concolor", "predicates/color"]
+color-auto = ["color", "concolor?/auto"]
 
 [dependencies]
 tempfile = "3.0"
