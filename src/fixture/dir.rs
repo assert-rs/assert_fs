@@ -50,10 +50,12 @@ use super::errors::*;
 /// [`File`]: std::fs::File
 /// [`Path`]: std::path::Path
 /// [`ReadDir`]: std::fs::ReadDir
+#[derive(Debug)]
 pub struct TempDir {
     temp: Inner,
 }
 
+#[derive(Debug)]
 enum Inner {
     Temp(tempfile::TempDir),
     Persisted(path::PathBuf),
