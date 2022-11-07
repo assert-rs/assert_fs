@@ -13,7 +13,7 @@ dependencies = [
 
 [[package]]
 name = "assert_fs"
-version = "1.0.8"
+version = "1.0.9"
 dependencies = [
  "concolor 0.0.9",
  "doc-comment",
