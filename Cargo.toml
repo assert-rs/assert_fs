@@ -38,7 +38,7 @@ color-auto = ["color", "concolor?/auto"]
 [dependencies]
 tempfile = "3.0"
 globwalk = "0.8"
-predicates = { version = "2.0.3", default-features = false, features = ["diff"] }
+predicates = { version = "2.1.3", default-features = false, features = ["diff"] }
 predicates-core = "1.0"
 predicates-tree = "1.0"
 doc-comment = "0.3"
