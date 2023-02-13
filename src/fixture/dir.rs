@@ -149,7 +149,6 @@ impl TempDir {
     ///
     /// println!("{}", tmp_dir.path().display());
     ///
-    /// // Ensure deletion happens.
     /// tmp_dir.close().unwrap();
     /// ```
     pub fn path(&self) -> &path::Path {
