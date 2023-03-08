@@ -136,7 +136,7 @@ impl NamedTempFile {
         let mut temp = Inner::Persisted;
         ::std::mem::swap(&mut self.temp, &mut temp);
         if let Inner::Temp(temp) = temp {
-            temp.into_path();
+            let _ = temp.into_path();
         }
 
         self
