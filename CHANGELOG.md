@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [1.0.11] - 2023-03-14
+
 ### Fixes
 
 - Correctly handle `CLICOLOR=1`
@@ -238,7 +240,8 @@ Stable release!
 
 
 <!-- next-url -->
-[Unreleased]: https://github.com/assert-rs/assert_fs/compare/v1.0.10...HEAD
+[Unreleased]: https://github.com/assert-rs/assert_fs/compare/v1.0.11...HEAD
+[1.0.11]: https://github.com/assert-rs/assert_fs/compare/v1.0.10...v1.0.11
 [1.0.10]: https://github.com/assert-rs/assert_fs/compare/v1.0.9...v1.0.10
 [1.0.9]: https://github.com/assert-rs/assert_fs/compare/v1.0.8...v1.0.9
 [1.0.8]: https://github.com/assert-rs/assert_fs/compare/v1.0.7...v1.0.8
