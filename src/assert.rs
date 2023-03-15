@@ -24,6 +24,8 @@
 use std::fmt;
 use std::path;
 
+#[cfg(feature = "color")]
+use anstyle_stream::panic;
 use predicates::path::PredicateFileContentExt;
 use predicates::str::PredicateStrExt;
 use predicates_tree::CaseTreeExt;
@@ -147,12 +149,12 @@ where
 {
     let pred = pred.into_path();
     if let Some(case) = pred.find_case(false, path) {
-        let palette = crate::Palette::current();
+        let palette = crate::Palette::color();
         panic!(
-            "Unexpected file, failed {}\n{}={}",
+            "Unexpected file, failed {:#}\n{:#}={:#}",
             case.tree(),
-            palette.key.paint("path"),
-            palette.value.paint(path.display())
+            palette.key("path"),
+            palette.value(path.display())
         );
     }
 }
