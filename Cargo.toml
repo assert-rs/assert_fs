@@ -32,7 +32,7 @@ pre-release-replacements = [
 ]
 
 [features]
-color = ["dep:anstyle-stream", "predicates/color"]
+color = ["dep:anstream", "predicates/color"]
 color-auto = ["color"]
 
 [dependencies]
@@ -43,4 +43,4 @@ predicates-core = "1.0.6"
 predicates-tree = "1.0.1"
 doc-comment = "0.3"
 anstyle = "0.3.1"
-anstyle-stream = { version = "0.2.1", optional = true }
+anstream = { version = "0.2.2", optional = true }

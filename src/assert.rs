@@ -25,7 +25,7 @@ use std::fmt;
 use std::path;
 
 #[cfg(feature = "color")]
-use anstyle_stream::panic;
+use anstream::panic;
 use predicates::path::PredicateFileContentExt;
 use predicates::str::PredicateStrExt;
 use predicates_tree::CaseTreeExt;
