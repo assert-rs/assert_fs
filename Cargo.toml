@@ -1,17 +1,10 @@
-[package]
-name = "assert_fs"
-version = "1.0.12"
-authors = ["Ed Page <eopage@gmail.com>"]
-description = "Filesystem fixtures and assertions for testing."
+[workspace]
+resolver = "2"
+
+[workspace.package]
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/assert-rs/assert_fs.git"
-homepage = "https://github.com/assert-rs/assert_fs"
-documentation = "http://docs.rs/assert_fs/"
-readme = "README.md"
-categories = ["development-tools::testing"]
-keywords = ["filesystem", "test", "assert", "fixture"]
 edition = "2021"
-rust-version = "1.64.0"  # MSRV
+rust-version = "1.65.0"  # MSRV
 include = [
   "build.rs",
   "src/**/*",
@@ -21,6 +14,26 @@ include = [
   "benches/**/*",
   "examples/**/*"
 ]
+
+[package]
+name = "assert_fs"
+version = "1.0.12"
+authors = ["Ed Page <eopage@gmail.com>"]
+description = "Filesystem fixtures and assertions for testing."
+repository = "https://github.com/assert-rs/assert_fs.git"
+homepage = "https://github.com/assert-rs/assert_fs"
+documentation = "http://docs.rs/assert_fs/"
+readme = "README.md"
+categories = ["development-tools::testing"]
+keywords = ["filesystem", "test", "assert", "fixture"]
+license.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+include.workspace = true
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [package.metadata.release]
 pre-release-replacements = [
