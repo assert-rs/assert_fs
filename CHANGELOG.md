@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+### Compatibility
+
+- Update MSRV to 1.70.0
+
+### Documentation
+
+- Update a stale reference
+
 ## [1.0.13] - 2023-04-13
 
 ### Internal
@@ -49,7 +57,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 #### Fixes
 
-- Shiw caller, rather than `assert_fs`, as cause of panics
+- Show caller, rather than `assert_fs`, as cause of panics
 
 ## [1.0.4] - 2021-08-30
 
