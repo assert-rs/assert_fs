@@ -37,7 +37,6 @@ use crate::fixture;
 /// This uses [`IntoPathPredicate`] to provide short-hands for common cases, accepting:
 /// - `Predicate<Path>` for validating a path.
 /// - `Predicate<str>` for validating the content of the file.
-/// - `&Path` which must have the same file content.
 /// - `&[u8]` or `&str` representing the content of the file.
 ///
 /// See [`predicates`] for more predicates.
@@ -67,7 +66,6 @@ pub trait PathAssert {
     /// This uses [`IntoPathPredicate`] to provide short-hands for common cases, accepting:
     /// - `Predicate<Path>` for validating a path.
     /// - `Predicate<str>` for validating the content of the file.
-    /// - `&Path` which must have the same file content.
     /// - `&[u8]` or `&str` representing the content of the file.
     ///
     /// See [`predicates`] for more predicates.
