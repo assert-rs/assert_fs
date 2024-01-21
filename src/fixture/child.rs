@@ -103,3 +103,58 @@ impl std::ops::Deref for ChildPath {
         &self.path
     }
 }
+
+/// Access existing paths within [`TempDir`][crate::TempDir] for testing
+///
+/// See [`ChildPath`] trait implementations.
+///
+/// ```rust
+/// use assert_fs::prelude::*;
+///
+/// let temp = assert_fs::TempDir::new().unwrap();
+/// let input_file = temp.existing_child("foo.txt").unwrap();
+/// input_file.assert(predicates::path::exists());
+/// temp.close().unwrap();
+/// ```
+///
+pub trait PathExistingChild {
+    /// Access an existing path within the temp directory.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use assert_fs::prelude::*;
+    ///
+    /// let temp = assert_fs::TempDir::new().unwrap();
+    /// let child = temp.existing_child("foo").unwrap();
+    /// for entry in temp.read_dir().unwrap() {
+    ///     println!("{}", entry.unwrap().path().display());
+    /// }
+    /// temp.close().unwrap();
+    /// ```
+    fn existing_child<P>(&self, path: P) -> Result<ChildPath, super::FixtureError>
+    where
+        P: AsRef<path::Path>;
+}
+
+impl PathExistingChild for super::TempDir {
+    fn existing_child<P>(&self, path: P) -> Result<ChildPath, super::FixtureError>
+    where
+        P: AsRef<path::Path>,
+    {
+        let child = self.child(path);
+        super::FileTouch::touch(&child)?;
+        Ok(child)
+    }
+}
+
+impl PathExistingChild for ChildPath {
+    fn existing_child<P>(&self, path: P) -> Result<ChildPath, super::FixtureError>
+    where
+        P: AsRef<path::Path>,
+    {
+        let child = self.child(path);
+        super::FileTouch::touch(&child)?;
+        Ok(child)
+    }
+}

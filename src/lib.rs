@@ -74,6 +74,7 @@ pub mod prelude {
     pub use crate::fixture::PathChild;
     pub use crate::fixture::PathCopy;
     pub use crate::fixture::PathCreateDir;
+    pub use crate::fixture::PathExistingChild;
     pub use crate::fixture::SymlinkToDir;
     pub use crate::fixture::SymlinkToFile;
 }
