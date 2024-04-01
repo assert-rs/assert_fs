@@ -1,6 +1,8 @@
 use std::path;
 
-use super::errors::*;
+use super::errors::FixtureError;
+use super::errors::FixtureKind;
+use super::errors::ResultChainExt;
 
 /// A directory in the filesystem that is automatically deleted when
 /// it goes out of scope.

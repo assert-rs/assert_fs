@@ -4,7 +4,9 @@ use std::fs;
 use std::io::Write;
 use std::path;
 
-use super::errors::*;
+use super::errors::FixtureError;
+use super::errors::FixtureKind;
+use super::errors::ResultChainExt;
 use super::ChildPath;
 use super::NamedTempFile;
 use super::TempDir;
