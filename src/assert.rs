@@ -198,7 +198,7 @@ where
 }
 
 /// Keep `predicates` concrete Predicates out of our public API.
-/// [predicates_core::Predicate] used by [`IntoPathPredicate`] for bytes.
+/// [`predicates_core::Predicate`] used by [`IntoPathPredicate`] for bytes.
 ///
 /// # Example
 ///
@@ -271,7 +271,7 @@ impl IntoPathPredicate<BytesContentPathPredicate> for &'static [u8] {
 }
 
 /// Keep `predicates` concrete Predicates out of our public API.
-/// [predicates_core::Predicate] used by `IntoPathPredicate` for `str`.
+/// [`predicates_core::Predicate`] used by `IntoPathPredicate` for `str`.
 ///
 /// # Example
 ///
@@ -362,7 +362,7 @@ impl<'s> IntoPathPredicate<StrContentPathPredicate> for &'s String {
 }
 
 /// Keep `predicates` concrete Predicates out of our public API.
-/// [predicates_core::Predicate] used by `IntoPathPredicate` for `str` predicates.
+/// [`predicates_core::Predicate`] used by `IntoPathPredicate` for `str` predicates.
 ///
 /// # Example
 ///
@@ -461,7 +461,7 @@ mod test {
     fn convert_path<I, P>(pred: I) -> P
     where
         I: IntoPathPredicate<P>,
-        P: predicates_core::Predicate<path::Path>,
+        P: Predicate<path::Path>,
     {
         pred.into_path()
     }

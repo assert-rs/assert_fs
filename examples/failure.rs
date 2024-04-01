@@ -1,3 +1,6 @@
+#![allow(clippy::unwrap_used)]
+
+#[allow(clippy::wildcard_imports)] // false positive
 use assert_fs::prelude::*;
 
 fn main() {
