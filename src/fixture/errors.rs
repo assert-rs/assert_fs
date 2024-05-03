@@ -13,11 +13,6 @@ pub(crate) trait ResultChainExt<T> {
     fn chain<C>(self, chainable: C) -> Result<T, C>
     where
         C: ChainError;
-
-    fn chain_with<F, C>(self, chainable: F) -> Result<T, C>
-    where
-        F: FnOnce() -> C,
-        C: ChainError;
 }
 
 impl<T, E> ResultChainExt<T> for Result<T, E>
@@ -29,14 +24,6 @@ where
         C: ChainError,
     {
         self.map_err(|e| chainable.chain(e))
-    }
-
-    fn chain_with<F, C>(self, chainable: F) -> Result<T, C>
-    where
-        F: FnOnce() -> C,
-        C: ChainError,
-    {
-        self.map_err(|e| chainable().chain(e))
     }
 }
 
