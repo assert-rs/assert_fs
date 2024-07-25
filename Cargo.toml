@@ -88,7 +88,7 @@ zero_sized_map_values = "warn"
 
 [package]
 name = "assert_fs"
-version = "1.1.1"
+version = "1.1.2"
 authors = ["Ed Page <eopage@gmail.com>"]
 description = "Filesystem fixtures and assertions for testing."
 repository = "https://github.com/assert-rs/assert_fs.git"

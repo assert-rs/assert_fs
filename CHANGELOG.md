@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [1.1.2] - 2024-07-25
+
 ### Compatibility
 
 - Update MSRV to 1.74.0
@@ -272,7 +274,8 @@ Stable release!
 
 
 <!-- next-url -->
-[Unreleased]: https://github.com/assert-rs/assert_fs/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/assert-rs/assert_fs/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/assert-rs/assert_fs/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/assert-rs/assert_fs/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/assert-rs/assert_fs/compare/v1.0.13...v1.1.0
 [1.0.13]: https://github.com/assert-rs/assert_fs/compare/v1.0.12...v1.0.13
