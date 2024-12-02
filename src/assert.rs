@@ -345,7 +345,7 @@ impl IntoPathPredicate<StrContentPathPredicate> for String {
     }
 }
 
-impl<'s> IntoPathPredicate<StrContentPathPredicate> for &'s str {
+impl IntoPathPredicate<StrContentPathPredicate> for &str {
     type Predicate = StrContentPathPredicate;
 
     fn into_path(self) -> Self::Predicate {
@@ -353,7 +353,7 @@ impl<'s> IntoPathPredicate<StrContentPathPredicate> for &'s str {
     }
 }
 
-impl<'s> IntoPathPredicate<StrContentPathPredicate> for &'s String {
+impl IntoPathPredicate<StrContentPathPredicate> for &String {
     type Predicate = StrContentPathPredicate;
 
     fn into_path(self) -> Self::Predicate {
