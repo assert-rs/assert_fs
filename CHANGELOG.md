@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+### Features
+
+- Add `TempDir::new_in/with_prefix/with_prefix_in`
+
 ## [1.1.2] - 2024-07-25
 
 ### Compatibility
