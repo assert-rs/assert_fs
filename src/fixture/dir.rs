@@ -1,3 +1,4 @@
+use std::ffi::OsStr;
 use std::path;
 
 use super::errors::FixtureError;
@@ -85,6 +86,91 @@ impl TempDir {
     /// ```
     pub fn new() -> Result<Self, FixtureError> {
         let temp = tempfile::TempDir::new().chain(FixtureError::new(FixtureKind::CreateDir))?;
+        let temp = Inner::Temp(temp);
+        Ok(Self { temp })
+    }
+
+    /// Attempts to make a temporary directory inside of `dir`.
+    ///
+    /// The directory and everything inside it will be automatically deleted
+    /// once the returned `TempDir` is destroyed.
+    ///
+    /// # Errors
+    ///
+    /// If the directory can not be created, `Err` is returned.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use assert_fs::fixture::TempDir;
+    ///
+    /// // Create a directory inside of the current directory.
+    /// let tmp_dir = TempDir::new_in(".").unwrap();
+    ///
+    /// // Ensure deletion happens.
+    /// tmp_dir.close().unwrap();
+    /// ```
+    pub fn new_in<P: AsRef<path::Path>>(dir: P) -> Result<Self, FixtureError> {
+        let temp =
+            tempfile::TempDir::new_in(dir).chain(FixtureError::new(FixtureKind::CreateDir))?;
+        let temp = Inner::Temp(temp);
+        Ok(Self { temp })
+    }
+
+    /// Attempts to make a temporary directory with the specified prefix inside
+    /// of `env::temp_dir()`.
+    ///
+    /// The directory and everything inside it will be automatically deleted
+    /// once the returned `TempDir` is destroyed.
+    ///
+    /// # Errors
+    ///
+    /// If the directory can not be created, `Err` is returned.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use assert_fs::fixture::TempDir;
+    ///
+    /// let tmp_dir = TempDir::with_prefix("foo-").unwrap();
+    ///
+    /// // Ensure deletion happens.
+    /// tmp_dir.close().unwrap();
+    /// ```
+    pub fn with_prefix<S: AsRef<OsStr>>(prefix: S) -> Result<Self, FixtureError> {
+        let temp = tempfile::TempDir::with_prefix(prefix)
+            .chain(FixtureError::new(FixtureKind::CreateDir))?;
+        let temp = Inner::Temp(temp);
+        Ok(Self { temp })
+    }
+
+    /// Attempts to make a temporary directory with the specified prefix inside
+    /// the specified directory.
+    ///
+    /// The directory and everything inside it will be automatically deleted
+    /// once the returned `TempDir` is destroyed.
+    ///
+    /// # Errors
+    ///
+    /// If the directory can not be created, `Err` is returned.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use assert_fs::fixture::TempDir;
+    ///
+    /// // Create a directory with prefix "foo-" inside the current directory.
+    /// let tmp_dir = TempDir::with_prefix_in("foo-", ".").unwrap();
+    ///
+    /// // Ensure deletion happens.
+    /// tmp_dir.close().unwrap();
+    /// ```
+    pub fn with_prefix_in<S: AsRef<OsStr>, P: AsRef<path::Path>>(
+        prefix: S,
+        dir: P,
+    ) -> Result<Self, FixtureError> {
+        let temp = tempfile::TempDir::with_prefix_in(prefix, dir)
+            .chain(FixtureError::new(FixtureKind::CreateDir))?;
         let temp = Inner::Temp(temp);
         Ok(Self { temp })
     }
