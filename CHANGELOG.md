@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [1.1.3] - 2025-05-02
+
 ### Features
 
 - Add `TempDir::new_in/with_prefix/with_prefix_in`
@@ -278,7 +280,8 @@ Stable release!
 
 
 <!-- next-url -->
-[Unreleased]: https://github.com/assert-rs/assert_fs/compare/v1.1.2...HEAD
+[Unreleased]: https://github.com/assert-rs/assert_fs/compare/v1.1.3...HEAD
+[1.1.3]: https://github.com/assert-rs/assert_fs/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/assert-rs/assert_fs/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/assert-rs/assert_fs/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/assert-rs/assert_fs/compare/v1.0.13...v1.1.0
