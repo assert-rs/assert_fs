@@ -82,6 +82,6 @@ pub mod prelude {
 mod color;
 use color::Palette;
 
-#[macro_use]
-extern crate doc_comment;
-doctest!("../README.md");
+#[doc = include_str!("../README.md")]
+#[cfg(doctest)]
+pub struct ReadmeDoctests;
