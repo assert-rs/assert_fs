@@ -12,7 +12,7 @@ use super::errors::ResultChainExt;
 /// is deleted once it goes out of scope. At construction, the
 /// `NamedTempFile` creates a new directory with a randomly generated name.
 ///
-/// The constructor, [`NamedTempFile::new(name)`], creates directories in
+/// The constructor, [`NamedTempFile::new`], creates directories in
 /// the location returned by [`std::env::temp_dir()`].
 ///
 /// After creating a `NamedTempFile`, work with the file system by doing
