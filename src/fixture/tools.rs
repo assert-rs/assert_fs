@@ -4,12 +4,12 @@ use std::fs;
 use std::io::Write;
 use std::path;
 
-use super::errors::FixtureError;
-use super::errors::FixtureKind;
-use super::errors::ResultChainExt;
 use super::ChildPath;
 use super::NamedTempFile;
 use super::TempDir;
+use super::errors::FixtureError;
+use super::errors::FixtureKind;
+use super::errors::ResultChainExt;
 
 /// Create empty directories at [`ChildPath`].
 ///
