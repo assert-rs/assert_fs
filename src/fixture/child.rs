@@ -45,7 +45,7 @@ impl PathChild for ChildPath {
     where
         P: AsRef<path::Path>,
     {
-        ChildPath::new(self.path().join(path.as_ref()))
+        Self::new(self.path().join(path.as_ref()))
     }
 }
 

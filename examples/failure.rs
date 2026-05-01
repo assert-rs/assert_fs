@@ -1,4 +1,4 @@
-#![allow(clippy::unwrap_used)]
+#![allow(clippy::unwrap_used, reason = "simplicity")]
 
 use assert_fs::prelude::*;
 

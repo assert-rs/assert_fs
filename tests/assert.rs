@@ -16,7 +16,7 @@ fn code_example() {
 }
 
 #[test]
-#[should_panic]
+#[should_panic = "Unexpected file"]
 fn verify_failure_output() {
     let f = assert_fs::fixture::ChildPath::new("Cargo.toml");
     f.assert("Not real content");
