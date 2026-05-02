@@ -223,7 +223,7 @@ pub struct BytesContentPathPredicate(
 impl BytesContentPathPredicate {
     pub(crate) fn new(value: &'static [u8]) -> Self {
         let pred = predicates::ord::eq(value).from_file_path();
-        BytesContentPathPredicate(pred)
+        Self(pred)
     }
 }
 
@@ -298,7 +298,7 @@ pub struct StrContentPathPredicate(
 impl StrContentPathPredicate {
     pub(crate) fn new(value: String) -> Self {
         let pred = predicates::str::diff(value).from_utf8().from_file_path();
-        StrContentPathPredicate(pred)
+        Self(pred)
     }
 }
 
@@ -391,7 +391,7 @@ where
 {
     pub(crate) fn new(value: P) -> Self {
         let pred = value.from_utf8().from_file_path();
-        StrPathPredicate(pred)
+        Self(pred)
     }
 }
 

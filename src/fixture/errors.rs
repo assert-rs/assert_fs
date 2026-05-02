@@ -48,12 +48,12 @@ pub enum FixtureKind {
 impl fmt::Display for FixtureKind {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
-            FixtureKind::Walk => write!(f, "Failed when walking the source tree,"),
-            FixtureKind::CopyFile => write!(f, "Failed when copying a file."),
-            FixtureKind::WriteFile => write!(f, "Failed when writing to a file."),
-            FixtureKind::CreateDir => write!(f, "Failed when creating a directory."),
-            FixtureKind::Cleanup => write!(f, "Failed to cleanup fixture."),
-            FixtureKind::Symlink => write!(f, "Failed when symlinking to the target."),
+            Self::Walk => write!(f, "Failed when walking the source tree,"),
+            Self::CopyFile => write!(f, "Failed when copying a file."),
+            Self::WriteFile => write!(f, "Failed when writing to a file."),
+            Self::CreateDir => write!(f, "Failed when creating a directory."),
+            Self::Cleanup => write!(f, "Failed to cleanup fixture."),
+            Self::Symlink => write!(f, "Failed when symlinking to the target."),
         }
     }
 }
