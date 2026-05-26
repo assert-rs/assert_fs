@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [1.1.4] - 2026-05-26
+
 ### Performance
 
 - Default to the old `tempfile` behavior for faster builds
@@ -284,7 +286,8 @@ Stable release!
 
 
 <!-- next-url -->
-[Unreleased]: https://github.com/assert-rs/assert_fs/compare/v1.1.3...HEAD
+[Unreleased]: https://github.com/assert-rs/assert_fs.git/compare/v1.1.4...HEAD
+[1.1.4]: https://github.com/assert-rs/assert_fs/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/assert-rs/assert_fs/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/assert-rs/assert_fs/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/assert-rs/assert_fs/compare/v1.1.0...v1.1.1
