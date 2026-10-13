@@ -217,7 +217,7 @@ impl TempDir {
     /// ```
     pub fn into_persistent(self) -> Self {
         let path = match self.temp {
-            Inner::Temp(temp) => temp.into_path(),
+            Inner::Temp(temp) => temp.keep(),
             Inner::Persisted(path) => path,
         };
         let temp = Inner::Persisted(path);
